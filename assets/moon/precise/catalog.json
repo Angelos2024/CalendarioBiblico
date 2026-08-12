@@ -1,0 +1,13 @@
+{
+  "description": "Fases lunares fotográficas cada 5% de iluminación (creciente w_* / menguante a_*). Nueva=w_000, llena=w_100.",
+  "step": 5,
+  "count": 40,
+  "waxing": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+  "waning": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95],
+  "pathPattern": {
+    "waxing": "assets/moon/precise/w_{pct3}.png",
+    "waning": "assets/moon/precise/a_{pct3}.png",
+    "new": "assets/moon/precise/w_000.png",
+    "full": "assets/moon/precise/w_100.png"
+  }
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuestas de menú — Calendario Caraita</title>
+  <style>
+    :root {
+      --bg: #f0ede4;
+      --head: #7a3a0a;
+      --accent: #7a5c1e;
+      --border: #c8b78a;
+      --text: #1d1d1d;
+      --muted: #666;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 28px 20px 60px;
+      line-height: 1.45;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    h1 { font-size: 1.45rem; color: var(--head); margin-bottom: 6px; }
+    .lead { color: var(--muted); margin-bottom: 22px; max-width: 62ch; }
+    .note {
+      background: #fffdf8;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: .92rem;
+    }
+    .note strong { color: var(--head); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 720px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    a.card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: border-color .15s, transform .12s;
+    }
+    a.card:hover {
+      border-color: var(--head);
+      transform: translateY(-1px);
+    }
+    .tag {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--head);
+      background: #fdf6ec;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 9px;
+      margin-bottom: 8px;
+    }
+    a.card h2 { font-size: 1.05rem; margin-bottom: 6px; color: var(--head); }
+    a.card p { font-size: .88rem; color: var(--muted); }
+    .pros { margin-top: 10px; font-size: .82rem; color: var(--text); }
+    .pros span { display: block; padding-left: 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Propuestas visuales del menú superior</h1>
+    <p class="lead">
+      Ideas estáticas (solo HTML/CSS) para un acomodo más compacto y fluido.
+      El propósito de la app se mantiene: calcular el calendario caraita astronómico
+      según ubicación, año y criterios de luna nueva / Aviv.
+    </p>
+
+    <div class="note">
+      <strong>Accesibilidad (todas las edades):</strong>
+      en casi todas las propuestas, lo técnico (latitud, longitud, elevación, zona horaria)
+      queda oculto o en “Más opciones”. El camino principal es:
+      <em>ubicación → año → Calcular</em>, con botones grandes y etiquetas claras.
+    </div>
+
+    <div class="grid">
+      <a class="card" href="A-barra-compacta.html">
+        <span class="tag">Propuesta A · actualizada</span>
+        <h2>Barra compacta en una sola franja</h2>
+        <p>Logo → búsqueda con icono GPS a la derecha → Año → Más → Calcular. Sin botón GPS suelto.</p>
+        <div class="pros">
+          <span>✓ GPS integrado en el buscador</span>
+          <span>✓ Orden intuitivo de izquierda a derecha</span>
+        </div>
+      </a>
+
+      <a class="card" href="B-flujo-simple.html">
+        <span class="tag">Propuesta B · recomendada</span>
+        <h2>Flujo simple (3 pasos visibles)</h2>
+        <p>Logo + título chico; una fila grande de ubicación; debajo solo Año y Calcular. El resto en “Ajustes”.</p>
+        <div class="pros">
+          <span>✓ Más clara para niños y adultos mayores</span>
+          <span>✓ Menos carga cognitiva</span>
+        </div>
+      </a>
+
+      <a class="card" href="C-dos-zonas.html">
+        <span class="tag">Propuesta C</span>
+        <h2>Dos zonas: lugar y calendario</h2>
+        <p>Izquierda: logo + ciudad/GPS. Derecha: parámetros esenciales + botón. Campos técnicos colapsados.</p>
+        <div class="pros">
+          <span>✓ Agrupa por significado</span>
+          <span>✓ Buen equilibrio ancho/alto</span>
+        </div>
+      </a>
+
+      <a class="card" href="D-sticky-minibar.html">
+        <span class="tag">Propuesta D</span>
+        <h2>Mini-barra fija + panel plegable</h2>
+        <p>Barra delgada siempre visible (logo, ciudad, calcular). El panel de opciones se abre solo cuando se necesita.</p>
+        <div class="pros">
+          <span>✓ Más espacio para el calendario</span>
+          <span>✓ Controles siempre a mano</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

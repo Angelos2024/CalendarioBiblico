@@ -17,66 +17,98 @@
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);}
 
-    .app-header{background:var(--head);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:12px;}
-    .app-header h1{font-size:1.2rem;font-weight:700;}
-    .app-header small{font-size:.78rem;opacity:.75;}
+    .ctrl-wrap{background:#fffdf8;border-bottom:2px solid var(--strong);padding:10px 16px 12px;}
 
-    .ctrl-wrap{background:#fff;border-bottom:2px solid var(--strong);padding:14px 22px;}
+    /* Barra compacta: Logo → búsqueda+GPS → Año → Más → Calcular */
+    .topbar{
+      display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;align-items:center;gap:8px;flex:0 0 auto;
+      align-self:center;padding-bottom:2px;min-width:0;
+    }
+    .brand-mark{
+      width:36px;height:36px;border-radius:8px;background:var(--head);color:#fff;
+      display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;
+    }
+    .brand-text strong{
+      display:block;font-size:.88rem;color:var(--head);line-height:1.2;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;
+    }
+    .brand-text span{font-size:.68rem;color:var(--muted);}
+
+    .city-search-wrap{flex:1 1 280px;min-width:220px;position:relative;}
+    .city-search-wrap > .field-lbl{
+      display:block;font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:3px;
+    }
+    .search-box{
+      position:relative;display:flex;align-items:stretch;
+      border:1px solid var(--border);border-radius:8px;background:#fff;
+      transition:border-color .15s,box-shadow .15s;
+    }
+    .search-box:focus-within{
+      border-color:var(--accent);box-shadow:0 0 0 3px rgba(122,92,30,.12);
+    }
+    .city-icon{
+      position:absolute;left:11px;top:50%;transform:translateY(-50%);
+      font-size:.95rem;pointer-events:none;opacity:.55;z-index:1;
+    }
+    .city-search-wrap input#cityInput{
+      flex:1;min-width:0;width:100%;
+      padding:10px 78px 10px 34px;
+      font:inherit;font-size:.9rem;
+      border:none;outline:none;background:transparent;border-radius:8px;
+    }
+    .btn-geolocate,.btn-gps{
+      position:absolute;right:3px;top:50%;transform:translateY(-50%);
+      border:none;border-radius:6px;background:transparent;color:var(--head);
+      cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:1px;padding:4px 8px;min-width:56px;line-height:1;z-index:2;
+      font:inherit;box-shadow:none;white-space:nowrap;
+    }
+    .btn-geolocate:hover,.btn-gps:hover{background:#f3e7d4;opacity:1;transform:translateY(-50%);}
+    .btn-geolocate:disabled,.btn-gps:disabled{opacity:.5;cursor:default;}
+    .btn-geolocate #geoIco,.btn-gps #geoIco{font-size:1rem;line-height:1;}
+    .btn-geolocate #geoTxt,.btn-gps #geoTxt{
+      font-size:.58rem;font-weight:700;letter-spacing:.01em;color:var(--accent);
+    }
+
+    .top-field{flex:0 0 auto;}
+    .top-field label,.field-lbl{
+      display:block;font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:3px;
+    }
+    .top-field input{
+      width:88px;padding:10px;border:1px solid var(--border);border-radius:8px;
+      background:#fff;font:inherit;font-size:.9rem;font-weight:700;
+    }
+
+    .btn-calc{
+      background:var(--head);color:#fff;border:none;border-radius:8px;
+      padding:10px 16px;font:inherit;font-size:.88rem;font-weight:700;
+      cursor:pointer;transition:opacity .15s;height:40px;white-space:nowrap;
+    }
+    .btn-calc:hover{opacity:.88;}
+    .btn-calc:disabled{opacity:.55;cursor:default;}
+
+    .btn-adv-toggle{
+      background:transparent;border:1px dashed var(--border);border-radius:8px;
+      padding:10px 12px;font:inherit;font-size:.85rem;font-weight:700;color:var(--muted);
+      cursor:pointer;white-space:nowrap;transition:all .15s;height:40px;
+      display:inline-flex;align-items:center;gap:6px;
+    }
+    .btn-adv-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
     .ctrl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;align-items:end;}
     .field label{display:block;font-size:.75rem;font-weight:700;color:var(--accent);margin-bottom:4px;}
     .field input,.field select{
       width:100%;padding:7px 9px;font:inherit;font-size:.85rem;
       border:1px solid var(--border);border-radius:5px;background:#fffdf8;
     }
-    .btn-calc{
-      background:var(--head);color:#fff;border:none;border-radius:5px;
-      padding:9px 18px;font:inherit;font-size:.9rem;font-weight:700;
-      cursor:pointer;transition:opacity .15s;
-    }
-    .btn-calc:hover{opacity:.88;}
-    .btn-calc:disabled{opacity:.55;cursor:default;}
-
-    /* ══ SECCIÓN UBICACIÓN ══ */
-    .loc-section{
-      background:linear-gradient(135deg,#fdf6ec,#fff8f0);
-      border:2px solid var(--border);border-radius:10px;
-      padding:14px 16px;margin-bottom:14px;
-    }
-    .loc-title{
-      font-size:.8rem;font-weight:800;color:var(--head);
-      text-transform:uppercase;letter-spacing:.06em;
-      margin-bottom:10px;display:flex;align-items:center;gap:7px;
-    }
-    .loc-row{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;}
-
-    .btn-geolocate{
-      display:flex;align-items:center;gap:10px;
-      background:var(--head);color:#fff;border:none;border-radius:8px;
-      padding:12px 20px;font:inherit;font-size:.95rem;font-weight:700;
-      cursor:pointer;transition:opacity .15s, transform .1s;
-      box-shadow:0 2px 8px rgba(122,58,10,.25);white-space:nowrap;
-    }
-    .btn-geolocate:hover{opacity:.9;transform:translateY(-1px);}
-    .btn-geolocate:disabled{opacity:.5;cursor:default;transform:none;}
-
-    .city-search-wrap{flex:1;min-width:200px;position:relative;}
-    .city-search-wrap input{
-      width:100%;padding:12px 14px 12px 38px;
-      font:inherit;font-size:.88rem;
-      border:1px solid var(--border);border-radius:8px;
-      background:#fffdf8;
-      transition:border-color .2s,box-shadow .2s;
-    }
-    .city-search-wrap input:focus{
-      outline:none;border-color:var(--accent);
-      box-shadow:0 0 0 3px rgba(122,92,30,.12);
-    }
-    .city-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;}
 
     .city-suggestions{
-      position:absolute;top:100%;left:0;right:0;z-index:999;
-      background:#fff;border:1px solid var(--border);border-radius:0 0 8px 8px;
-      box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:220px;overflow-y:auto;display:none;
+      position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:1200;
+      background:#fff;border:1px solid var(--border);border-radius:8px;
+      box-shadow:0 10px 28px rgba(0,0,0,.14);max-height:280px;overflow-y:auto;display:none;
     }
     .city-suggestions.open{display:block;}
     .city-sugg-item{
@@ -84,9 +116,16 @@
       border-bottom:1px solid #f0ede4;transition:background .1s;
     }
     .city-sugg-item:last-child{border-bottom:none;}
-    .city-sugg-item:hover{background:#fdf6ec;}
+    .city-sugg-item:hover,
+    .city-sugg-item.active{background:#fdf6ec;}
     .city-sugg-name{font-weight:700;color:var(--text);}
     .city-sugg-sub{font-size:.74rem;color:var(--muted);margin-top:2px;}
+    .city-sugg-meta{
+      padding:9px 14px;font-size:.78rem;color:var(--muted);
+      border-bottom:1px solid #f0ede4;background:#faf8f3;
+    }
+    .city-sugg-empty{padding:12px 14px;font-size:.82rem;color:var(--muted);}
+    .city-sugg-mark{color:var(--accent);font-weight:800;}
 
     .loc-status{
       margin-top:10px;padding:8px 12px;border-radius:6px;
@@ -110,11 +149,25 @@
     .ls.error{color:#c53030;}
     .ls-icon{width:16px;text-align:center;flex-shrink:0;}
 
-    .coords-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .coords-pills{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
     .cpill{
       display:inline-flex;align-items:center;gap:4px;
       background:#e8f5e9;border:1px solid #68d391;border-radius:20px;
       padding:3px 10px;font-size:.74rem;color:#276749;font-weight:700;
+    }
+
+    .summary-row{
+      display:none;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+      margin-top:8px;margin-bottom:2px;
+    }
+    .summary-row.show{display:flex;}
+    .summary-row #statusBox{
+      margin:0;flex:1 1 220px;min-width:200px;text-align:right;
+    }
+    .summary-row #statusBox.ok,
+    .summary-row #statusBox.warn,
+    .summary-row #statusBox.error{
+      display:block;
     }
 
     .field input.autofilled{
@@ -126,37 +179,141 @@
 
     @keyframes spin{to{transform:rotate(360deg);}}
     .spin{
-      display:inline-block;width:16px;height:16px;
-      border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+      display:inline-block;width:14px;height:14px;
+      border:2px solid rgba(122,58,10,.25);border-top-color:var(--head);
       border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;
     }
 
-    #statusBox{margin:10px 22px 0;padding:9px 14px;border-radius:5px;font-size:.86rem;display:none;}
+    #statusBox{margin:0;padding:8px 12px;border-radius:5px;font-size:.82rem;display:none;line-height:1.35;}
     #statusBox.ok{display:block;background:#f0faf3;border:1px solid #68d391;color:#276749;}
     #statusBox.warn{display:block;background:#fffbeb;border:1px solid #f6ad55;color:#7b341e;}
     #statusBox.error{display:block;background:#fff5f5;border:1px solid #fc8181;color:#9b2c2c;}
 
     #placeholder{text-align:center;padding:70px 20px;color:var(--muted);}
     #placeholder .ico{font-size:3rem;margin-bottom:14px;}
-    #calOutput{padding:18px 22px;display:none;}
+    #calOutput{padding:8px 16px 20px;display:none;}
 
-    .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;padding:11px 14px;background:#fff;border:1px solid var(--border);border-radius:5px;}
-    .lg-item{display:flex;align-items:center;gap:5px;font-size:.75rem;}
+    .legend{
+      display:flex;flex-wrap:wrap;gap:6px 10px;
+      margin:0 0 10px;padding:8px 12px;
+      background:#fff;border:1px solid var(--border);border-radius:5px;
+    }
+    .lg-item{display:flex;align-items:center;gap:5px;font-size:.74rem;}
     .lg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
-    .months-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+    .month-nav{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;flex-wrap:wrap;
+    }
+    .month-nav-btn{
+      display:inline-flex;align-items:center;gap:6px;
+      background:#fff;color:var(--head);border:1px solid var(--border);
+      border-radius:8px;padding:9px 14px;font:inherit;font-size:.88rem;font-weight:700;
+      cursor:pointer;min-height:42px;transition:background .12s,opacity .12s;
+    }
+    .month-nav-btn:hover:not(:disabled){background:#fdf6ec;}
+    .month-nav-btn:disabled{opacity:.4;cursor:default;}
+    .month-nav-label{
+      font-size:1.05rem;font-weight:800;color:var(--head);text-align:center;flex:1;min-width:140px;
+    }
+    .month-nav-count{display:block;font-size:.72rem;font-weight:600;color:var(--muted);margin-top:2px;}
+    .cal-stage{
+      display:grid;
+      grid-template-columns:minmax(240px,280px) minmax(0,1fr);
+      gap:14px 18px;
+      align-items:start;
+      max-width:1320px;
+      margin:0 auto;
+    }
+    .side-stack{display:flex;flex-direction:column;gap:10px;position:sticky;top:10px;max-height:calc(100vh - 20px);overflow:auto;}
+    .months-grid{display:block;width:100%;max-width:980px;margin:0;}
+
+    .moon-panel{
+      background:linear-gradient(165deg,#1a1a2e 0%,#2a2240 55%,#1e293b 100%);
+      color:#e8e4f0;border-radius:12px;padding:14px 14px 16px;
+      border:1px solid #3d3558;box-shadow:0 8px 24px rgba(26,26,46,.25);
+    }
+    .moon-panel-kicker{
+      font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+      color:#a78bfa;margin-bottom:8px;
+    }
+    .moon-panel-date{font-size:.78rem;color:#c4b5fd;margin-bottom:12px;line-height:1.3;}
+    .moon-visual{
+      margin-bottom:14px;
+    }
+    .moon-phase-bar{
+      background:#f7f3ea;border-radius:8px;padding:12px 14px;
+      display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;
+    }
+    .moon-phase-bar .phase-emoji{font-size:2.1rem;line-height:1;text-align:center;}
+    .moon-phase-bar .phase-name{font-weight:700;font-size:.95rem;color:var(--accent);}
+    .moon-phase-bar .phase-detail{font-size:.78rem;color:#666;margin-top:3px;}
+    .moon-metrics{
+      display:grid;grid-template-columns:1fr 1fr;gap:8px;
+    }
+    .moon-metric{
+      background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.28);
+      border-radius:8px;padding:8px 8px 9px;
+    }
+    .moon-metric h4{
+      font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+      color:#c4b5fd;margin-bottom:5px;
+    }
+    .moon-metric .mm-time{font-size:.8rem;font-weight:700;color:#fff;margin-bottom:6px;}
+    .moon-metric .mm-row{
+      display:flex;justify-content:space-between;gap:4px;
+      font-size:.68rem;color:#cbd5e1;margin-top:3px;
+    }
+    .moon-metric .mm-row b{color:#f5f0d8;font-weight:700;}
+    .moon-panel-note{
+      margin-top:10px;font-size:.62rem;color:#94a3b8;line-height:1.4;text-align:center;
+    }
+    .moon-panel-empty{font-size:.8rem;color:#94a3b8;text-align:center;padding:16px 8px;}
+
+    .day-side{
+      background:#fffdf8;border:1px solid var(--border);border-radius:12px;
+      padding:12px;color:var(--text);font-size:.82rem;
+    }
+    .day-side-empty{color:var(--muted);text-align:center;padding:14px 6px;font-size:.8rem;}
+    .day-side-title{font-size:.72rem;font-weight:800;color:var(--head);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+    .day-side-roman{font-size:.88rem;font-weight:700;line-height:1.25;}
+    .day-side-heb{font-size:.78rem;color:var(--accent);font-weight:700;margin-top:3px;}
+    .day-side-events{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0;}
+    .day-side-events .modal-ev{font-size:.7rem;padding:2px 8px;}
+    .day-side-times{display:flex;flex-direction:column;gap:6px;margin:8px 0;}
+    .day-side-time-row{display:flex;gap:8px;align-items:flex-start;}
+    .day-side-time-row .modal-icon{font-size:1.1rem;}
+    .day-side-time-row .modal-lbl{font-size:.62rem;margin-bottom:1px;}
+    .day-side-time-row .modal-time{font-size:.8rem;}
+    .day-side .illum-panel{margin-top:8px;padding:10px;}
+    .day-side .illum-bars{grid-template-columns:1fr;gap:8px;}
+    .day-side .illum-col{text-align:left;}
+    .day-side .illum-pct{font-size:1rem;}
+    .day-side .modal-duration{margin-top:8px;font-size:.78rem;padding:6px;}
+    .day-side-hint{font-size:.65rem;color:var(--muted);margin-top:8px;text-align:center;}
+
     .cal-month{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;}
-    .cal-month-title{background:var(--head);color:#fff;padding:11px 16px;font-weight:700;font-size:1.05rem;letter-spacing:.03em;}
+    .cal-month-title{display:none;}
     .cal-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-    .cal-table th{text-align:center;padding:7px 2px;font-size:.78rem;font-weight:700;color:var(--muted);background:#f7f3ea;border-bottom:1px solid var(--border);}
+    .cal-table th{
+      text-align:center;padding:8px 2px;font-size:.8rem;font-weight:700;
+      color:var(--muted);background:#f7f3ea;border-bottom:1px solid var(--border);
+    }
     .cal-table th.sat{color:#2563eb;}.cal-table th.sun{color:#c53030;}
-    .cal-table td{width:14.285%;border:1px solid #ece8df;height:90px;vertical-align:top;padding:6px 5px 5px 7px;}
+    .cal-table td{
+      width:14.285%;border:1px solid #ece8df;
+      height:118px;
+      vertical-align:top;padding:6px 5px 5px 7px;
+    }
     .cal-table td.empty{background:#faf8f4;}
     .cal-table td.sat-c .dn{color:#2563eb;}
     .cal-table td.sun-c .dn{color:#c53030;}
-    .dn{font-size:.9rem;font-weight:700;color:#444;margin-bottom:4px;}
-    .ev{display:block;font-size:.72rem;font-weight:600;color:#fff;border-radius:3px;padding:2px 6px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6;}
-    .cal-table td:not(.empty){cursor:pointer;transition:background .12s;}
+    .dn{font-size:.95rem;font-weight:700;color:#444;margin-bottom:4px;}
+    .ev{
+      display:block;font-size:.72rem;font-weight:600;color:#fff;border-radius:3px;
+      padding:2px 6px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.55;
+    }
+    .cal-table td:not(.empty){cursor:pointer;transition:background .12s,box-shadow .12s;}
     .cal-table td:not(.empty):hover{background:#f0ebff !important;}
     .cal-table td.hebrew-today{
       position:relative;
@@ -171,14 +328,24 @@
       background:#7a3a0a;color:#fff;
       z-index:1;pointer-events:none;
     }
+    .cal-table td.day-selected:not(.hebrew-today){
+      box-shadow:inset 0 0 0 2px #6b46c1;
+      background:#f5f3ff;
+    }
+    .cal-table td.day-selected.hebrew-today{
+      box-shadow:inset 0 0 0 3px #d69e2e,inset 0 0 0 6px rgba(255,247,230,.95),0 0 0 2px #6b46c1;
+    }
 
     .today-heb-corner{
       display:none;position:fixed;top:14px;right:14px;z-index:9998;
       background:#fffdf8;border:2px solid #d69e2e;border-radius:10px;
       box-shadow:0 8px 24px rgba(0,0,0,.18);
       padding:10px 12px;max-width:320px;
+      opacity:0;transform:translateY(-6px);
+      transition:opacity .35s ease,transform .35s ease;
+      pointer-events:none;
     }
-    .today-heb-corner.show{display:block;}
+    .today-heb-corner.show{display:block;opacity:1;transform:translateY(0);pointer-events:auto;}
     .today-heb-corner .thc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
     .today-heb-corner .thc-title{font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7a3a0a;}
     .today-heb-corner .thc-date{font-size:.9rem;font-weight:700;color:#1d1d1d;margin-top:2px;line-height:1.3;}
@@ -188,6 +355,7 @@
       width:20px;height:20px;border-radius:50%;
       border:none;background:#7a3a0a;color:#fff;cursor:pointer;
       font-size:.74rem;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      pointer-events:auto;
     }
     .thc-close:hover{opacity:.9;}
 
@@ -267,21 +435,18 @@
     .shab-start{background:#1e3a5f;color:#bfdbfe;}
     .shab-end{background:#2d1b4e;color:#c4b5fd;}
 
-    /* ── Fila inferior: botón + opciones avanzadas ── */
+    /* ── Panel “Más” (campos técnicos + opciones avanzadas) ── */
     .ctrl-bottom-row{display:flex;align-items:stretch;gap:10px;margin-top:10px;flex-wrap:wrap;}
-    .btn-adv-toggle{
-      background:none;border:1px dashed var(--border);border-radius:5px;
-      padding:7px 13px;font:inherit;font-size:.78rem;color:var(--muted);
-      cursor:pointer;white-space:nowrap;transition:all .15s;
-      display:flex;align-items:center;gap:6px;
-    }
-    .btn-adv-toggle:hover{border-color:var(--accent);color:var(--accent);}
     .adv-panel{
-      display:none;align-items:center;gap:8px;flex-wrap:wrap;flex:1;
+      display:none;flex-direction:column;gap:10px;
       background:#fff8f0;border:1px solid var(--border);
-      border-radius:6px;padding:7px 12px;
+      border-radius:8px;padding:12px;margin-top:10px;
     }
     .adv-panel.open{display:flex;}
+    .adv-panel .adv-extra{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+      padding-top:8px;border-top:1px dashed var(--border);
+    }
     .adv-panel label{font-size:.72rem;font-weight:700;color:var(--accent);white-space:nowrap;}
     .adv-panel input[type=datetime-local]{
       flex:1;min-width:160px;padding:6px 8px;font:inherit;font-size:.8rem;
@@ -304,135 +469,195 @@
     }
     .yom-pill.show{display:inline-flex;}
 
-    @media(max-width:900px){.months-grid{grid-template-columns:1fr;}}
+    @media(max-width:900px){
+      .cal-stage{grid-template-columns:1fr;gap:12px;}
+      .side-stack{position:static;max-height:none;overflow:visible;}
+      .day-side .illum-bars{grid-template-columns:1fr 1fr 1fr;}
+      .months-grid{max-width:100%;}
+      .cal-table td{height:108px;}
+    }
     @media(max-width:768px){
       .ctrl-grid{grid-template-columns:1fr 1fr;}
-      #calOutput,#placeholder,.ctrl-wrap{padding-left:12px;padding-right:12px;}
-      .loc-row{flex-direction:column;}
-      .btn-geolocate{width:100%;justify-content:center;}
+      #calOutput{padding:6px 8px 16px;}
+      #calOutput,#placeholder,.ctrl-wrap{padding-left:8px;padding-right:8px;}
+      .city-search-wrap{flex:1 1 100%;}
+      .brand-text strong{max-width:120px;}
+      .btn-calc{flex:1;}
+      .legend{padding:7px 8px;gap:5px 8px;margin-bottom:8px;}
+      .lg-item{font-size:.68rem;}
+      .month-nav{gap:6px;margin-bottom:8px;}
+      .month-nav-btn{padding:8px 10px;font-size:.82rem;min-height:40px;}
+      .month-nav-label{font-size:.95rem;min-width:100px;}
+      .moon-panel{padding:12px;}
+      .moon-visual{margin-bottom:10px;}
+      .day-side .illum-bars{grid-template-columns:1fr;}
+      .cal-table th{padding:7px 1px;font-size:.72rem;}
+      .cal-table td{height:96px;padding:5px 3px 4px 4px;}
+      .dn{font-size:.88rem;}
+      .ev{font-size:.64rem;padding:1px 4px;}
+      .shab-start,.shab-end{font-size:.58rem;padding:1px 3px;}
       .today-heb-corner{top:auto;right:10px;left:10px;bottom:10px;max-width:none;}
       .modal-heb-date{font-size:.66rem;max-width:170px;}
-      .adv-mobile-fields{display:grid;}
+      .summary-row #statusBox{text-align:left;min-width:0;}
+    }
+    @media(max-width:480px){
+      .cal-table td{height:84px;}
+      .month-nav-btn{flex:1 1 auto;justify-content:center;}
     }
   </style>
 </head>
 <body>
 
-<header class="app-header">
-  <div>
-    <h1>&#128197; Calendario Caraita Astronomico</h1>
-    <small>Astronomy Engine &bull; SunCalc &bull; Luxon</small>
-  </div>
-</header>
+<header class="app-header" style="display:none" aria-hidden="true"></header>
 
 <div class="ctrl-wrap">
 
-  <!-- ══ SECCIÓN DE UBICACIÓN AUTOMÁTICA ══ -->
-  <div class="loc-section">
-    <div class="loc-title">📍 Ubicación automática</div>
-    <div class="loc-row">
-
-      <button class="btn-geolocate" id="btnGeo" onclick="detectarUbicacion()">
-        <span id="geoIco">🎯</span>
-        <span id="geoTxt">Detectar mi ubicación</span>
-      </button>
-
-      <div class="city-search-wrap">
-        <span class="city-icon">🔍</span>
-        <input
-          type="text" id="cityInput"
-          placeholder="O busca una ciudad… ej: Chihuahua, México City, Jerusalem, Buenos Aires"
-          autocomplete="off"
-          oninput="onCityInput(this.value)"
-          onkeydown="onCityKey(event)"
-        />
-        <div class="city-suggestions" id="citySugg"></div>
+  <div class="topbar">
+    <div class="brand" title="Calendario Caraita Astronómico">
+      <div class="brand-mark" aria-hidden="true">📅</div>
+      <div class="brand-text">
+        <strong>Calendario Caraita</strong>
+        <span>Astronómico</span>
       </div>
     </div>
 
-    <div class="load-steps" id="loadSteps">
-      <div class="ls" id="ls1"><span class="ls-icon">⏳</span> Obteniendo coordenadas GPS…</div>
-      <div class="ls" id="ls2"><span class="ls-icon">⏳</span> Consultando elevación precisa (Open-Meteo)…</div>
-      <div class="ls" id="ls3"><span class="ls-icon">⏳</span> Detectando zona horaria exacta (TimeAPI)…</div>
+    <div class="city-search-wrap">
+      <label class="field-lbl" for="cityInput">Ciudad</label>
+      <div class="search-box">
+        <span class="city-icon" aria-hidden="true">🔍</span>
+        <input
+          type="text" id="cityInput"
+          placeholder="Escribe ciudad o país…"
+          autocomplete="off"
+          spellcheck="false"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="citySugg"
+          aria-haspopup="listbox"
+          oninput="onCityInput(this.value)"
+          onkeydown="onCityKey(event)"
+          onfocus="onCityFocus()"
+          aria-label="Buscar ciudad o país"
+        />
+        <button type="button" class="btn-geolocate btn-gps" id="btnGeo" onclick="detectarUbicacion()" title="Usar GPS" aria-label="Usar GPS para detectar mi ubicación">
+          <span id="geoIco">📍</span>
+          <span id="geoTxt">usar gps</span>
+        </button>
+        <div class="city-suggestions" id="citySugg" role="listbox" aria-label="Sugerencias de lugares"></div>
+      </div>
     </div>
 
-    <div class="loc-status" id="locStatus"></div>
+    <div class="top-field">
+      <label for="yearName">Año</label>
+      <input id="yearName" type="text" value="2026"/>
+    </div>
+
+    <button type="button" class="btn-adv-toggle" onclick="toggleAdv()">
+      ⚙ Más
+      <span class="yom-pill" id="yomPill">📅 Yom Tru'ah diferido</span>
+    </button>
+
+    <button type="button" class="btn-calc" id="recalcBtn">Calcular</button>
+  </div>
+
+  <div class="load-steps" id="loadSteps">
+    <div class="ls" id="ls1"><span class="ls-icon">⏳</span> Obteniendo coordenadas GPS…</div>
+    <div class="ls" id="ls2"><span class="ls-icon">⏳</span> Consultando elevación precisa (Open-Meteo)…</div>
+    <div class="ls" id="ls3"><span class="ls-icon">⏳</span> Detectando zona horaria exacta (TimeAPI)…</div>
+  </div>
+
+  <div class="loc-status" id="locStatus"></div>
+
+  <div class="summary-row" id="summaryRow">
     <div class="coords-pills" id="coordsPills"></div>
+    <div id="statusBox"></div>
   </div>
 
-  <!-- ══ GRID DE CAMPOS ══ -->
-  <div class="ctrl-grid" id="ctrlGrid">
-    <div class="field"><label>Año</label>
-      <input id="yearName" type="text" value="2026"/></div>
-    <div class="field" id="fieldTimezone"><label>Zona horaria</label>
-      <input id="timezone" type="text" value="Asia/Jerusalem"/>
-      <div class="auto-lbl" id="lbl_tz">✓ Auto</div></div>
-    <div class="field" id="fieldLatitude"><label>Latitud</label>
-      <input id="latitude" type="number" step="0.000001" value="31.768300"/>
-      <div class="auto-lbl" id="lbl_lat">✓ Auto</div></div>
-    <div class="field" id="fieldLongitude"><label>Longitud</label>
-      <input id="longitude" type="number" step="0.000001" value="35.213700"/>
-      <div class="auto-lbl" id="lbl_lon">✓ Auto</div></div>
-    <div class="field" id="fieldElevation"><label>Elevación (m)</label>
-      <input id="elevation" type="number" value="800"/>
-      <div class="auto-lbl" id="lbl_el">✓ Auto</div></div>
-    <div class="field"><label>El mes de Aviv inicia en:</label>
-      <select id="startMonth">
-        <option value="3" selected>Marzo</option>
-        <option value="4">Abril</option>
-      </select></div>
-    <div class="field" id="fieldCrescentMode"><label>Visibilidad creciente</label>
-      <select id="crescentMode">
-        <option value="strict">Estricto</option>
-        <option value="standard" selected>Estándar</option>
-        <option value="lenient">Flexible</option>
-      </select></div>
-    <div class="field"><label>Meses a generar</label>
-      <select id="monthCount">
-        <option value="auto" selected>Auto (12/13)</option>
-        <option value="12">12 meses</option>
-        <option value="13">13 meses</option>
-      </select></div>
-    <div class="field" style="display:flex;align-items:flex-end;">
-      <button class="btn-calc" id="recalcBtn" style="width:100%;">Calcular calendario</button>
+  <!-- Panel “Más”: mismos campos e IDs; solo ocultos por defecto -->
+  <div class="adv-panel" id="advPanel">
+    <div class="ctrl-grid" id="ctrlGrid">
+      <div class="field" id="fieldTimezone"><label>Zona horaria</label>
+        <input id="timezone" type="text" value="Asia/Jerusalem"/>
+        <div class="auto-lbl" id="lbl_tz">✓ Auto</div></div>
+      <div class="field" id="fieldLatitude"><label>Latitud</label>
+        <input id="latitude" type="number" step="0.000001" value="31.768300"/>
+        <div class="auto-lbl" id="lbl_lat">✓ Auto</div></div>
+      <div class="field" id="fieldLongitude"><label>Longitud</label>
+        <input id="longitude" type="number" step="0.000001" value="35.213700"/>
+        <div class="auto-lbl" id="lbl_lon">✓ Auto</div></div>
+      <div class="field" id="fieldElevation"><label>Elevación (m)</label>
+        <input id="elevation" type="number" value="800"/>
+        <div class="auto-lbl" id="lbl_el">✓ Auto</div></div>
+      <div class="field"><label>El mes de Aviv inicia en:</label>
+        <select id="startMonth">
+          <option value="3" selected>Marzo</option>
+          <option value="4">Abril</option>
+        </select></div>
+      <div class="field" id="fieldCrescentMode"><label>Visibilidad creciente</label>
+        <select id="crescentMode">
+          <option value="strict">Estricto</option>
+          <option value="standard" selected>Estándar</option>
+          <option value="lenient">Flexible</option>
+        </select></div>
+      <div class="field"><label>Meses a generar</label>
+        <select id="monthCount">
+          <option value="auto" selected>Auto (12/13)</option>
+          <option value="12">12 meses</option>
+          <option value="13">13 meses</option>
+        </select></div>
     </div>
-    <div class="field" style="display:flex;align-items:flex-end;">
-      <button class="btn-adv-toggle" onclick="toggleAdv()" style="width:100%;">
-        ⚙ Opciones avanzadas
-        <span class="yom-pill" id="yomPill">📅 Yom Tru'ah diferido</span>
-      </button>
-    </div>
-  </div>
 
-  <!-- Panel avanzado (se expande debajo del grid) -->
-  <div class="adv-panel" id="advPanel" style="margin-top:8px;">
-    <label>📅 Diferir Yom Tru'ah:</label>
-    <input type="datetime-local" id="fallbackMonth7"/>
-    <button class="btn-adv-clear" onclick="clearYomOverride()" title="Quitar">✕ Quitar</button>
-    <div style="width:100%;height:0;border-top:1px dashed var(--border);margin:4px 0;"></div>
-    <label title="Porcentaje mínimo de iluminación lunar para considerar visible el creciente. Por defecto: 1.80%">🌙 Umbral iluminación visible (%):</label>
-    <input type="number" id="illumThreshold" min="0.1" max="10" step="0.01" value="1.80"
-      style="width:80px;flex:none;"
-      title="Porcentaje mínimo de iluminación lunar para considerar el creciente como potencialmente visible"/>
-    <button class="btn-adv-clear" onclick="resetIllumThreshold()" title="Restaurar a 1.80%">↺ 1.80%</button>
-    <div id="advMobileFields" class="adv-mobile-fields"></div>
+    <div class="adv-extra">
+      <label>📅 Diferir Yom Tru'ah:</label>
+      <input type="datetime-local" id="fallbackMonth7"/>
+      <button type="button" class="btn-adv-clear" onclick="clearYomOverride()" title="Quitar">✕ Quitar</button>
+      <div style="width:100%;height:0;border-top:1px dashed var(--border);margin:4px 0;"></div>
+      <label title="Porcentaje mínimo de iluminación lunar para considerar visible el creciente. Por defecto: 1.80%">🌙 Umbral iluminación visible (%):</label>
+      <input type="number" id="illumThreshold" min="0.1" max="10" step="0.01" value="1.80"
+        style="width:80px;flex:none;"
+        title="Porcentaje mínimo de iluminación lunar para considerar el creciente como potencialmente visible"/>
+      <button type="button" class="btn-adv-clear" onclick="resetIllumThreshold()" title="Restaurar a 1.80%">↺ 1.80%</button>
+      <div id="advMobileFields" class="adv-mobile-fields"></div>
+    </div>
   </div>
 
   <!-- Compatibilidad JS -->
   <input type="hidden" id="useFallbackMonth7" value="compare"/>
 </div>
 
-<div id="statusBox"></div>
 <div id="todayHebrewCorner" class="today-heb-corner"></div>
 
 <div id="placeholder">
   <div class="ico">&#127769;</div>
-  <p>Configura los parámetros y presiona <b>Calcular calendario</b>.</p>
+  <p>Configura ubicación y año, luego presiona <b>Calcular</b>.</p>
 </div>
 
 <div id="calOutput">
   <div class="legend" id="legend"></div>
-  <div class="months-grid" id="monthsGrid"></div>
+  <div class="month-nav" id="monthNav" hidden>
+    <button type="button" class="month-nav-btn" id="btnPrevMonth" onclick="goPrevMonth()" aria-label="Mes anterior">
+      ← Anterior
+    </button>
+    <div class="month-nav-label">
+      <span id="monthNavTitle">—</span>
+      <span class="month-nav-count" id="monthNavCount"></span>
+    </div>
+    <button type="button" class="month-nav-btn" id="btnNextMonth" onclick="goNextMonth()" aria-label="Mes siguiente">
+      Siguiente →
+    </button>
+  </div>
+  <div class="cal-stage">
+    <div class="side-stack">
+      <aside class="moon-panel" id="moonPanel" aria-label="Fase lunar">
+        <div class="moon-panel-empty">Calcula el calendario para ver la fase lunar.</div>
+      </aside>
+      <aside class="day-side" id="daySidePanel" aria-label="Detalle del día">
+        <div class="day-side-empty">Haz clic en un día para ver su análisis.</div>
+      </aside>
+    </div>
+    <div class="months-grid" id="monthsGrid"></div>
+  </div>
 </div>
 
 <script>
@@ -543,6 +768,8 @@ function findLunations(start,obs,mode,n){
   }
   return list;
 }
+// Recibe y devuelve el instante (atardecer) que inicia un día hebreo.
+// El Shabat semanal empieza al atardecer del viernes civil (weekday 5 en Luxon).
 function sabbathInFeast(date){
   const z=tz(),d=new Date(date.getTime()),h=DateTime.fromJSDate(date,{zone:z}).hour,m=DateTime.fromJSDate(date,{zone:z}).minute;
   if(DateTime.fromJSDate(d,{zone:z}).weekday===5)return d;
@@ -551,6 +778,8 @@ function sabbathInFeast(date){
 }
 function buildEventMap(months,avivStart,m7Start){
   const map={};
+  // Convención del calendario: el día hebreo se rotula en el día civil del
+  // atardecer en que comienza (el avistamiento de la astilla marca el día 1).
   const mark=(date,label,color)=>{const k=dateKey(date);if(!map[k])map[k]=[];map[k].push({label,color});};
   const markRange=(start,days,label,color,firstLabel)=>{for(let d=0;d<days;d++)mark(addDays(start,d),d===0&&firstLabel?firstLabel:label,color);};
   months.forEach((m,i)=>mark(m.start,`\u{1F319} 1 ${MESES_HEB[i]||'Mes '+(i+1)}`,C.mes));
@@ -558,7 +787,7 @@ function buildEventMap(months,avivStart,m7Start){
   markRange(incRange(avivStart,15),7,'\u{1F33E} Jag HaMatzot',C.fiesta,'\u{1F33E} 15 Aviv Pésaj');
   mark(incRange(avivStart,21),'21 Aviv Cierre',C.fiestaFin);
   const shab=sabbathInFeast(incRange(avivStart,15));
-  mark(shab,'\\u2721 Shabat',C.shabbat);
+  mark(shab,'\u2721 Shabat',C.shabbat);
   const omer=addDays(shab,1);
   mark(omer,'\u{1F33F} Omer Reshit',C.omer);
   mark(addDays(omer,49),'\u2728 Shavuot',C.shavuot);
@@ -599,7 +828,7 @@ function renderMonth(year,month,eventMap,shabbatMap){
           shabH=`<span class="shab-end" title="Fin Shabat">${shabbatMap[k].fin}</span>`;
         }
       }
-      html+=`<td class="${tc}" onclick="showDayModal('${k}')" title="Ver detalle"><div class="dn">${day}</div>${evH}${shabH}</td>`;
+      html+=`<td class="${tc}" data-date="${k}" onclick="selectCalendarDay('${k}')" oncontextmenu="openDayNotes(event,'${k}')" title="Clic: detalle · Clic derecho: nota"><div class="dn">${day}</div>${evH}${shabH}</td>`;
     }
     if(i%7===6)html+='</tr>';
   }
@@ -622,6 +851,8 @@ function errMsg(e){if(e instanceof Error)return e.message;if(typeof e==='string'
 
 function buildCalendar(){
   $('statusBox').className='';
+  $('statusBox').innerHTML='';
+  refreshSummaryRow();
   $('recalcBtn').disabled=true;$('recalcBtn').textContent='Calculando...';
   setTimeout(()=>{
     try{
@@ -637,7 +868,8 @@ function buildCalendar(){
 
       // ── Detección de meses: auto o manual ──────────────────────────────────
       const monthCountVal = $('monthCount').value;
-      const luns13 = findLunations(start, obs, mode, 13);
+      // 14 lunaciones: la extra da la duración real del último mes generado.
+      const luns14 = findLunations(start, obs, mode, 14);
 
       // Años bisiestos caraítas según el patrón establecido, extendido por ciclos de 19 años.
       const LEAP_YEARS = new Set([
@@ -660,12 +892,11 @@ function buildCalendar(){
         isLeapYear = count === 13;
       }
 
-      const luns = luns13.slice(0, count);
+      const luns = luns14.slice(0, count);
       const months = luns.map((item,i) => ({
         start: item.start,
-        days:  i < luns.length-1 ? diffDays(item.start, luns[i+1].start) : 29
+        days:  diffDays(item.start, (luns[i+1] || luns14[count]).start)
       }));
-      months[months.length-1].days = 29;
 
       // Yom Tru'ah diferido (opciones avanzadas)
       const fb7val = $('fallbackMonth7').value;
@@ -712,26 +943,43 @@ function buildCalendar(){
         }
       });
       currentObs=obs;currentEventMap=evMap;currentHebrewIndex=buildHebrewIndex(months,currentHebrewYear);
+      currentShabbatMap=shabbatMap;
+      currentGregMonths=gregRangeArr;
+      todayCivilKey=null;
       todayCornerDismissed=false;
+      selectedDayKey=null;
+      if(_todayToastTimer){clearTimeout(_todayToastTimer);_todayToastTimer=null;}
       $('legend').innerHTML=LEGEND.map(l=>`<div class="lg-item"><div class="lg-dot" style="background:${l.color}"></div><span>${l.label}</span></div>`).join('');
-      $('monthsGrid').innerHTML=gregRangeArr.map(({year:y,month:m})=>renderMonth(y,m,evMap,shabbatMap)).join('');
-      updateTodayHebrewCorner();
+      // Empezar en el mes civil de “hoy” si está en el rango; si no, el primero
+      let startIdx=0;
+      const todayKey=DateTime.now().setZone(tz()).toFormat('yyyy-MM-dd');
+      const ty=+todayKey.slice(0,4), tm=+todayKey.slice(5,7);
+      const found=gregRangeArr.findIndex(g=>g.year===ty&&g.month===tm);
+      if(found>=0)startIdx=found;
+      showMonthPage(startIdx);
       $('placeholder').style.display='none';$('calOutput').style.display='block';
-      setTimeout(markDaysWithNotes,200);
+      // markDaysWithNotes / today mark ya se refrescan en showMonthPage
       const yomMsg = yomDifVal
         ? ` · Yom Tru'ah diferido al ${DateTime.fromJSDate(yomDifVal,{zone:'utc'}).setZone(tz()).toFormat("d 'de' LLLL")}.`
         : '';
       const leapMsg = isLeapYear
         ? ' · <b>Año bisiesto</b> (13 meses) — el Aviv del año siguiente caería antes del equinoccio.'
         : ' · Año regular (12 meses) — el Aviv del año siguiente cae después del equinoccio.';
+      showSteps(false);
+      clearLocStatus();
       $('statusBox').className='ok';
       $('statusBox').innerHTML=`<b>✓ Calendario ${year} generado.</b>${leapMsg}${yomMsg}`;
+      refreshSummaryRow();
     }catch(err){
       $('placeholder').style.display='block';$('calOutput').style.display='none';
       $('statusBox').className='error';$('statusBox').innerHTML=`<b>Error:</b> ${errMsg(err)}`;
+      refreshSummaryRow();
       currentHebrewIndex={};
+      currentGregMonths=[];
+      currentShabbatMap={};
+      if($('monthNav'))$('monthNav').hidden=true;
       updateTodayHebrewCorner();
-    }finally{$('recalcBtn').disabled=false;$('recalcBtn').textContent='Calcular calendario';}
+    }finally{$('recalcBtn').disabled=false;$('recalcBtn').textContent='Calcular';}
   },30);
 }
 $('recalcBtn').addEventListener('click',buildCalendar);
@@ -772,24 +1020,9 @@ function initMobileAdvancedFields(){
   window.addEventListener('resize',syncMobileAdvancedFields);
 }
 function syncMobileAdvancedFields(){
-  const advHost=$('advMobileFields');
-  if(!advHost)return;
-  const isMobile=isMobileLayout();
-  MOBILE_ADV_FIELD_IDS.forEach(id=>{
-    const state=mobileFieldState[id];
-    if(!state||!state.el)return;
-    if(isMobile){
-      if(state.el.parentNode!==advHost)advHost.appendChild(state.el);
-    }else{
-      if(state.el.parentNode!==state.originalParent){
-        if(state.nextSibling&&state.nextSibling.parentNode===state.originalParent){
-          state.originalParent.insertBefore(state.el,state.nextSibling);
-        }else{
-          state.originalParent.appendChild(state.el);
-        }
-      }
-    }
-  });
+  // Con la barra compacta, lat/lon/tz/etc. ya viven en el panel “Más”.
+  // No se reubican al cambiar el ancho de pantalla.
+  return;
 }
 initMobileAdvancedFields();
 window.addEventListener('load',syncMobileAdvancedFields);
@@ -800,10 +1033,11 @@ window.addEventListener('load',syncMobileAdvancedFields);
    ✓ GPS: navigator.geolocation (nativo, sin key)
    ✓ Elevación: api.open-meteo.com (gratis, sin key, ±1 m precisión)
    ✓ Zona horaria: timeapi.io (gratis, sin key, IANA exacta)
-   ✓ Búsqueda / Geocodificación: nominatim.openstreetmap.org (gratis, sin key)
+   ✓ Búsqueda / Geocodificación: lista local + Open-Meteo + Nominatim (gratis)
    ══════════════════════════════════════════════════════════════════ */
 
 function setLocStatus(msg,type){const el=$('locStatus');el.innerHTML=msg;el.className='loc-status show '+type;}
+function clearLocStatus(){const el=$('locStatus');if(!el)return;el.innerHTML='';el.className='loc-status';}
 function setStep(id,state){
   const el=$(id);if(!el)return;
   const icons={done:'✅',active:'⏳',error:'❌',wait:'⏳'};
@@ -811,6 +1045,15 @@ function setStep(id,state){
   el.querySelector('.ls-icon').textContent=icons[state]||'⏳';
 }
 function showSteps(v){$('loadSteps').className='load-steps'+(v?' show':'');}
+function refreshSummaryRow(){
+  const row=$('summaryRow');
+  if(!row)return;
+  const pills=$('coordsPills');
+  const box=$('statusBox');
+  const hasPills=pills&&pills.innerHTML.trim()!=='';
+  const hasStatus=box&&box.className&&box.className!==''&&box.innerHTML.trim()!=='';
+  row.className='summary-row'+(hasPills||hasStatus?' show':'');
+}
 
 function autoFill(fieldId,value,labelId){
   const input=$(fieldId);
@@ -869,46 +1112,265 @@ async function fetchPlaceName(lat,lon){
   }catch(e){return null;}
 }
 
-// ── Búsqueda de ciudades: Nominatim (OSM, gratis, sin key) ──────────────
+// ── Búsqueda de ciudades/países: lista desplegable ───────────────────────
 let _cityTmr=null;
+let _cityAbort=null;
+let _cityItems=[];
+let _cityActive=-1;
+let _cityQuery='';
+
+// Lugares frecuentes (respuesta inmediata desde la 1.ª letra)
+const CITY_QUICK=[
+  {name:'Jerusalén',sub:'Israel',full:'Jerusalén, Israel',lat:31.7683,lon:35.2137},
+  {name:'Tel Aviv',sub:'Israel',full:'Tel Aviv, Israel',lat:32.0853,lon:34.7818},
+  {name:'Haifa',sub:'Israel',full:'Haifa, Israel',lat:32.7940,lon:34.9896},
+  {name:'Beersheba',sub:'Israel',full:'Beersheba, Israel',lat:31.2518,lon:34.7913},
+  {name:'Amán',sub:'Jordania',full:'Amán, Jordania',lat:31.9454,lon:35.9284},
+  {name:'El Cairo',sub:'Egipto',full:'El Cairo, Egipto',lat:30.0444,lon:31.2357},
+  {name:'Chihuahua',sub:'Chihuahua, México',full:'Chihuahua, Chihuahua, México',lat:28.6353,lon:-106.0889},
+  {name:'Ciudad Juárez',sub:'Chihuahua, México',full:'Ciudad Juárez, Chihuahua, México',lat:31.6904,lon:-106.4245},
+  {name:'Ciudad de México',sub:'México',full:'Ciudad de México, México',lat:19.4326,lon:-99.1332},
+  {name:'Guadalajara',sub:'Jalisco, México',full:'Guadalajara, Jalisco, México',lat:20.6597,lon:-103.3496},
+  {name:'Monterrey',sub:'Nuevo León, México',full:'Monterrey, Nuevo León, México',lat:25.6866,lon:-100.3161},
+  {name:'Puebla',sub:'Puebla, México',full:'Puebla, Puebla, México',lat:19.0414,lon:-98.2063},
+  {name:'Tijuana',sub:'Baja California, México',full:'Tijuana, Baja California, México',lat:32.5149,lon:-117.0382},
+  {name:'Mérida',sub:'Yucatán, México',full:'Mérida, Yucatán, México',lat:20.9674,lon:-89.5926},
+  {name:'Cancún',sub:'Quintana Roo, México',full:'Cancún, Quintana Roo, México',lat:21.1619,lon:-86.8515},
+  {name:'Madrid',sub:'España',full:'Madrid, España',lat:40.4168,lon:-3.7038},
+  {name:'Barcelona',sub:'España',full:'Barcelona, España',lat:41.3874,lon:2.1686},
+  {name:'Buenos Aires',sub:'Argentina',full:'Buenos Aires, Argentina',lat:-34.6037,lon:-58.3816},
+  {name:'Córdoba',sub:'Argentina',full:'Córdoba, Argentina',lat:-31.4201,lon:-64.1888},
+  {name:'Santiago',sub:'Chile',full:'Santiago, Chile',lat:-33.4489,lon:-70.6693},
+  {name:'Lima',sub:'Perú',full:'Lima, Perú',lat:-12.0464,lon:-77.0428},
+  {name:'Bogotá',sub:'Colombia',full:'Bogotá, Colombia',lat:4.7110,lon:-74.0721},
+  {name:'Medellín',sub:'Colombia',full:'Medellín, Colombia',lat:6.2476,lon:-75.5658},
+  {name:'Caracas',sub:'Venezuela',full:'Caracas, Venezuela',lat:10.4806,lon:-66.9036},
+  {name:'Miami',sub:'Florida, Estados Unidos',full:'Miami, Florida, Estados Unidos',lat:25.7617,lon:-80.1918},
+  {name:'Los Ángeles',sub:'California, Estados Unidos',full:'Los Ángeles, California, Estados Unidos',lat:34.0522,lon:-118.2437},
+  {name:'Nueva York',sub:'Estados Unidos',full:'Nueva York, Estados Unidos',lat:40.7128,lon:-74.0060},
+  {name:'Chicago',sub:'Illinois, Estados Unidos',full:'Chicago, Illinois, Estados Unidos',lat:41.8781,lon:-87.6298},
+  {name:'Londres',sub:'Reino Unido',full:'Londres, Reino Unido',lat:51.5074,lon:-0.1278},
+  {name:'París',sub:'Francia',full:'París, Francia',lat:48.8566,lon:2.3522},
+  {name:'Roma',sub:'Italia',full:'Roma, Italia',lat:41.9028,lon:12.4964},
+  {name:'Berlín',sub:'Alemania',full:'Berlín, Alemania',lat:52.5200,lon:13.4050},
+  {name:'Estambul',sub:'Turquía',full:'Estambul, Turquía',lat:41.0082,lon:28.9784},
+  {name:'Moscú',sub:'Rusia',full:'Moscú, Rusia',lat:55.7558,lon:37.6173},
+  {name:'São Paulo',sub:'Brasil',full:'São Paulo, Brasil',lat:-23.5505,lon:-46.6333},
+  {name:'Río de Janeiro',sub:'Brasil',full:'Río de Janeiro, Brasil',lat:-22.9068,lon:-43.1729},
+  {name:'Toronto',sub:'Canadá',full:'Toronto, Canadá',lat:43.6532,lon:-79.3832},
+  {name:'Sídney',sub:'Australia',full:'Sídney, Australia',lat:-33.8688,lon:151.2093},
+  {name:'México',sub:'País',full:'México',lat:23.6345,lon:-102.5528},
+  {name:'Israel',sub:'País',full:'Israel',lat:31.0461,lon:34.8516},
+  {name:'España',sub:'País',full:'España',lat:40.4637,lon:-3.7492},
+  {name:'Argentina',sub:'País',full:'Argentina',lat:-38.4161,lon:-63.6167},
+  {name:'Estados Unidos',sub:'País',full:'Estados Unidos',lat:37.0902,lon:-95.7129},
+  {name:'Colombia',sub:'País',full:'Colombia',lat:4.5709,lon:-74.2973},
+  {name:'Chile',sub:'País',full:'Chile',lat:-35.6751,lon:-71.5430},
+  {name:'Perú',sub:'País',full:'Perú',lat:-9.1900,lon:-75.0152}
+];
+
+function escHtml(s){
+  return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function normCity(s){
+  return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+}
+function closeCitySugg(){
+  const sugg=$('citySugg');
+  if(!sugg)return;
+  sugg.className='city-suggestions';
+  sugg.innerHTML='';
+  _cityItems=[];
+  _cityActive=-1;
+  const inp=$('cityInput');
+  if(inp)inp.setAttribute('aria-expanded','false');
+}
+function openCitySugg(){
+  const sugg=$('citySugg');
+  if(!sugg||!sugg.innerHTML)return;
+  sugg.className='city-suggestions open';
+  const inp=$('cityInput');
+  if(inp)inp.setAttribute('aria-expanded','true');
+}
+function setCityActive(i){
+  const sugg=$('citySugg');
+  if(!sugg)return;
+  const nodes=[...sugg.querySelectorAll('.city-sugg-item')];
+  if(!nodes.length){_cityActive=-1;return;}
+  _cityActive=(i%nodes.length+nodes.length)%nodes.length;
+  nodes.forEach((el,idx)=>{
+    el.classList.toggle('active',idx===_cityActive);
+    el.setAttribute('aria-selected',idx===_cityActive?'true':'false');
+    if(idx===_cityActive)el.scrollIntoView({block:'nearest'});
+  });
+  syncCityAria();
+}
+function localCityMatches(query){
+  const nq=normCity(query);
+  if(!nq)return[];
+  const starts=[],contains=[];
+  CITY_QUICK.forEach(it=>{
+    const hay=normCity(it.full+' '+it.name+' '+it.sub);
+    if(normCity(it.name).startsWith(nq)||normCity(it.full).startsWith(nq))starts.push(it);
+    else if(hay.includes(nq))contains.push(it);
+  });
+  return starts.concat(contains);
+}
+function highlightCityMatch(text,query){
+  const safe=escHtml(text);
+  const q=String(query||'').trim();
+  if(!q)return safe;
+  try{
+    const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');
+    return safe.replace(re,'<span class="city-sugg-mark">$1</span>');
+  }catch(e){return safe;}
+}
+function renderCitySuggestions(items,query,meta){
+  const sugg=$('citySugg');
+  if(!sugg)return;
+  _cityItems=items||[];
+  _cityActive=_cityItems.length?0:-1;
+  if(!_cityItems.length){
+    sugg.innerHTML=`<div class="city-sugg-empty">Sin resultados para «${escHtml(query)}». Sigue escribiendo…</div>`;
+    openCitySugg();
+    return;
+  }
+  const head=meta?`<div class="city-sugg-meta">${escHtml(meta)}</div>`:'';
+  sugg.innerHTML=head+_cityItems.map((it,idx)=>`<div class="city-sugg-item${idx===0?' active':''}" role="option" id="cityOpt${idx}"
+      aria-selected="${idx===0?'true':'false'}" data-idx="${idx}"
+      onmousedown="event.preventDefault()" onclick="pickCitySuggestion(${idx})">
+      <div class="city-sugg-name">📍 ${highlightCityMatch(it.name,query)}</div>
+      <div class="city-sugg-sub">${escHtml(it.sub||it.full)}${Number.isFinite(it.lat)?` · ${it.lat.toFixed(2)}, ${it.lon.toFixed(2)}`:''}</div>
+    </div>`).join('');
+  openCitySugg();
+  syncCityAria();
+}
+function mergeCityItems(primary,extra,limit=8){
+  const out=[],seen=new Set();
+  for(const it of [...primary,...extra]){
+    const key=normCity(it.full||it.name);
+    if(!key||seen.has(key))continue;
+    seen.add(key);
+    out.push(it);
+    if(out.length>=limit)break;
+  }
+  return out;
+}
+async function fetchRemoteCities(query,signal){
+  const q=query.trim();
+  // Open-Meteo (ciudades/países, ideal desde ~3 letras)
+  try{
+    const url=`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=10&language=es&format=json`;
+    const r=await fetch(url,{signal});
+    if(r.ok){
+      const data=await r.json();
+      const rows=(data.results||[]).map(row=>{
+        const sub=[row.admin1,row.country].filter(Boolean).filter((p,i,a)=>a.findIndex(x=>normCity(x)===normCity(p))===i).join(', ');
+        return{
+          name:row.name,
+          sub:sub||row.country||'',
+          full:[row.name,sub].filter(Boolean).join(', '),
+          lat:+row.latitude,
+          lon:+row.longitude,
+          tz:row.timezone||null
+        };
+      });
+      if(rows.length)return rows;
+    }
+  }catch(e){if(e.name==='AbortError')throw e;}
+  // Fallback Nominatim
+  try{
+    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=8`;
+    const r=await fetch(url,{signal,headers:{'Accept-Language':'es'}});
+    if(!r.ok)return[];
+    const results=await r.json();
+    return(results||[]).map(item=>{
+      const a=item.address||{};
+      const name=a.city||a.town||a.village||a.municipality||a.state||a.country||item.display_name.split(',')[0];
+      const sub=[a.state,a.country].filter(Boolean).filter((p,i,arr)=>arr.findIndex(x=>normCity(x)===normCity(p))===i).join(', ');
+      return{name,sub,full:[name,sub].filter(Boolean).join(', '),lat:+item.lat,lon:+item.lon};
+    });
+  }catch(e){
+    if(e.name==='AbortError')throw e;
+    return[];
+  }
+}
+async function fetchCitySuggestions(query){
+  if(_cityAbort){try{_cityAbort.abort();}catch(e){}}
+  _cityAbort=new AbortController();
+  const signal=_cityAbort.signal;
+  const q=query.trim();
+  const local=localCityMatches(q);
+  if(q.length<3)return local.slice(0,8);
+  try{
+    const remote=await fetchRemoteCities(q,signal);
+    return mergeCityItems(local,remote,8);
+  }catch(e){
+    if(e.name==='AbortError')return null;
+    return local.slice(0,8);
+  }
+}
+function onCityFocus(){
+  const val=($('cityInput')?.value||'').trim();
+  if(val.length>=1){
+    if(_cityItems.length)openCitySugg();
+    else onCityInput(val);
+  }
+}
 async function onCityInput(val){
   clearTimeout(_cityTmr);
-  const sugg=$('citySugg');
-  if(val.length<3){sugg.className='city-suggestions';return;}
+  const q=String(val||'').trim();
+  _cityQuery=q;
+  if(q.length<1){closeCitySugg();return;}
+  // Instantáneo: lista local desde la 1.ª letra
+  const local=localCityMatches(q);
+  if(local.length)renderCitySuggestions(local.slice(0,8),q,q.length<3?'Sugerencias rápidas':'Buscando…');
+  else{
+    const sugg=$('citySugg');
+    if(sugg){
+      sugg.innerHTML=`<div class="city-sugg-meta">${q.length<3?'Escribe al menos 3 letras para buscar en el mundo…':`Buscando «${escHtml(q)}»…`}</div>`;
+      openCitySugg();
+    }
+  }
+  if(q.length<3)return;
   _cityTmr=setTimeout(async()=>{
-    try{
-      const r=await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(val)}&format=json&limit=7&addressdetails=1`,
-        {headers:{'Accept-Language':'es'}}
-      );
-      const results=await r.json();
-      if(!results.length){sugg.className='city-suggestions';return;}
-      sugg.innerHTML=results.map(item=>{
-        const a=item.address||{};
-        const name=a.city||a.town||a.village||a.county||item.display_name.split(',')[0];
-        const sub=[a.state,a.country].filter(Boolean).join(', ');
-        const lat=parseFloat(item.lat).toFixed(4),lon=parseFloat(item.lon).toFixed(4);
-        const safeName=(name+', '+sub).replace(/'/g,"\\'");
-        return `<div class="city-sugg-item" onclick="selectCity(${item.lat},${item.lon},'${safeName}')">
-          <div class="city-sugg-name">📍 ${name}</div>
-          <div class="city-sugg-sub">${sub} · ${lat}, ${lon}</div>
-        </div>`;
-      }).join('');
-      sugg.className='city-suggestions open';
-    }catch(e){sugg.className='city-suggestions';}
-  },350);
+    const items=await fetchCitySuggestions(q);
+    if(items===null)return;
+    if(($('cityInput')?.value||'').trim()!==q)return;
+    renderCitySuggestions(items,q,items.length?`${items.length} sugerencia${items.length===1?'':'s'}`:null);
+  },200);
 }
-function onCityKey(e){if(e.key==='Escape')$('citySugg').className='city-suggestions';}
-document.addEventListener('click',e=>{if(!e.target.closest('.city-search-wrap'))$('citySugg').className='city-suggestions';});
+function pickCitySuggestion(idx){
+  const it=_cityItems[idx];
+  if(!it)return;
+  closeCitySugg();
+  selectCity(it.lat,it.lon,it.full||it.name,it.tz||null);
+}
+function onCityKey(e){
+  const sugg=$('citySugg');
+  const open=sugg&&sugg.classList.contains('open');
+  if(e.key==='Escape'){closeCitySugg();return;}
+  if(!open||!_cityItems.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();setCityActive(_cityActive+1);return;}
+  if(e.key==='ArrowUp'){e.preventDefault();setCityActive(_cityActive-1);return;}
+  if(e.key==='Enter'&&_cityActive>=0){e.preventDefault();pickCitySuggestion(_cityActive);}
+}
+function syncCityAria(){
+  const inp=$('cityInput');
+  if(inp&&_cityActive>=0)inp.setAttribute('aria-activedescendant','cityOpt'+_cityActive);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.city-search-wrap'))closeCitySugg();
+});
 
-async function selectCity(lat,lon,name){
-  $('citySugg').className='city-suggestions';
+async function selectCity(lat,lon,name,tzHint){
+  closeCitySugg();
   $('cityInput').value=name;
-  await applyCoords(parseFloat(lat),parseFloat(lon),name);
+  await applyCoords(parseFloat(lat),parseFloat(lon),name,tzHint||null);
 }
 
 // ── Aplica coordenadas + consulta elevación y TZ ─────────────────────────
-async function applyCoords(lat,lon,placeName){
+async function applyCoords(lat,lon,placeName,tzHint){
   showSteps(true);
   setStep('ls1','done');
   setStep('ls2','active');
@@ -932,7 +1394,11 @@ async function applyCoords(lat,lon,placeName){
   // Zona horaria
   setStep('ls3','active');
   try{
-    tzId=await fetchTimezone(lat,lon);
+    if(tzHint&&typeof tzHint==='string'&&tzHint.includes('/')){
+      tzId=tzHint;
+    }else{
+      tzId=await fetchTimezone(lat,lon);
+    }
     autoFill('timezone',tzId,'lbl_tz');
     setStep('ls3','done');
   }catch(e){
@@ -945,7 +1411,7 @@ async function applyCoords(lat,lon,placeName){
     txt.innerHTML=`<span class="ls-icon">⚠️</span> Zona horaria aproximada por longitud: <b>${tzId}</b>`;
   }
 
-  // Pills de resumen
+  // Pills de resumen (sin pasos ni “Listo”)
   const pills=[];
   if(placeName)pills.push(`📍 ${placeName}`);
   pills.push(`🌐 ${lat.toFixed(5)}, ${lon.toFixed(5)}`);
@@ -953,13 +1419,13 @@ async function applyCoords(lat,lon,placeName){
   if(tzId)pills.push(`🕐 ${tzId}`);
   $('coordsPills').innerHTML=pills.map(p=>`<span class="cpill">${p}</span>`).join('');
 
-  const allOk=!elevErr&&!tzErr;
-  setLocStatus(
-    allOk
-      ? `✅ Listo: <b>${placeName||`${lat.toFixed(4)}, ${lon.toFixed(4)}`}</b> — Lat/Lon, elevación y zona horaria aplicadas.`
-      : `⚠️ Coordenadas aplicadas. Algunos datos usaron valores aproximados.`,
-    allOk?'ok':'info'
-  );
+  showSteps(false);
+  if(elevErr||tzErr){
+    setLocStatus('⚠️ Coordenadas aplicadas. Algunos datos usaron valores aproximados.','info');
+  }else{
+    clearLocStatus();
+  }
+  refreshSummaryRow();
 }
 
 // ── GPS del navegador ────────────────────────────────────────────────────
@@ -982,8 +1448,8 @@ async function detectarUbicacion(){
       const acc=pos.coords.accuracy;
 
       // Restaurar botón
-      $('geoIco').outerHTML='<span id="geoIco">🎯</span>';
-      $('geoTxt').textContent='Detectar mi ubicación';
+      $('geoIco').outerHTML='<span id="geoIco">📍</span>';
+      $('geoTxt').textContent='usar gps';
       btn.disabled=false;
       setStep('ls1','done');
       $('ls1').innerHTML='<span class="ls-icon">✅</span> GPS obtenido — precisión ~'+Math.round(acc)+' m';
@@ -994,10 +1460,12 @@ async function detectarUbicacion(){
 
       await nameP; // esperar nombre antes de mostrar pills
       await applyCoords(lat,lon,placeName);
+      // Con los datos ya completos, generar el calendario sin pasar por "Calcular".
+      buildCalendar();
     },
     err=>{
-      $('geoIco').outerHTML='<span id="geoIco">🎯</span>';
-      $('geoTxt').textContent='Detectar mi ubicación';
+      $('geoIco').outerHTML='<span id="geoIco">📍</span>';
+      $('geoTxt').textContent='usar gps';
       btn.disabled=false;
       showSteps(false);
       const msgs={1:'Permiso denegado. Activa la ubicación en tu navegador.',2:'No se pudo obtener posición.',3:'Tiempo agotado. Intenta de nuevo.'};
@@ -1031,7 +1499,7 @@ async function markDaysWithNotes(){
     const req=store.getAll();
     req.onsuccess=e=>{
       e.target.result.forEach(record=>{
-        const td=document.querySelector(`td[onclick*="'${record.id}'"]`);
+        const td=document.querySelector(`td[data-date="${record.id}"]`)||document.querySelector(`td[onclick*="'${record.id}'"]`);
         if(!td)return;
         td.classList.add('day-has-note');
         // Show note text truncated to what fits (CSS handles overflow)
@@ -1047,7 +1515,7 @@ async function markDaysWithNotes(){
     };
   });
 }
-async function renderNotesSection(dateStr){
+async function renderNotesSection(dateStr,host){
   const nota=await dbGet(dateStr);
   const sec=document.createElement('div');sec.className='notes-section';sec.id='notesSection';
   sec.innerHTML=`<div class="notes-label"><span>📝 Nota personal</span><span id="noteCharCount" style="font-weight:400">${nota.length}/500</span></div>
@@ -1057,7 +1525,7 @@ async function renderNotesSection(dateStr){
       <button class="btn-del-note" onclick="deleteNote('${dateStr}')">Borrar</button>
       <span class="note-status" id="noteStatus"></span>
     </div>`;
-  $('modalBody').appendChild(sec);
+  (host||$('notesModalBody')).appendChild(sec);
   const ta=$('noteText'),cc=$('noteCharCount');
   ta.addEventListener('input',()=>{cc.textContent=ta.value.length+'/500';});
 }
@@ -1072,11 +1540,243 @@ async function deleteNote(dateStr){
   setTimeout(()=>{if(st)st.textContent='';},2000);markDaysWithNotes();
 }
 
-/* ═══ MODAL ════════════════════════════════════════════════════════════════ */
+/* ═══ CALENDARIO + PANEL LATERAL ═══════════════════════════════════════════ */
 let currentObs=null,currentEventMap={};
 let currentHebrewIndex={};
 let currentHebrewYear=0;
 let todayCornerDismissed=false;
+let currentGregMonths=[];
+let currentShabbatMap={};
+let currentMonthIndex=0;
+let todayCivilKey=null;
+let selectedDayKey=null;
+let _todayToastTimer=null;
+const TOAST_MS=5000;
+
+function markTodayAndSelection(){
+  document.querySelectorAll('td.hebrew-today').forEach(td=>td.classList.remove('hebrew-today'));
+  document.querySelectorAll('td.day-selected').forEach(td=>td.classList.remove('day-selected'));
+  if(todayCivilKey){
+    const tdToday=document.querySelector(`td[data-date="${todayCivilKey}"]`);
+    if(tdToday)tdToday.classList.add('hebrew-today');
+  }
+  if(selectedDayKey){
+    const tdSel=document.querySelector(`td[data-date="${selectedDayKey}"]`);
+    if(tdSel)tdSel.classList.add('day-selected');
+  }
+}
+
+function showMonthPage(index){
+  if(!currentGregMonths.length){
+    $('monthNav').hidden=true;
+    $('monthsGrid').innerHTML='';
+    return;
+  }
+  const i=Math.max(0,Math.min(index,currentGregMonths.length-1));
+  currentMonthIndex=i;
+  const {year,month}=currentGregMonths[i];
+  $('monthsGrid').innerHTML=renderMonth(year,month,currentEventMap,currentShabbatMap);
+  $('monthNav').hidden=false;
+  $('monthNavTitle').textContent=`${MESES_ES[month-1]} ${year}`;
+  $('monthNavCount').textContent=`Mes ${i+1} de ${currentGregMonths.length}`;
+  $('btnPrevMonth').disabled=i<=0;
+  $('btnNextMonth').disabled=i>=currentGregMonths.length-1;
+  updateTodayHebrewCorner();
+  if(!selectedDayKey){
+    selectedDayKey=todayCivilKey||`${year}-${String(month).padStart(2,'0')}-01`;
+  }
+  markTodayAndSelection();
+  updateSidePanels(selectedDayKey);
+  setTimeout(markDaysWithNotes,50);
+}
+
+function getMoonMeridian(dayNoonUtc,obs){
+  try{
+    if(typeof Astronomy.SearchHourAngle!=='function')return null;
+    const start=DateTime.fromJSDate(dayNoonUtc,{zone:'utc'}).setZone(tz()).startOf('day').toUTC().toJSDate();
+    const ev=Astronomy.SearchHourAngle(Astronomy.Body.Moon,obs,0,start);
+    if(!ev)return null;
+    if(ev.time&&ev.time.date)return new Date(ev.time.date);
+    if(ev.date)return new Date(ev.date);
+    return null;
+  }catch(e){return null;}
+}
+function moonPhaseBarHTML(phase,pct){
+  const detail=phase.waxing?'Creciente ↑':'Menguante ↓';
+  const pctTxt=Number.isFinite(pct)?` · ${Number(pct).toFixed(1)}%`:'';
+  return `<div class="moon-phase-bar" aria-hidden="true">
+    <div class="phase-emoji">${phase.emoji||'🌙'}</div>
+    <div class="phase-info">
+      <div class="phase-name">${phase.name}</div>
+      <div class="phase-detail">${detail}${pctTxt}</div>
+    </div>
+  </div>`;
+}
+function moonSnapshotAt(date){
+  if(!date)return null;
+  const phase=moonPhaseData(date);
+  const ill=Astronomy.Illumination(Astronomy.Body.Moon,date);
+  return{time:date,phase,pct:(ill.phase_fraction*100),angle:phase.angle};
+}
+function fmtHm(date){
+  return DateTime.fromJSDate(date,{zone:'utc'}).setZone(tz()).toFormat('HH:mm');
+}
+
+function selectCalendarDay(dateStr){
+  selectedDayKey=dateStr;
+  markTodayAndSelection();
+  updateSidePanels(dateStr);
+}
+
+function openDayNotes(ev,dateStr){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  selectedDayKey=dateStr;
+  markTodayAndSelection();
+  updateSidePanels(dateStr);
+  openNotesModal(dateStr);
+}
+
+function updateSidePanels(dateStr){
+  if(!dateStr||!currentObs){
+    if($('moonPanel'))$('moonPanel').innerHTML='<div class="moon-panel-empty">Sin datos.</div>';
+    if($('daySidePanel'))$('daySidePanel').innerHTML='<div class="day-side-empty">Haz clic en un día para ver su análisis.</div>';
+    return;
+  }
+  const[year,month,day]=dateStr.split('-').map(Number);
+  updateMoonSidePanelForDay(year,month,day);
+  updateDaySidePanel(dateStr);
+}
+
+function updateMoonSidePanelForDay(year,month,day){
+  const panel=$('moonPanel');
+  if(!panel)return;
+  try{
+    const noon=new Date(Date.UTC(year,month-1,day,12,0,0));
+    const sunset=getSunset(noon,currentObs);
+    const merid=getMoonMeridian(noon,currentObs);
+    const atMerid=moonSnapshotAt(merid);
+    const atSet=moonSnapshotAt(sunset);
+    const main=atSet||atMerid;
+    if(!main){
+      panel.innerHTML='<div class="moon-panel-empty">No se pudo calcular la Luna.</div>';
+      return;
+    }
+    const dateLbl=DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("d 'de' LLLL yyyy");
+    const metric=(title,snap)=>{
+      if(!snap)return `<div class="moon-metric"><h4>${title}</h4><div class="mm-time">—</div></div>`;
+      return `<div class="moon-metric">
+        <h4>${title}</h4>
+        <div class="mm-time">${fmtHm(snap.time)}</div>
+        <div class="mm-row"><span>Iluminación</span><b>${snap.pct.toFixed(1)}%</b></div>
+        <div class="mm-row"><span>Ángulo fase</span><b>${snap.angle.toFixed(1)}°</b></div>
+      </div>`;
+    };
+    panel.innerHTML=`
+      <div class="moon-panel-kicker">Fase lunar</div>
+      <div class="moon-panel-date">${dateLbl}</div>
+      <div class="moon-visual">
+        ${moonPhaseBarHTML(main.phase,main.pct)}
+      </div>
+      <div class="moon-metrics">
+        ${metric('Meridiano lunar',atMerid)}
+        ${metric('Atardecer',atSet)}
+      </div>
+      <div class="moon-panel-note">Instantes astronómicos del día civil seleccionado.</div>`;
+  }catch(e){
+    panel.innerHTML=`<div class="moon-panel-empty">Error lunar: ${errMsg(e)}</div>`;
+  }
+}
+
+function updateDaySidePanel(dateStr){
+  const panel=$('daySidePanel');
+  if(!panel)return;
+  if(!currentObs){
+    panel.innerHTML='<div class="day-side-empty">Sin observador.</div>';
+    return;
+  }
+  panel.innerHTML='<div class="day-side-empty">Calculando…</div>';
+  const[year,month,day]=dateStr.split('-').map(Number);
+  setTimeout(()=>{
+    try{
+      const roman=DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("cccc, d 'de' LLLL yyyy");
+      const hInfo=hebrewInfoForCivil(dateStr);
+      const heb=hInfo?`Mes ${hInfo.monthNumber} (${hInfo.monthName}) · Día ${hInfo.day} · Año ${hInfo.year}`:'Día hebreo no disponible';
+      const evs=currentEventMap[dateStr]||[];
+      const pU=new Date(Date.UTC(year,month-1,day-1,12,0,0)),tU=new Date(Date.UTC(year,month-1,day,12,0,0));
+      const ss=getSunset(pU,currentObs),se=getSunset(tU,currentObs);
+      const dMs=se-ss,dH=Math.floor(dMs/3600000),dM=Math.floor((dMs%3600000)/60000);
+      const illum=moonIllumProfile(ss,se,currentObs);
+      const ic=p=>{const v=parseFloat(p);if(v<2)return'low';if(v<50)return'mid';if(v<95)return'high';return'full';};
+      const fw=p=>Math.min(100,parseFloat(p)).toFixed(1);
+      const mx=parseFloat(illum.maximo);
+      let vn='';
+      if(mx<1)vn=`<b>${illum.maximo}%</b> — prácticamente invisible.`;
+      else if(mx<2)vn=`<b>${illum.maximo}%</b> — condiciones perfectas.`;
+      else if(mx<10)vn=`<b>${illum.maximo}%</b> — creciente joven / cielo oscuro.`;
+      else if(mx<50)vn=`<b>${illum.maximo}%</b> — visible a simple vista.`;
+      else if(mx<95)vn=`<b>${illum.maximo}%</b> — luna muy brillante.`;
+      else vn=`<b>${illum.maximo}%</b> — luna llena.`;
+      const ec=illum.visible?'yes':'no';
+      const et=illum.visible?'👁 Potencialmente visible (≥'+illum.umbral.toFixed(2)+'%)':'🚫 Difícil visibilidad (<'+illum.umbral.toFixed(2)+'%)';
+      const evHtml=evs.length
+        ?`<div class="day-side-events">${evs.map(e=>`<span class="modal-ev" style="background:${e.color}">${e.label}</span>`).join('')}</div>`
+        :'';
+      panel.innerHTML=`
+        <div class="day-side-title">Día seleccionado</div>
+        <div class="day-side-roman">${roman}</div>
+        <div class="day-side-heb">${heb}</div>
+        ${evHtml}
+        <div class="day-side-times">
+          <div class="day-side-time-row"><div class="modal-icon">🌅</div><div>
+            <div class="modal-lbl">Inicio día hebreo</div>
+            <div class="modal-time">${fmtFull(ss)}</div>
+          </div></div>
+          <div class="day-side-time-row"><div class="modal-icon">🌇</div><div>
+            <div class="modal-lbl">Fin día hebreo</div>
+            <div class="modal-time">${fmtFull(se)}</div>
+          </div></div>
+        </div>
+        <div class="illum-panel">
+          <div class="illum-panel-title">🌙 Iluminación · día hebreo</div>
+          <div class="illum-bars">
+            <div class="illum-col"><div class="illum-col-label">🌅 Inicio (atardecer)</div>
+              <div class="illum-pct ${ic(illum.inicio)}">${illum.inicio}%</div>
+              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.inicio)}%"></div></div>
+              ${fmtSunAlt(illum.sunInicio)}</div>
+            <div class="illum-col"><div class="illum-col-label">⏱ Punto medio</div>
+              <div class="illum-pct ${ic(illum.meridiano)}">${illum.meridiano}%</div>
+              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.meridiano)}%"></div></div>
+              ${fmtSunAlt(illum.sunMerid)}</div>
+            <div class="illum-col"><div class="illum-col-label">⬆ Máximo del día</div>
+              <div class="illum-pct ${ic(illum.maximo)}">${illum.maximo}%</div>
+              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.maximo)}%"></div></div>
+              ${fmtSunAlt(illum.sunMaximo)}</div>
+          </div>
+          <div class="illum-note">${vn}<br><span class="illum-naked-eye ${ec}">${et}</span></div>
+        </div>
+        <div class="modal-duration">⏱ Duración día hebreo: ${dH}h ${dM}min</div>
+        <div class="day-side-hint">Clic derecho en un día para añadir o editar nota.</div>`;
+    }catch(e){
+      panel.innerHTML=`<div class="day-side-empty" style="color:#c53030">Error: ${errMsg(e)}</div>`;
+    }
+  },10);
+}
+
+function goPrevMonth(){
+  if(currentMonthIndex>0)showMonthPage(currentMonthIndex-1);
+}
+function goNextMonth(){
+  if(currentMonthIndex<currentGregMonths.length-1)showMonthPage(currentMonthIndex+1);
+}
+function goToCivilMonth(dateStr){
+  if(!dateStr||!currentGregMonths.length)return;
+  const y=+dateStr.slice(0,4), m=+dateStr.slice(5,7);
+  const idx=currentGregMonths.findIndex(g=>g.year===y&&g.month===m);
+  if(idx<0)return;
+  showMonthPage(idx);
+  const grid=$('monthsGrid');
+  if(grid)grid.scrollIntoView({behavior:'smooth',block:'start'});
+}
 
 function shiftKey(key,days){
   return DateTime.fromISO(key,{zone:tz()}).plus({days}).toFormat('yyyy-MM-dd');
@@ -1091,49 +1791,79 @@ function buildHebrewIndex(months,hebrewYear){
   });
   return idx;
 }
+// El panel describe el día hebreo vigente durante la porción DIURNA de esa
+// fecha civil, que empezó en el atardecer anterior. Los chips, en cambio,
+// anuncian el día hebreo que comienza en el atardecer de esa misma fecha.
 function hebrewInfoForCivil(dateStr){
   const anchor=shiftKey(dateStr,-1);
   return currentHebrewIndex[anchor]||null;
 }
-function clearHebrewTodayMark(){
-  document.querySelectorAll('td.hebrew-today').forEach(td=>td.classList.remove('hebrew-today'));
-}
-function closeTodayHebrewCorner(){
+function closeTodayHebrewCorner(ev){
+  if(ev)ev.stopPropagation();
   todayCornerDismissed=true;
+  if(_todayToastTimer){clearTimeout(_todayToastTimer);_todayToastTimer=null;}
   const corner=$('todayHebrewCorner');
   corner.className='today-heb-corner';
+  corner.onclick=null;
   corner.innerHTML='';
+}
+// La marca HOY sigue el día civil del reloj.
+function resolveTodayCivilKey(){
+  if(!currentObs||!Object.keys(currentHebrewIndex).length)return null;
+  const civilKey=DateTime.now().setZone(tz()).toFormat('yyyy-MM-dd');
+  return currentHebrewIndex[civilKey]?civilKey:null;
+}
+// Día hebreo realmente en curso: antes del atardecer todavía es el que empezó ayer.
+function activeHebrewNow(){
+  if(!currentObs||!Object.keys(currentHebrewIndex).length)return null;
+  const now=DateTime.now().setZone(tz());
+  const civilKey=now.toFormat('yyyy-MM-dd');
+  let anchorKey=shiftKey(civilKey,-1),sunset=null,beforeSunset=true;
+  try{
+    const noonToday=now.set({hour:12,minute:0,second:0,millisecond:0}).toUTC().toJSDate();
+    sunset=getSunset(noonToday,currentObs);
+    if(now.toUTC().toMillis()>=sunset.getTime()){anchorKey=civilKey;beforeSunset=false;}
+  }catch(e){}
+  const info=currentHebrewIndex[anchorKey];
+  if(!info)return null;
+  return{info,anchorKey,sunset,beforeSunset,next:currentHebrewIndex[civilKey]||null};
 }
 function updateTodayHebrewCorner(){
   const corner=$('todayHebrewCorner');
-  clearHebrewTodayMark();
-  if(todayCornerDismissed)return;
-  if(!currentObs||!Object.keys(currentHebrewIndex).length){
+  todayCivilKey=resolveTodayCivilKey();
+  markTodayAndSelection();
+
+  if(todayCornerDismissed){
     corner.className='today-heb-corner';
     corner.innerHTML='';
     return;
   }
-  const now=DateTime.now().setZone(tz());
-  const civilKey=now.toFormat('yyyy-MM-dd');
-  let anchorKey=shiftKey(civilKey,-1);
-  try{
-    const noonToday=now.set({hour:12,minute:0,second:0,millisecond:0}).toUTC().toJSDate();
-    const todaySunset=getSunset(noonToday,currentObs);
-    if(now.toUTC().toMillis()>=todaySunset.getTime())anchorKey=civilKey;
-  }catch(e){}
-  const info=currentHebrewIndex[anchorKey];
-  if(!info){
+  if(!todayCivilKey){
+    if(!currentObs||!Object.keys(currentHebrewIndex).length){
+      corner.className='today-heb-corner';
+      corner.innerHTML='';
+      return;
+    }
     corner.className='today-heb-corner show warn';
-    corner.innerHTML='<div class="thc-head"><div class="thc-title">Hoy hebreo</div><button class="thc-close" onclick="closeTodayHebrewCorner()" title="Cerrar">X</button></div><div class="thc-date">Fuera del rango generado</div><div class="thc-note">Recalcula el calendario para este periodo.</div>';
+    corner.onclick=null;
+    corner.innerHTML='<div class="thc-head"><div class="thc-title">Hoy hebreo</div><button class="thc-close" onclick="closeTodayHebrewCorner(event)" title="Cerrar">X</button></div><div class="thc-date">Fuera del rango generado</div><div class="thc-note">Recalcula el calendario para este periodo.</div>';
+    if(_todayToastTimer)clearTimeout(_todayToastTimer);
+    _todayToastTimer=setTimeout(()=>closeTodayHebrewCorner(),TOAST_MS);
     return;
   }
-  const cellKey=shiftKey(anchorKey,1);
-  const td=document.querySelector(`td[onclick*="'${cellKey}'"]`);
-  if(td)td.classList.add('hebrew-today');
+  const act=activeHebrewNow();
+  const info=(act&&act.info)||currentHebrewIndex[todayCivilKey];
+  const nota=act&&act.beforeSunset&&act.sunset&&act.next
+    ? `Al atardecer (${fmtHm(act.sunset)}) empieza el día ${act.next.day} de ${act.next.monthName}.`
+    : 'Según zona horaria y atardecer local.';
   corner.className='today-heb-corner show';
-  corner.innerHTML=`<div class="thc-head"><div class="thc-title">Hoy hebreo (${tz()})</div><button class="thc-close" onclick="closeTodayHebrewCorner()" title="Cerrar">X</button></div>
+  corner.onclick=null;
+  corner.title='';
+  corner.innerHTML=`<div class="thc-head"><div class="thc-title">Hoy hebreo (${tz()})</div><button class="thc-close" onclick="closeTodayHebrewCorner(event)" title="Cerrar">X</button></div>
     <div class="thc-date">Mes ${info.monthNumber} (${info.monthName}) · Día ${info.day} · Año ${info.year}</div>
-    <div class="thc-note">Contexto regional aplicado por zona horaria y atardecer local.</div>`;
+    <div class="thc-note">${nota}</div>`;
+  if(_todayToastTimer)clearTimeout(_todayToastTimer);
+  _todayToastTimer=setTimeout(()=>closeTodayHebrewCorner(),TOAST_MS);
 }
 
 function moonPhaseData(date,pctBasis){
@@ -1145,18 +1875,26 @@ function moonPhaseData(date,pctBasis){
   const angle=waxing?ph:360-ph;
   const visThresh=getIllumThreshold();
   let emoji,name;
-  // Misma referencia del calendario: umbral de visibilidad del creciente (1.80% por defecto).
   if(waxing&&refPct<visThresh){emoji='🌑';name='Luna oscura';}
   else if(waxing&&refPct<=visThresh+0.7){emoji='🌒';name='Rosh Jodesh (astilla visible)';}
-  else if(refPct>=99){emoji='🌕';name='Luna llena';}
+  else if(refPct>=98.5){emoji='🌕';name='Luna llena';}
+  else if(refPct<=1.5){emoji='🌑';name='Luna nueva';}
   else if(waxing){
-    if(refPct<40){emoji='🌒';name='Creciente joven';}
-    else if(refPct<60){emoji='🌓';name='Cuarto creciente';}
-    else{emoji='🌔';name='Gibosa creciente';}
+    if(refPct<12){emoji='🌒';name='Creciente muy fina';}
+    else if(refPct<28){emoji='🌒';name='Creciente joven';}
+    else if(refPct<42){emoji='🌒';name='Creciente gruesa';}
+    else if(refPct<58){emoji='🌓';name='Cuarto creciente';}
+    else if(refPct<72){emoji='🌔';name='Gibosa creciente temprana';}
+    else if(refPct<88){emoji='🌔';name='Gibosa creciente';}
+    else{emoji='🌔';name='Gibosa creciente avanzada';}
   }else{
-    if(refPct>60){emoji='🌖';name='Gibosa menguante';}
-    else if(refPct>40){emoji='🌗';name='Cuarto menguante';}
-    else{emoji='🌘';name='Creciente menguante';}
+    if(refPct>88){emoji='🌖';name='Gibosa menguante temprana';}
+    else if(refPct>72){emoji='🌖';name='Gibosa menguante';}
+    else if(refPct>58){emoji='🌖';name='Gibosa menguante tardía';}
+    else if(refPct>42){emoji='🌗';name='Cuarto menguante';}
+    else if(refPct>28){emoji='🌘';name='Creciente menguante gruesa';}
+    else if(refPct>12){emoji='🌘';name='Creciente menguante';}
+    else{emoji='🌘';name='Creciente menguante fina';}
   }
   return{emoji,name,pct,waxing,angle};
 }
@@ -1180,7 +1918,6 @@ function fmtFull(date){return DateTime.fromJSDate(date,{zone:'utc'}).setZone(tz(
 function fmtSunAlt(alt){
   if(alt===null||alt===undefined)return'';
   const a=parseFloat(alt);
-  // Color: bajo horizonte=azul oscuro, cerca horizonte=verde, alto=naranja/rojo
   let cls,tip;
   if(a<=-6){cls='sun-alt-night';tip='Noche astronómica';}
   else if(a<0){cls='sun-alt-civil';tip='Crepúsculo';}
@@ -1190,92 +1927,33 @@ function fmtSunAlt(alt){
   else{cls='sun-alt-vhigh';tip='Sol muy alto — cielo muy brillante';}
   return `<div class="sun-alt-badge ${cls}" title="${tip}">☀ ${a>=0?'+':''}${a.toFixed(1)}°</div>`;
 }
-function closeModal(){$('dayModal').style.display='none';}
-function showDayModal(dateStr){
-  if(!currentObs)return;
-  const modal=$('dayModal'),body=$('modalBody');
+function closeNotesModal(){$('notesModal').style.display='none';}
+async function openNotesModal(dateStr){
+  const modal=$('notesModal');
+  if(!modal)return;
   modal.style.display='flex';
-  body.innerHTML='<div class="modal-loading">Calculando atardeceres…</div>';
   const[year,month,day]=dateStr.split('-').map(Number);
-  $('modalTitleText').textContent='Día romano: '+DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("cccc, d 'de' LLLL yyyy");
+  const roman=DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("cccc, d 'de' LLLL yyyy");
   const hInfo=hebrewInfoForCivil(dateStr);
-  $('modalHebDate').textContent=hInfo?`Día hebreo: Mes ${hInfo.monthNumber} · Día ${hInfo.day} · Año ${hInfo.year}`:'Día hebreo no disponible';
-  const evs=currentEventMap[dateStr]||[];
-  $('modalEvents').innerHTML=evs.length?evs.map(e=>`<span class="modal-ev" style="background:${e.color}">${e.label}</span>`).join(''):'<span style="color:#aaa;font-size:.8rem">Sin eventos especiales</span>';
-  setTimeout(()=>{
-    try{
-      const pU=new Date(Date.UTC(year,month-1,day-1,12,0,0)),tU=new Date(Date.UTC(year,month-1,day,12,0,0));
-      const ss=getSunset(pU,currentObs),se=getSunset(tU,currentObs);
-      const dMs=se-ss,dH=Math.floor(dMs/3600000),dM=Math.floor((dMs%3600000)/60000);
-      const illum=moonIllumProfile(ss,se,currentObs);
-      const phase=moonPhaseData(ss,illum?parseFloat(illum.maximo):undefined);
-      const ic=p=>{const v=parseFloat(p);if(v<2)return'low';if(v<50)return'mid';if(v<95)return'high';return'full';};
-      const fw=p=>Math.min(100,parseFloat(p)).toFixed(1);
-      const mx=parseFloat(illum.maximo);
-      let vn='';
-      if(mx<1)vn=`<b>${illum.maximo}%</b> — prácticamente invisible (luna nueva).`;
-      else if(mx<2)vn=`<b>${illum.maximo}%</b> — requiere condiciones perfectas.`;
-      else if(mx<10)vn=`<b>${illum.maximo}%</b> — creciente joven, cielo oscuro.`;
-      else if(mx<50)vn=`<b>${illum.maximo}%</b> — visible a simple vista.`;
-      else if(mx<95)vn=`<b>${illum.maximo}%</b> — luna muy brillante.`;
-      else vn=`<b>${illum.maximo}%</b> — luna llena.`;
-      const ec=illum.visible?'yes':'no',et=illum.visible?'👁 Potencialmente visible (`≥'+illum.umbral.toFixed(2)+'%`)':'🚫 Difícil visibilidad (<'+illum.umbral.toFixed(2)+'%)';
-      body.innerHTML=`
-        <div style="font-size:.78rem;color:#7a5c1e;background:#fff8e8;border:1px solid #e7d7b5;border-radius:6px;padding:8px 10px;margin-bottom:12px;">
-          <b>Referencia:</b> Día romano (00:00–23:59) y día hebreo (puesta del sol a puesta del sol).
-        </div>
-        <div class="modal-time-row"><div class="modal-icon">🌅</div><div>
-          <div class="modal-lbl">Inicio del día hebreo</div>
-          <div class="modal-time">${fmtFull(ss)}</div>
-        </div></div>
-        <div class="modal-time-row"><div class="modal-icon">🌇</div><div>
-          <div class="modal-lbl">Fin del día hebreo</div>
-          <div class="modal-time">${fmtFull(se)}</div>
-        </div></div>
-        <div class="modal-phase-bar">
-          <div class="phase-emoji">${phase.emoji}</div>
-          <div class="phase-info">
-            <div class="phase-name">${phase.name}</div>
-            <div class="phase-detail">${phase.waxing?'Creciente ↑':'Menguante ↓'}</div>
-          </div>
-        </div>
-        <div class="illum-panel">
-          <div class="illum-panel-title">🌙 Iluminación lunar · día hebreo completo</div>
-          <div class="illum-bars">
-            <div class="illum-col"><div class="illum-col-label">🌅 Inicio<br>(atardecer)</div>
-              <div class="illum-pct ${ic(illum.inicio)}">${illum.inicio}%</div>
-              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.inicio)}%"></div></div>
-              ${fmtSunAlt(illum.sunInicio)}</div>
-            <div class="illum-col"><div class="illum-col-label">🌙 Meridiano<br>(punto medio)</div>
-              <div class="illum-pct ${ic(illum.meridiano)}">${illum.meridiano}%</div>
-              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.meridiano)}%"></div></div>
-              ${fmtSunAlt(illum.sunMerid)}</div>
-            <div class="illum-col"><div class="illum-col-label">⬆ Máximo<br>(del día)</div>
-              <div class="illum-pct ${ic(illum.maximo)}">${illum.maximo}%</div>
-              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.maximo)}%"></div></div>
-              ${fmtSunAlt(illum.sunMaximo)}</div>
-          </div>
-          <div class="illum-note">${vn}<br><span class="illum-naked-eye ${ec}">${et}</span></div>
-        </div>
-        <div class="modal-duration">⏱ Duración del día hebreo: ${dH}h ${dM}min</div>`;
-      renderNotesSection(dateStr);
-    }catch(e){body.innerHTML=`<div class="modal-loading" style="color:#c53030">Error: ${e.message||e}</div>`;}
-  },20);
+  $('notesModalTitle').textContent='Nota · '+roman;
+  $('notesModalHeb').textContent=hInfo?`Mes ${hInfo.monthNumber} · Día ${hInfo.day} · Año ${hInfo.year}`:'';
+  const body=$('notesModalBody');
+  body.innerHTML='';
+  await renderNotesSection(dateStr,body);
 }
 </script>
 
-<!-- Modal días -->
-<div class="modal-overlay" id="dayModal" onclick="if(event.target===this)closeModal()">
+<!-- Modal notas (solo clic derecho) -->
+<div class="modal-overlay" id="notesModal" onclick="if(event.target===this)closeNotesModal()">
   <div class="modal-box">
     <div class="modal-header">
-      <div><div class="modal-header-title" id="modalTitleText"></div></div>
+      <div><div class="modal-header-title" id="notesModalTitle"></div></div>
       <div class="modal-header-right">
-        <div class="modal-heb-date" id="modalHebDate"></div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div class="modal-heb-date" id="notesModalHeb"></div>
+        <button class="modal-close" onclick="closeNotesModal()">✕</button>
       </div>
     </div>
-    <div class="modal-events" id="modalEvents"></div>
-    <div class="modal-body" id="modalBody"><div class="modal-loading">Cargando…</div></div>
+    <div class="modal-body" id="notesModalBody"><div class="modal-loading">Cargando…</div></div>
   </div>
 </div>
 

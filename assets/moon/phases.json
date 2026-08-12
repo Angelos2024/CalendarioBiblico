@@ -1,0 +1,200 @@
+{
+  "all": [
+    {
+      "file": "assets/moon/phase_00.png",
+      "illum": 97.1,
+      "waxing": true,
+      "slot": 0
+    },
+    {
+      "file": "assets/moon/phase_01.png",
+      "illum": 90.1,
+      "waxing": true,
+      "slot": 1
+    },
+    {
+      "file": "assets/moon/phase_02.png",
+      "illum": 63.85,
+      "waxing": true,
+      "slot": 2
+    },
+    {
+      "file": "assets/moon/phase_03.png",
+      "illum": 48.95,
+      "waxing": true,
+      "slot": 3
+    },
+    {
+      "file": "assets/moon/phase_04.png",
+      "illum": 41.33,
+      "waxing": true,
+      "slot": 4
+    },
+    {
+      "file": "assets/moon/phase_05.png",
+      "illum": 28.31,
+      "waxing": true,
+      "slot": 5
+    },
+    {
+      "file": "assets/moon/phase_06.png",
+      "illum": 14.37,
+      "waxing": true,
+      "slot": 6
+    },
+    {
+      "file": "assets/moon/phase_07.png",
+      "illum": 4.89,
+      "waxing": false,
+      "slot": 7
+    },
+    {
+      "file": "assets/moon/phase_08.png",
+      "illum": 0.0,
+      "waxing": true,
+      "slot": 8
+    },
+    {
+      "file": "assets/moon/phase_09.png",
+      "illum": 6.56,
+      "waxing": true,
+      "slot": 9
+    },
+    {
+      "file": "assets/moon/phase_10.png",
+      "illum": 14.11,
+      "waxing": false,
+      "slot": 10
+    },
+    {
+      "file": "assets/moon/phase_11.png",
+      "illum": 22.99,
+      "waxing": false,
+      "slot": 11
+    },
+    {
+      "file": "assets/moon/phase_12.png",
+      "illum": 40.78,
+      "waxing": false,
+      "slot": 12
+    },
+    {
+      "file": "assets/moon/phase_13.png",
+      "illum": 49.11,
+      "waxing": false,
+      "slot": 13
+    },
+    {
+      "file": "assets/moon/phase_14.png",
+      "illum": 70.85,
+      "waxing": false,
+      "slot": 14
+    },
+    {
+      "file": "assets/moon/phase_15.png",
+      "illum": 90.03,
+      "waxing": true,
+      "slot": 15
+    }
+  ],
+  "waxing": [
+    {
+      "file": "assets/moon/phase_08.png",
+      "illum": 0.0,
+      "waxing": true,
+      "slot": 8
+    },
+    {
+      "file": "assets/moon/phase_09.png",
+      "illum": 6.56,
+      "waxing": true,
+      "slot": 9
+    },
+    {
+      "file": "assets/moon/phase_06.png",
+      "illum": 14.37,
+      "waxing": true,
+      "slot": 6
+    },
+    {
+      "file": "assets/moon/phase_05.png",
+      "illum": 28.31,
+      "waxing": true,
+      "slot": 5
+    },
+    {
+      "file": "assets/moon/phase_04.png",
+      "illum": 41.33,
+      "waxing": true,
+      "slot": 4
+    },
+    {
+      "file": "assets/moon/phase_03.png",
+      "illum": 48.95,
+      "waxing": true,
+      "slot": 3
+    },
+    {
+      "file": "assets/moon/phase_02.png",
+      "illum": 63.85,
+      "waxing": true,
+      "slot": 2
+    },
+    {
+      "file": "assets/moon/phase_15.png",
+      "illum": 90.03,
+      "waxing": true,
+      "slot": 15
+    },
+    {
+      "file": "assets/moon/phase_01.png",
+      "illum": 90.1,
+      "waxing": true,
+      "slot": 1
+    },
+    {
+      "file": "assets/moon/phase_00.png",
+      "illum": 97.1,
+      "waxing": true,
+      "slot": 0
+    }
+  ],
+  "waning": [
+    {
+      "file": "assets/moon/phase_07.png",
+      "illum": 4.89,
+      "waxing": false,
+      "slot": 7
+    },
+    {
+      "file": "assets/moon/phase_10.png",
+      "illum": 14.11,
+      "waxing": false,
+      "slot": 10
+    },
+    {
+      "file": "assets/moon/phase_11.png",
+      "illum": 22.99,
+      "waxing": false,
+      "slot": 11
+    },
+    {
+      "file": "assets/moon/phase_12.png",
+      "illum": 40.78,
+      "waxing": false,
+      "slot": 12
+    },
+    {
+      "file": "assets/moon/phase_13.png",
+      "illum": 49.11,
+      "waxing": false,
+      "slot": 13
+    },
+    {
+      "file": "assets/moon/phase_14.png",
+      "illum": 70.85,
+      "waxing": false,
+      "slot": 14
+    }
+  ]
+}
