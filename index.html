@@ -730,11 +730,15 @@ function getIllumThreshold(){
   const v=parseFloat(document.getElementById('illumThreshold')?.value);
   return Number.isFinite(v)&&v>0?v:1.80;
 }
+// Retardo mínimo del ocaso lunar. Solo es una salvaguarda contra retardos
+// absurdamente cortos: quien decide la visibilidad es el criterio de Odeh, que
+// ya pondera la altura de la Luna a través del ARCV.
+const MIN_LAG_MIN=15;
 function evalCrescent(date,obs,mode){
   const su=getSunset(date,obs),ms=getMoonset(su,obs);
   if(!ms||ms<=su)return{visible:false,sunset:su};
   const lagMs=ms-su,lagMin=lagMs/60000;
-  if(lagMin<20)return{visible:false,sunset:su};
+  if(lagMin<MIN_LAG_MIN)return{visible:false,sunset:su};
   const T=new Date(su.getTime()+(4/9)*lagMs);
   const moonAlt=horizAlt(T,obs),sunAlt=getSunAlt(T,obs),ARCL=elongation(T),ARCV=moonAlt-sunAlt,W=crescentWidth(T);
   if(moonAlt<=0||ARCL<6.5)return{visible:false,sunset:su};
