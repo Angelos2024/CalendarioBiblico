@@ -584,65 +584,126 @@
     .loc-status{border-radius:12px;}
     .summary-row #statusBox,#statusBox{border-radius:12px;}
 
-    /* Contenido */
-    #calOutput{padding:12px 20px 28px;}
+    /* Contenido más compacto (como 1-indigo-noche) */
+    #calOutput{padding:8px 14px 20px;}
+    .cal-stage{
+      grid-template-columns:minmax(220px,250px) minmax(0,1fr);
+      gap:10px 12px;max-width:1080px;
+    }
+    .side-stack{gap:8px;}
+    .months-grid{max-width:760px;}
     .legend{
-      background:var(--panel);border:1px solid var(--border);border-radius:16px;
-      padding:12px 16px;box-shadow:0 6px 20px rgba(28,27,46,.05);gap:8px 18px;
+      background:var(--panel);border:1px solid var(--border);border-radius:12px;
+      padding:6px 10px;box-shadow:0 4px 12px rgba(28,27,46,.04);gap:4px 12px;margin-bottom:8px;
     }
-    .lg-item{font-size:.82rem;color:var(--muted);}
+    .lg-item{font-size:.72rem;color:var(--muted);}
+    .lg-dot{width:8px;height:8px;}
 
-    .month-nav-btn{border:1px solid var(--border);border-radius:12px;color:var(--head);background:var(--panel);}
+    .month-nav{margin-bottom:8px;gap:8px;}
+    .month-nav-btn{
+      border:1px solid var(--border);border-radius:10px;color:var(--head);background:var(--panel);
+      height:38px;min-height:38px;padding:0 12px;font-size:.82rem;
+    }
     .month-nav-btn:hover:not(:disabled){background:var(--brand-soft);}
-    .month-nav-label{color:var(--head);}
+    .month-nav-label{color:var(--head);font-size:.98rem;}
+    .month-nav-count{font-size:.68rem;}
 
-    /* Tarjeta del día */
+    /* Header más bajo */
+    .ctrl-wrap{padding:14px 18px 16px;border-radius:0 0 18px 18px;}
+    .brand{padding-bottom:0;}
+    .brand-mark{width:32px;height:32px;font-size:1rem;}
+    .brand-text strong{font-size:.92rem;}
+    .city-search-wrap input#cityInput{padding-top:10px;padding-bottom:10px;font-size:.88rem;}
+    .top-field input,.btn-calc,.btn-adv-toggle{height:40px;}
+    .btn-calc{padding:0 14px;font-size:.84rem;}
+    .btn-adv-toggle{padding:0 10px;font-size:.8rem;}
+    .topbar{gap:8px;}
+
+    /* Tarjeta del día compacta */
     .day-side{
-      background:var(--panel);border:1px solid var(--border);border-radius:18px;
-      padding:18px;box-shadow:0 6px 20px rgba(28,27,46,.05);
+      background:var(--panel);border:1px solid var(--border);border-radius:14px;
+      padding:12px;box-shadow:0 4px 14px rgba(28,27,46,.04);font-size:.8rem;
     }
-    .day-side-title{color:var(--brand);}
-    .day-side-rule{background:var(--gold-soft);border:1px solid #efe0bf;border-radius:12px;color:#7a560f;}
-    .day-side-step{border:1px solid var(--border);border-radius:14px;}
-    .day-side-step.day{border-left:5px solid var(--gold);}
-    .day-side-step.sunset{border-left:5px solid var(--brand);}
-    .day-side-step-title{color:var(--text);}
-    .day-side-step-time{color:var(--brand);}
+    .day-side-title{color:var(--brand);margin-bottom:4px;}
+    .day-side-roman{font-size:.84rem;}
+    .day-side-rule{background:var(--gold-soft);border:1px solid #efe0bf;border-radius:10px;color:#7a560f;padding:7px 9px;margin:6px 0 8px;font-size:.74rem;}
+    .day-side-steps{gap:6px;margin-bottom:8px;}
+    .day-side-step{border:1px solid var(--border);border-radius:10px;padding:8px;}
+    .day-side-step.day{border-left:4px solid var(--gold);}
+    .day-side-step.sunset{border-left:4px solid var(--brand);}
+    .day-side-step-title{color:var(--text);font-size:.86rem;}
+    .day-side-step-body{font-size:.74rem;}
+    .day-side-step-time{color:var(--brand);font-size:.76rem;margin-top:4px;}
+    .day-side .illum-panel{margin-top:6px;padding:8px;}
+    .day-side .modal-duration{margin-top:6px;padding:5px;font-size:.72rem;}
+    .day-side-hint{margin-top:6px;}
 
-    /* Panel lunar: aro índigo */
-    .moon-panel{border:1px solid #3d3558;border-radius:18px;}
+    /* Panel lunar compacto */
+    .moon-panel{border:1px solid #3d3558;border-radius:14px;padding:10px 12px 12px;}
+    .moon-panel-kicker{margin-bottom:4px;}
+    .moon-panel-date{margin-bottom:8px;font-size:.74rem;}
+    .moon-visual{margin-bottom:8px;}
+    .moon-phase-bar{padding:8px 10px;}
+    .moon-phase-bar .phase-emoji{font-size:1.7rem;}
+    .moon-phase-bar .phase-name{font-size:.86rem;}
+    .moon-metric{padding:6px;}
+    .moon-panel-note{margin-top:6px;font-size:.58rem;}
 
-    /* Calendario */
-    .cal-month{border:1px solid var(--border);border-radius:14px;}
-    .cal-table th{background:#f3f2fb;border-bottom:1px solid var(--border);color:var(--muted);}
+    /* Calendario densificado */
+    .cal-month{border:none;border-radius:0;background:transparent;overflow:visible;}
+    .cal-table{
+      border-collapse:separate;border-spacing:5px;background:transparent;
+    }
+    .cal-table th{
+      background:transparent;border-bottom:none;color:var(--muted);
+      padding:2px 0 4px;font-size:.72rem;
+    }
     .cal-table th.sat,.cal-table th.sun{color:var(--brand);}
-    .cal-table td{border:1px solid var(--border);}
+    .cal-table td{
+      border:1px solid var(--border);border-radius:10px;background:#fff;
+      height:76px;padding:4px 3px 3px 5px;
+    }
     .cal-table td:not(.empty):hover{background:#f3f1fc !important;}
-    .cal-table td.empty{background:#fafafe;}
-    .dn{color:#44445e;}
-    .ev{border-radius:7px;}
+    .cal-table td.empty{background:transparent;border:none;}
+    .dn{color:#44445e;font-size:.88rem;margin-bottom:2px;}
+    .ev{border-radius:6px;font-size:.64rem;padding:1px 5px;margin-bottom:2px;line-height:1.4;}
+    .shab-start,.shab-end{font-size:.56rem;padding:1px 4px;margin-top:1px;}
     .cal-table td.hebrew-today{
-      box-shadow:inset 0 0 0 3px var(--gold),inset 0 0 0 6px rgba(251,241,220,.9);
+      box-shadow:inset 0 0 0 2px var(--gold),inset 0 0 0 4px rgba(251,241,220,.9);
       background:#fffaf0;
     }
-    .cal-table td.hebrew-today::before{background:var(--gold);}
-    .cal-table td.day-selected:not(.hebrew-today){box-shadow:inset 0 0 0 3px var(--brand);background:#f3f1fc;}
+    .cal-table td.hebrew-today::before{background:var(--gold);top:2px;right:2px;font-size:.5rem;padding:1px 4px;}
+    .cal-table td.day-selected:not(.hebrew-today){box-shadow:inset 0 0 0 2px var(--brand);background:#f3f1fc;}
 
-    /* Tabla de resumen en índigo */
-    .ms-table{border:1px solid var(--border);border-radius:18px;box-shadow:0 6px 20px rgba(28,27,46,.05);}
-    .ms-caption{background:var(--brand);}
-    .ms-table th{background:var(--brand-soft);color:#352a66;}
+    /* Tabla de resumen compacta */
+    .moadim-summary{margin-top:12px;}
+    .ms-table{border:1px solid var(--border);border-radius:14px;box-shadow:0 4px 14px rgba(28,27,46,.04);font-size:.8rem;}
+    .ms-caption{background:var(--brand);padding:8px 12px;font-size:.76rem;}
+    .ms-table th{background:var(--brand-soft);color:#352a66;padding:8px 12px;font-size:.74rem;}
+    .ms-table td{padding:8px 12px;}
     .ms-table .ms-name{color:var(--text);}
     .ms-table tbody tr:nth-child(even){background:#fafafe;}
 
     /* Modal / notas / esquina HOY */
-    .modal-box{border-radius:18px;}
-    .today-heb-corner{border-radius:16px;border-color:var(--gold);}
+    .modal-box{border-radius:16px;}
+    .today-heb-corner{border-radius:14px;border-color:var(--gold);}
     .today-heb-corner .thc-title{color:var(--brand);}
     .thc-close{background:var(--brand);}
 
+    @media(max-width:900px){
+      .cal-stage{grid-template-columns:1fr;gap:10px;}
+      .months-grid{max-width:100%;}
+      .cal-table td{height:72px;}
+    }
     @media(max-width:768px){
-      .ctrl-wrap{border-radius:0 0 18px 18px;padding:18px 14px 20px;}
+      .ctrl-wrap{border-radius:0 0 14px 14px;padding:12px 12px 14px;}
+      .cal-table td{height:68px;padding:3px 2px 2px 4px;}
+      .dn{font-size:.8rem;}
+      .ev{font-size:.58rem;}
+    }
+    @media(max-width:480px){
+      .cal-table{border-spacing:3px;}
+      .cal-table td{height:60px;border-radius:8px;}
     }
   </style>
 </head>
@@ -2025,17 +2086,10 @@ function updateTodayHebrewCorner(){
     corner.innerHTML='';
     return;
   }
+  // Si hoy no está en el año generado (p. ej. se eligió otro año a propósito), no mostrar aviso.
   if(!todayCivilKey){
-    if(!currentObs||!Object.keys(currentHebrewIndex).length){
-      corner.className='today-heb-corner';
-      corner.innerHTML='';
-      return;
-    }
-    corner.className='today-heb-corner show warn';
-    corner.onclick=null;
-    corner.innerHTML='<div class="thc-head"><div class="thc-title">Hoy hebreo</div><button class="thc-close" onclick="closeTodayHebrewCorner(event)" title="Cerrar">X</button></div><div class="thc-date">Fuera del rango generado</div><div class="thc-note">Recalcula el calendario para este periodo.</div>';
-    if(_todayToastTimer)clearTimeout(_todayToastTimer);
-    _todayToastTimer=setTimeout(()=>closeTodayHebrewCorner(),TOAST_MS);
+    corner.className='today-heb-corner';
+    corner.innerHTML='';
     return;
   }
   const act=activeHebrewNow();
