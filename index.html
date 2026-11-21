@@ -11,8 +11,9 @@
 
   <style>
     :root {
-      --bg:#f0ede4; --panel:#fff; --border:#c8b78a; --strong:#9f8750;
-      --head:#7a3a0a; --text:#1d1d1d; --muted:#666; --accent:#7a5c1e;
+      --bg:#f6f7fb; --panel:#ffffff; --border:#e7e7f1; --strong:#4b3b8f;
+      --head:#4b3b8f; --text:#1c1b2e; --muted:#6b6e86; --accent:#4b3b8f;
+      --gold:#c98a2b; --gold-soft:#fbf1dc; --brand-soft:#ece9f9;
     }
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);}
@@ -540,6 +541,109 @@
       .cal-table td{height:84px;}
       .month-nav-btn{flex:1 1 auto;justify-content:center;}
     }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       TEMA "ÍNDIGO NOCHE" — solo apariencia (overrides). No cambia lógica.
+       ═══════════════════════════════════════════════════════════════════ */
+    body{font-size:16px;line-height:1.5;}
+
+    /* Header como tarjeta índigo */
+    .ctrl-wrap{
+      background:linear-gradient(135deg,#4b3b8f 0%,#2c2550 60%,#1a1a2e 100%);
+      border-bottom:none;border-radius:0 0 24px 24px;
+      padding:22px 24px 26px;color:#fff;
+      box-shadow:0 18px 40px rgba(43,37,90,.22);
+    }
+    .brand-mark{background:rgba(255,255,255,.14);color:#fff;border-radius:12px;}
+    .brand-text strong{color:#fff;max-width:none;font-size:1.05rem;}
+    .brand-text span{color:#c9c3ee;}
+    .city-search-wrap > .field-lbl,
+    .top-field label,
+    .top-field .field-lbl{color:#cfc9f2;}
+    .search-box{border:none;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.14);}
+    .search-box:focus-within{box-shadow:0 0 0 3px rgba(201,138,43,.45);}
+    .city-search-wrap input#cityInput{border-radius:14px;padding-top:13px;padding-bottom:13px;}
+    .btn-geolocate #geoTxt,.btn-gps #geoTxt{color:var(--accent);}
+    .top-field input{
+      border:none;border-radius:14px;height:48px;background:#fff;color:var(--text);
+      box-shadow:0 6px 16px rgba(0,0,0,.14);
+    }
+    .btn-calc{
+      background:var(--gold);color:#3a2708;border-radius:14px;height:48px;
+      font-weight:800;box-shadow:0 8px 20px rgba(201,138,43,.35);
+    }
+    .btn-adv-toggle{
+      border:1px dashed rgba(255,255,255,.45);color:#e6e2fb;border-radius:14px;height:48px;background:transparent;
+    }
+    .btn-adv-toggle:hover{border-color:#fff;color:#fff;}
+
+    /* Paneles / campos que aparecen sobre el header oscuro */
+    .adv-panel{background:#fff;border:1px solid var(--border);border-radius:16px;}
+    .adv-panel.open{box-shadow:0 10px 30px rgba(0,0,0,.18);}
+    .field input,.field select{border-radius:10px;background:#fff;}
+    .loc-status{border-radius:12px;}
+    .summary-row #statusBox,#statusBox{border-radius:12px;}
+
+    /* Contenido */
+    #calOutput{padding:12px 20px 28px;}
+    .legend{
+      background:var(--panel);border:1px solid var(--border);border-radius:16px;
+      padding:12px 16px;box-shadow:0 6px 20px rgba(28,27,46,.05);gap:8px 18px;
+    }
+    .lg-item{font-size:.82rem;color:var(--muted);}
+
+    .month-nav-btn{border:1px solid var(--border);border-radius:12px;color:var(--head);background:var(--panel);}
+    .month-nav-btn:hover:not(:disabled){background:var(--brand-soft);}
+    .month-nav-label{color:var(--head);}
+
+    /* Tarjeta del día */
+    .day-side{
+      background:var(--panel);border:1px solid var(--border);border-radius:18px;
+      padding:18px;box-shadow:0 6px 20px rgba(28,27,46,.05);
+    }
+    .day-side-title{color:var(--brand);}
+    .day-side-rule{background:var(--gold-soft);border:1px solid #efe0bf;border-radius:12px;color:#7a560f;}
+    .day-side-step{border:1px solid var(--border);border-radius:14px;}
+    .day-side-step.day{border-left:5px solid var(--gold);}
+    .day-side-step.sunset{border-left:5px solid var(--brand);}
+    .day-side-step-title{color:var(--text);}
+    .day-side-step-time{color:var(--brand);}
+
+    /* Panel lunar: aro índigo */
+    .moon-panel{border:1px solid #3d3558;border-radius:18px;}
+
+    /* Calendario */
+    .cal-month{border:1px solid var(--border);border-radius:14px;}
+    .cal-table th{background:#f3f2fb;border-bottom:1px solid var(--border);color:var(--muted);}
+    .cal-table th.sat,.cal-table th.sun{color:var(--brand);}
+    .cal-table td{border:1px solid var(--border);}
+    .cal-table td:not(.empty):hover{background:#f3f1fc !important;}
+    .cal-table td.empty{background:#fafafe;}
+    .dn{color:#44445e;}
+    .ev{border-radius:7px;}
+    .cal-table td.hebrew-today{
+      box-shadow:inset 0 0 0 3px var(--gold),inset 0 0 0 6px rgba(251,241,220,.9);
+      background:#fffaf0;
+    }
+    .cal-table td.hebrew-today::before{background:var(--gold);}
+    .cal-table td.day-selected:not(.hebrew-today){box-shadow:inset 0 0 0 3px var(--brand);background:#f3f1fc;}
+
+    /* Tabla de resumen en índigo */
+    .ms-table{border:1px solid var(--border);border-radius:18px;box-shadow:0 6px 20px rgba(28,27,46,.05);}
+    .ms-caption{background:var(--brand);}
+    .ms-table th{background:var(--brand-soft);color:#352a66;}
+    .ms-table .ms-name{color:var(--text);}
+    .ms-table tbody tr:nth-child(even){background:#fafafe;}
+
+    /* Modal / notas / esquina HOY */
+    .modal-box{border-radius:18px;}
+    .today-heb-corner{border-radius:16px;border-color:var(--gold);}
+    .today-heb-corner .thc-title{color:var(--brand);}
+    .thc-close{background:var(--brand);}
+
+    @media(max-width:768px){
+      .ctrl-wrap{border-radius:0 0 18px 18px;padding:18px 14px 20px;}
+    }
   </style>
 </head>
 <body>
@@ -701,9 +805,9 @@
 const { DateTime } = luxon;
 
 const C = {
-  mes:'#6b46c1', prep:'#c05621', fiesta:'#276749', fiestaFin:'#22543d',
-  shabbat:'#718096', omer:'#553c9a', shavuot:'#1a56db',
-  teruah:'#0694a2', kippur:'#c53030', shemini:'#805ad5'
+  mes:'#4b3b8f', prep:'#b9770f', fiesta:'#2f8f5b', fiestaFin:'#1f6f49',
+  shabbat:'#3a6ea5', omer:'#7a5bd6', shavuot:'#2b6cb0',
+  teruah:'#0f8a94', kippur:'#c0392b', shemini:'#8a5cc2'
 };
 const LEGEND = [
   {color:C.mes,    label:'Inicio mes hebreo'},
