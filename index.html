@@ -545,190 +545,190 @@
     /* ═══════════════════════════════════════════════════════════════════
        TEMA "ÍNDIGO NOCHE" — solo apariencia (overrides). No cambia lógica.
        ═══════════════════════════════════════════════════════════════════ */
+    :root{--brand:#4b3b8f;}
     body{font-size:16px;line-height:1.5;}
 
-    /* Header índigo compacto (una sola fila útil) */
+    /* Calcado de 1-indigo-noche.html: contenedor centrado de 1140px */
+    .ctrl-wrap,#placeholder{max-width:1100px;margin-left:auto;margin-right:auto;}
+    #calOutput{max-width:1140px;margin:0 auto;padding:0 20px 60px;}
+
+    /* Header */
     .ctrl-wrap{
       background:linear-gradient(135deg,#4b3b8f 0%,#2c2550 60%,#1a1a2e 100%);
-      border-bottom:none;border-radius:0 0 14px 14px;
-      padding:10px 14px 10px;color:#fff;
-      box-shadow:0 10px 24px rgba(43,37,90,.18);
+      border-bottom:none;border-radius:0 0 24px 24px;
+      padding:26px 26px 30px;color:#fff;
+      box-shadow:0 18px 40px rgba(43,37,90,.25);
     }
-    .topbar{gap:8px;align-items:center;}
-    .brand{padding-bottom:0;align-self:center;}
-    .brand-mark{background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:28px;height:28px;font-size:.9rem;}
-    .brand-text strong{color:#fff;max-width:none;font-size:.84rem;line-height:1.1;}
-    .brand-text span{display:none;}
+    .topbar{gap:12px;align-items:flex-end;}
+    .brand{flex:0 0 100%;gap:12px;margin-bottom:8px;padding-bottom:0;}
+    .brand-mark{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;font-size:1.3rem;}
+    .brand-text strong{color:#fff;max-width:none;font-size:1.15rem;letter-spacing:-.01em;}
+    .brand-text span{display:block;font-size:.8rem;color:#c9c3ee;}
+    .city-search-wrap{flex:1 1 260px;min-width:0;}
     .city-search-wrap > .field-lbl,
-    .top-field label,
-    .top-field .field-lbl{display:none;}
-    .search-box{border:none;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.12);}
-    .search-box:focus-within{box-shadow:0 0 0 2px rgba(201,138,43,.45);}
+    .top-field label{display:block;font-size:.76rem;font-weight:700;color:#cfc9f2;margin-bottom:6px;}
+    .search-box{border:none;border-radius:14px;background:rgba(255,255,255,.95);box-shadow:none;}
+    .search-box:focus-within{box-shadow:0 0 0 3px rgba(201,138,43,.45);}
     .city-search-wrap input#cityInput{
-      border-radius:10px;padding:8px 70px 8px 30px;font-size:.84rem;
+      height:52px;border-radius:14px;padding:0 78px 0 40px;font-size:1rem;color:var(--text);
     }
-    .city-icon{font-size:.82rem;left:9px;}
-    .btn-geolocate,.btn-gps{min-width:48px;padding:2px 6px;}
-    .btn-geolocate #geoIco,.btn-gps #geoIco{font-size:.85rem;}
-    .btn-geolocate #geoTxt,.btn-gps #geoTxt{color:var(--accent);font-size:.52rem;}
+    .city-icon{left:14px;}
+    .btn-geolocate #geoTxt,.btn-gps #geoTxt{color:var(--accent);}
+    .top-field{flex:0 0 120px;}
     .top-field input{
-      border:none;border-radius:10px;height:36px;width:76px;background:#fff;color:var(--text);
-      box-shadow:0 3px 10px rgba(0,0,0,.12);padding:0 8px;font-size:.84rem;
+      width:100%;height:52px;border:none;border-radius:14px;padding:0 16px;
+      background:rgba(255,255,255,.95);color:var(--text);font-size:1rem;font-weight:400;
     }
     .btn-calc{
-      background:var(--gold);color:#3a2708;border-radius:10px;height:36px;
-      font-weight:800;box-shadow:0 4px 12px rgba(201,138,43,.3);padding:0 12px;font-size:.8rem;
+      height:52px;border:none;border-radius:14px;padding:0 26px;font-size:1rem;font-weight:800;
+      background:var(--gold);color:#3a2708;box-shadow:0 8px 20px rgba(201,138,43,.35);flex:0 0 auto;
     }
+    .btn-calc:hover{opacity:.92;}
     .btn-adv-toggle{
-      border:1px dashed rgba(255,255,255,.4);color:#e6e2fb;border-radius:10px;height:36px;
-      background:transparent;padding:0 8px;font-size:.74rem;
+      order:10;flex:0 0 100%;justify-content:flex-start;height:auto;
+      background:none;border:none;border-radius:0;padding:0;margin-top:2px;
+      font-size:.82rem;font-weight:400;color:#c9c3ee;
     }
-    .btn-adv-toggle:hover{border-color:#fff;color:#fff;}
+    .btn-adv-toggle .adv-txt{border-bottom:1px dashed rgba(255,255,255,.4);}
+    .btn-adv-toggle:hover{color:#fff;border:none;}
 
-    /* Pills + estado: una franja baja */
-    .loc-status{border-radius:8px;margin-top:6px;padding:5px 8px;font-size:.72rem;}
-    .summary-row{margin-top:4px;margin-bottom:0;gap:4px;align-items:center;}
-    .coords-pills{gap:3px;flex:1 1 auto;min-width:0;}
-    .cpill{
-      padding:1px 6px;font-size:.6rem;border-radius:8px;
-      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#e8e6ff;
-    }
-    .summary-row #statusBox,#statusBox{
-      border-radius:7px;padding:3px 7px;font-size:.66rem;line-height:1.2;
-      flex:0 1 auto;min-width:0;max-width:100%;text-align:left;
-    }
-    .summary-row #statusBox.ok,#statusBox.ok{
-      background:rgba(232,245,233,.92);border-color:#81c784;
-    }
+    /* Estado y ubicación dentro del header */
+    .loc-status{border-radius:12px;margin-top:14px;}
+    .load-steps{border-radius:12px;}
+    .summary-row{margin-top:14px;gap:8px;}
+    .cpill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#e8e6ff;}
+    .summary-row #statusBox,#statusBox{border-radius:12px;}
+    .summary-row #statusBox{text-align:left;}
 
-    .adv-panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;margin-top:8px;}
-    .adv-panel.open{box-shadow:0 8px 20px rgba(0,0,0,.16);}
-    .field input,.field select{border-radius:8px;background:#fff;}
+    .adv-panel{background:#fff;border:1px solid var(--border);border-radius:16px;color:var(--text);margin-top:14px;}
+    .adv-panel.open{box-shadow:0 10px 30px rgba(0,0,0,.18);}
+    .field input,.field select{border-radius:10px;background:#fff;}
 
-    /* Contenido */
-    #calOutput{padding:6px 12px 14px;}
-    .cal-stage{
-      grid-template-columns:minmax(200px,230px) minmax(0,1fr);
-      gap:8px 10px;max-width:1040px;
-    }
-    .side-stack{gap:6px;}
-    .months-grid{max-width:720px;}
-    .legend{
-      background:var(--panel);border:1px solid var(--border);border-radius:8px;
-      padding:3px 8px;box-shadow:none;gap:2px 8px;margin-bottom:6px;
-    }
-    .lg-item{font-size:.64rem;color:var(--muted);}
-    .lg-dot{width:7px;height:7px;}
+    /* Layout: sidebar 300px + calendario */
+    .cal-stage{grid-template-columns:300px minmax(0,1fr);gap:22px;margin-top:26px;max-width:none;}
+    .side-stack{gap:16px;position:static;max-height:none;overflow:visible;}
+    .cal-main{min-width:0;}
+    .months-grid{max-width:none;}
 
-    .month-nav{margin-bottom:4px;gap:6px;}
+    /* Tarjetas del sidebar */
+    .moon-panel,.day-side,.legend-card{
+      background:var(--panel);color:var(--text);border:1px solid var(--border);
+      border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(28,27,46,.05);font-size:.88rem;
+    }
+    .moon-panel-kicker,.day-side-title,.legend-kicker{
+      font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      color:var(--brand);margin-bottom:10px;
+    }
+    .moon-panel-empty,.day-side-empty{color:var(--muted);}
+
+    /* Luna */
+    .moon-panel-date{color:var(--muted);font-size:.8rem;margin-bottom:8px;}
+    .moon-visual{margin-bottom:0;}
+    .moon-phase-bar{background:none;padding:0;gap:14px;}
+    .moon-phase-bar .phase-emoji{font-size:2.4rem;}
+    .moon-phase-bar .phase-name{font-weight:800;font-size:1.02rem;color:var(--text);}
+    .moon-phase-bar .phase-detail{color:var(--muted);font-size:.86rem;margin-top:2px;}
+    details.adv{margin-top:14px;border-top:1px solid var(--border);padding-top:12px;}
+    details.adv > summary{cursor:pointer;font-size:.82rem;font-weight:700;color:var(--brand);list-style:none;}
+    details.adv > summary::-webkit-details-marker{display:none;}
+    details.adv[open] > summary{margin-bottom:12px;}
+    .moon-metric{background:#15152b;border:none;border-radius:12px;padding:10px;}
+    .moon-panel-note{color:var(--muted);}
+
+    /* Día seleccionado */
+    .day-side-roman{font-weight:800;font-size:1.05rem;}
+    .day-side-rule{
+      margin:12px 0;background:var(--gold-soft);border:1px solid #efe0bf;border-radius:12px;
+      padding:10px 12px;font-weight:700;font-size:.86rem;color:#7a560f;
+    }
+    .day-side-steps{gap:0;margin-bottom:0;}
+    .day-side-step{border:1px solid var(--border);border-radius:14px;padding:13px;margin-top:10px;background:#fff;}
+    .day-side-step.day{border-left:5px solid var(--gold);}
+    .day-side-step.sunset{border-left:5px solid var(--brand);}
+    .day-side-step-kicker{font-size:.68rem;color:var(--muted);}
+    .day-side-step-title{font-size:1rem;margin-top:4px;color:var(--text);}
+    .day-side-step-body{font-size:.8rem;}
+    .day-side-step-time{margin-top:8px;font-weight:700;color:var(--brand);font-size:.9rem;}
+    .day-side-events .modal-ev{font-size:.82rem;padding:4px 12px;border-radius:20px;margin-top:4px;}
+    .day-side .illum-panel{margin-top:0;}
+    .day-side-hint{margin-top:10px;}
+
+    /* Colores */
+    .legend-card .legend{background:none;border:none;border-radius:0;padding:0;margin:0;box-shadow:none;gap:8px 16px;}
+    .lg-item{font-size:.82rem;color:var(--muted);gap:7px;}
+    .lg-dot{width:12px;height:12px;}
+
+    /* Navegación de mes */
+    .month-nav{margin-bottom:14px;gap:10px;}
     .month-nav-btn{
-      border:1px solid var(--border);border-radius:8px;color:var(--head);background:var(--panel);
-      height:32px;min-height:32px;padding:0 10px;font-size:.76rem;
+      background:var(--panel);border:1px solid var(--border);border-radius:12px;
+      height:44px;min-height:44px;padding:0 16px;font-weight:700;color:var(--brand);
     }
     .month-nav-btn:hover:not(:disabled){background:var(--brand-soft);}
-    .month-nav-label{color:var(--head);font-size:.9rem;}
-    .month-nav-count{font-size:.62rem;}
+    .month-nav-label{font-size:1.25rem;font-weight:800;color:var(--text);}
+    .month-nav-count{font-size:.76rem;color:var(--muted);font-weight:600;}
 
-    /* Tarjeta del día compacta */
-    .day-side{
-      background:var(--panel);border:1px solid var(--border);border-radius:10px;
-      padding:8px;box-shadow:none;font-size:.76rem;
-    }
-    .day-side-title{color:var(--brand);margin-bottom:2px;font-size:.64rem;}
-    .day-side-roman{font-size:.8rem;}
-    .day-side-rule{background:var(--gold-soft);border:1px solid #efe0bf;border-radius:8px;color:#7a560f;padding:5px 7px;margin:5px 0 6px;font-size:.68rem;}
-    .day-side-steps{gap:5px;margin-bottom:6px;}
-    .day-side-step{border:1px solid var(--border);border-radius:8px;padding:6px;}
-    .day-side-step.day{border-left:3px solid var(--gold);}
-    .day-side-step.sunset{border-left:3px solid var(--brand);}
-    .day-side-step-kicker{font-size:.58rem;}
-    .day-side-step-title{color:var(--text);font-size:.78rem;}
-    .day-side-step-body{font-size:.68rem;}
-    .day-side-step-time{color:var(--brand);font-size:.7rem;margin-top:3px;}
-    .day-side .illum-panel{margin-top:4px;padding:6px;}
-    .day-side .illum-panel-title{font-size:.62rem;margin-bottom:6px;}
-    .day-side .modal-duration{margin-top:4px;padding:4px;font-size:.66rem;}
-    .day-side-hint{margin-top:4px;font-size:.58rem;}
-
-    /* Panel lunar compacto */
-    .moon-panel{border:1px solid #3d3558;border-radius:10px;padding:8px 9px 9px;}
-    .moon-panel-kicker{margin-bottom:2px;font-size:.58rem;}
-    .moon-panel-date{margin-bottom:6px;font-size:.68rem;}
-    .moon-visual{margin-bottom:6px;}
-    .moon-phase-bar{padding:6px 8px;}
-    .moon-phase-bar .phase-emoji{font-size:1.4rem;}
-    .moon-phase-bar .phase-name{font-size:.78rem;}
-    .moon-phase-bar .phase-detail{font-size:.68rem;}
-    .moon-metric{padding:5px;}
-    .moon-metric h4{font-size:.54rem;margin-bottom:3px;}
-    .moon-metric .mm-time{font-size:.72rem;margin-bottom:3px;}
-    .moon-panel-note{margin-top:4px;font-size:.54rem;}
-
-    /* Calendario densificado */
-    .cal-month{border:none;border-radius:0;background:transparent;overflow:visible;}
-    .cal-table{
-      border-collapse:separate;border-spacing:4px;background:transparent;
-    }
-    .cal-table th{
-      background:transparent;border-bottom:none;color:var(--muted);
-      padding:1px 0 2px;font-size:.66rem;
-    }
+    /* Calendario */
+    .cal-month{background:transparent;border:none;border-radius:0;overflow:visible;}
+    .cal-table{border-collapse:separate;border-spacing:6px;table-layout:fixed;}
+    .cal-table th{background:transparent;border-bottom:none;font-size:.78rem;color:var(--muted);font-weight:700;padding:4px 0;}
     .cal-table th.sat,.cal-table th.sun{color:var(--brand);}
     .cal-table td{
-      border:1px solid var(--border);border-radius:8px;background:#fff;
-      height:58px;padding:2px 2px 2px 4px;
+      height:104px;background:var(--panel);border:1px solid var(--border);
+      border-radius:12px;padding:8px;
     }
-    .cal-table td:not(.empty):hover{background:#f3f1fc !important;}
     .cal-table td.empty{background:transparent;border:none;}
-    .dn{color:#44445e;font-size:.88rem;margin-bottom:2px;}
-    .ev{border-radius:6px;font-size:.64rem;padding:1px 5px;margin-bottom:2px;line-height:1.4;}
-    .shab-start,.shab-end{font-size:.56rem;padding:1px 4px;margin-top:1px;}
-    .cal-table td.hebrew-today{
-      box-shadow:inset 0 0 0 2px var(--gold),inset 0 0 0 4px rgba(251,241,220,.9);
-      background:#fffaf0;
-    }
-    .cal-table td.hebrew-today::before{background:var(--gold);top:2px;right:2px;font-size:.5rem;padding:1px 4px;}
-    .cal-table td.day-selected:not(.hebrew-today){box-shadow:inset 0 0 0 2px var(--brand);background:#f3f1fc;}
+    .cal-table td:not(.empty):hover{background:#f3f1fc !important;}
+    .dn,.cal-table td.sat-c .dn,.cal-table td.sun-c .dn{font-weight:800;font-size:1rem;color:#44445e;margin-bottom:0;}
+    .ev{font-size:.68rem;font-weight:700;border-radius:7px;padding:2px 7px;margin:5px 0 0;line-height:1.5;}
+    .shab-start,.shab-end{font-size:.62rem;border-radius:7px;padding:1px 7px;margin-top:5px;}
+    .cal-table td.day-selected:not(.hebrew-today){box-shadow:none;outline:3px solid var(--brand);outline-offset:-1px;background:#f3f1fc;}
+    .cal-table td.hebrew-today{box-shadow:none;outline:3px solid var(--gold);outline-offset:-1px;background:#fffaf0;}
+    .cal-table td.day-selected.hebrew-today{box-shadow:0 0 0 3px var(--brand);}
+    .cal-table td.hebrew-today::before{background:var(--gold);color:#3a2708;}
 
-    /* Tabla de resumen densa */
-    .moadim-summary{margin-top:8px;max-width:720px;margin-left:auto;margin-right:auto;}
-    .ms-table{
-      border:1px solid var(--border);border-radius:10px;
-      box-shadow:none;font-size:.74rem;width:100%;table-layout:fixed;
+    /* Tabla de resumen (como .ms del diseño) */
+    .moadim-summary{
+      margin-top:22px;max-width:none;background:var(--panel);border:1px solid var(--border);
+      border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(28,27,46,.05);
     }
-    .ms-table .ms-name{width:58%;}
-    .ms-table .ms-date{width:42%;}
-    .ms-caption{background:var(--brand);color:#fff;padding:5px 10px;font-size:.68rem;letter-spacing:.02em;}
-    .ms-table th{background:var(--brand-soft);color:#352a66;padding:4px 10px;font-size:.66rem;}
-    .ms-table td{padding:4px 10px;border-top:1px solid #eef0f6;}
-    .ms-table .ms-name{color:var(--text);font-weight:700;}
-    .ms-table .ms-date{font-size:.72rem;}
+    .moadim-summary:empty{display:none;}
+    .ms-table{border:none;border-radius:0;box-shadow:none;width:100%;border-collapse:collapse;font-size:.92rem;table-layout:auto;}
+    .ms-caption{
+      caption-side:top;text-align:left;background:var(--brand);color:#fff;
+      padding:14px 18px;font-size:1rem;font-weight:800;letter-spacing:0;text-transform:none;
+    }
+    .ms-table th{background:var(--brand-soft);color:#352a66;text-align:left;padding:12px 18px;font-size:.84rem;font-weight:700;}
+    .ms-table th:last-child{text-align:right;}
+    .ms-table td{padding:13px 18px;border-top:1px solid #eef0f6;}
+    .ms-table .ms-name{color:var(--text);font-weight:700;width:auto;}
+    .ms-table .ms-date{text-align:right;color:var(--text);font-weight:400;font-size:.92rem;width:auto;}
     .ms-table tbody tr:nth-child(even){background:#fafafe;}
 
-    /* Modal / notas / esquina HOY */
-    .modal-box{border-radius:14px;}
-    .today-heb-corner{border-radius:12px;border-color:var(--gold);padding:8px 10px;}
+    /* Modal / esquina HOY */
+    .modal-box{border-radius:18px;}
+    .today-heb-corner{border-radius:14px;border-color:var(--gold);}
     .today-heb-corner .thc-title{color:var(--brand);}
     .thc-close{background:var(--brand);}
 
-    @media(max-width:900px){
-      .cal-stage{grid-template-columns:1fr;gap:8px;}
-      .months-grid{max-width:100%;}
-      .cal-table td{height:56px;}
-      .moadim-summary{max-width:100%;}
+    @media(max-width:860px){
+      .cal-stage{grid-template-columns:1fr;}
+      .cal-main{order:-1;}
+      .cal-table td{height:84px;}
     }
     @media(max-width:768px){
-      .ctrl-wrap{border-radius:0 0 12px 12px;padding:8px 10px;}
-      .brand-text strong{max-width:90px;}
-      .cal-table td{height:52px;padding:2px 2px 2px 3px;}
-      .dn{font-size:.76rem;}
-      .ev{font-size:.54rem;}
-      .ms-table td,.ms-table th{padding:3px 7px;}
+      .ctrl-wrap{padding:20px 16px 22px;border-radius:0 0 20px 20px;}
+      #calOutput{padding:0 10px 40px;}
+      .top-field{flex:1 1 100px;}
+      .cal-table{border-spacing:3px;}
+      .cal-table td{height:68px;padding:4px;border-radius:9px;}
+      .dn{font-size:.85rem;}
+      .ev{font-size:.56rem;padding:1px 4px;margin-top:3px;}
+      .ms-table td,.ms-table th{padding:10px 12px;}
     }
     @media(max-width:480px){
       .cal-table{border-spacing:2px;}
-      .cal-table td{height:48px;border-radius:6px;}
-      .cpill{font-size:.58rem;padding:1px 5px;}
+      .cal-table td{height:56px;padding:3px;border-radius:7px;}
     }
   </style>
 </head>
@@ -739,16 +739,16 @@
 <div class="ctrl-wrap">
 
   <div class="topbar">
-    <div class="brand" title="Calendario Caraita Astronómico">
-      <div class="brand-mark" aria-hidden="true">📅</div>
+    <div class="brand" title="Calendario Bíblico Astronómico">
+      <div class="brand-mark" aria-hidden="true">🌙</div>
       <div class="brand-text">
-        <strong>Calendario Caraita</strong>
-        <span>Astronómico</span>
+        <strong>Calendario Bíblico</strong>
+        <span>Astronómico · caraíta</span>
       </div>
     </div>
 
     <div class="city-search-wrap">
-      <label class="field-lbl" for="cityInput">Ciudad</label>
+      <label class="field-lbl" for="cityInput">¿Dónde estás?</label>
       <div class="search-box">
         <span class="city-icon" aria-hidden="true">🔍</span>
         <input
@@ -780,11 +780,11 @@
     </div>
 
     <button type="button" class="btn-adv-toggle" onclick="toggleAdv()">
-      ⚙ Más
+      ⚙ <span class="adv-txt">Opciones avanzadas (ubicación exacta, zona horaria…)</span>
       <span class="yom-pill" id="yomPill">📅 Yom Tru'ah diferido</span>
     </button>
 
-    <button type="button" class="btn-calc" id="recalcBtn">Calcular</button>
+    <button type="button" class="btn-calc" id="recalcBtn">Ver calendario</button>
   </div>
 
   <div class="load-steps" id="loadSteps">
@@ -856,11 +856,24 @@
 
 <div id="placeholder">
   <div class="ico">&#127769;</div>
-  <p>Configura ubicación y año, luego presiona <b>Calcular</b>.</p>
+  <p>Configura ubicación y año, luego presiona <b>Ver calendario</b>.</p>
 </div>
 
 <div id="calOutput">
-  <div class="legend" id="legend"></div>
+  <div class="cal-stage">
+    <div class="side-stack">
+      <aside class="moon-panel" id="moonPanel" aria-label="Fase lunar">
+        <div class="moon-panel-empty">Calcula el calendario para ver la fase lunar.</div>
+      </aside>
+      <aside class="day-side" id="daySidePanel" aria-label="Detalle del día">
+        <div class="day-side-empty">Haz clic en un día para ver su análisis.</div>
+      </aside>
+      <aside class="legend-card" aria-label="Colores">
+        <div class="legend-kicker">Colores</div>
+        <div class="legend" id="legend"></div>
+      </aside>
+    </div>
+    <div class="cal-main">
   <div class="month-nav" id="monthNav" hidden>
     <button type="button" class="month-nav-btn" id="btnPrevMonth" onclick="goPrevMonth()" aria-label="Mes anterior">
       ← Anterior
@@ -873,18 +886,10 @@
       Siguiente →
     </button>
   </div>
-  <div class="cal-stage">
-    <div class="side-stack">
-      <aside class="moon-panel" id="moonPanel" aria-label="Fase lunar">
-        <div class="moon-panel-empty">Calcula el calendario para ver la fase lunar.</div>
-      </aside>
-      <aside class="day-side" id="daySidePanel" aria-label="Detalle del día">
-        <div class="day-side-empty">Haz clic en un día para ver su análisis.</div>
-      </aside>
+      <div class="months-grid" id="monthsGrid"></div>
+      <div class="moadim-summary" id="moadimSummary"></div>
     </div>
-    <div class="months-grid" id="monthsGrid"></div>
   </div>
-  <div class="moadim-summary" id="moadimSummary"></div>
 </div>
 
 <script>
@@ -1240,7 +1245,7 @@ function buildCalendar(){
       currentShabbatMap={};
       if($('monthNav'))$('monthNav').hidden=true;
       updateTodayHebrewCorner();
-    }finally{$('recalcBtn').disabled=false;$('recalcBtn').textContent='Calcular';}
+    }finally{$('recalcBtn').disabled=false;$('recalcBtn').textContent='Ver calendario';}
   },30);
 }
 $('recalcBtn').addEventListener('click',buildCalendar);
@@ -1933,16 +1938,19 @@ function updateMoonSidePanelForDay(year,month,day){
       </div>`;
     };
     panel.innerHTML=`
-      <div class="moon-panel-kicker">Fase lunar</div>
+      <div class="moon-panel-kicker">Luna del día</div>
       <div class="moon-panel-date">${dateLbl}</div>
       <div class="moon-visual">
         ${moonPhaseBarHTML(main.phase,main.pct)}
       </div>
-      <div class="moon-metrics">
-        ${metric('Meridiano lunar',atMerid)}
-        ${metric('Atardecer',atSet)}
-      </div>
-      <div class="moon-panel-note">Instantes astronómicos del día civil seleccionado.</div>`;
+      <details class="adv">
+        <summary>Ver detalles astronómicos</summary>
+        <div class="moon-metrics">
+          ${metric('Meridiano lunar',atMerid)}
+          ${metric('Atardecer',atSet)}
+        </div>
+        <div class="moon-panel-note">Instantes astronómicos del día civil seleccionado.</div>
+      </details>`;
   }catch(e){
     panel.innerHTML=`<div class="moon-panel-empty">Error lunar: ${errMsg(e)}</div>`;
   }
@@ -2009,6 +2017,8 @@ function updateDaySidePanel(dateStr){
             ${evHtml}
           </div>
         </div>
+        <details class="adv">
+        <summary>Ver iluminación del día</summary>
         <div class="illum-panel">
           <div class="illum-panel-title">🌙 Iluminación · día hebreo de día${hInfo?` (Día ${hInfo.day})`:''}</div>
           <div class="illum-bars">
@@ -2028,6 +2038,7 @@ function updateDaySidePanel(dateStr){
           <div class="illum-note">${vn}<br><span class="illum-naked-eye ${ec}">${et}</span></div>
         </div>
         <div class="modal-duration">⏱ Duración del día hebreo de día: ${dH}h ${dM}min</div>
+        </details>
         <div class="day-side-hint">Clic derecho en un día para añadir o editar nota.</div>`;
     }catch(e){
       panel.innerHTML=`<div class="day-side-empty" style="color:#c53030">Error: ${errMsg(e)}</div>`;
