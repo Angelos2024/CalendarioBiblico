@@ -277,20 +277,56 @@
     .day-side-empty{color:var(--muted);text-align:center;padding:14px 6px;font-size:.8rem;}
     .day-side-title{font-size:.72rem;font-weight:800;color:var(--head);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
     .day-side-roman{font-size:.88rem;font-weight:700;line-height:1.25;}
-    .day-side-heb{font-size:.78rem;color:var(--accent);font-weight:700;margin-top:3px;}
-    .day-side-events{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0;}
+    .day-side-rule{
+      margin:8px 0 10px;padding:8px 10px;border-radius:8px;
+      background:#fff7e8;border:1px solid #f0e0c4;
+      font-size:.78rem;font-weight:700;color:var(--head);line-height:1.35;
+    }
+    .day-side-steps{display:flex;flex-direction:column;gap:8px;margin:0 0 10px;}
+    .day-side-step{
+      border:1px solid var(--border);border-radius:10px;padding:10px;
+      background:#fff;
+    }
+    .day-side-step.day{border-left:4px solid #c4a574;}
+    .day-side-step.sunset{border-left:4px solid var(--accent);}
+    .day-side-step-kicker{
+      font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;
+      color:var(--muted);margin-bottom:4px;
+    }
+    .day-side-step-title{font-size:.92rem;font-weight:800;color:var(--head);line-height:1.25;}
+    .day-side-step-body{font-size:.78rem;color:var(--text);margin-top:4px;line-height:1.4;}
+    .day-side-step-time{font-size:.8rem;font-weight:700;color:var(--accent);margin-top:6px;}
+    .day-side-events{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
     .day-side-events .modal-ev{font-size:.7rem;padding:2px 8px;}
-    .day-side-times{display:flex;flex-direction:column;gap:6px;margin:8px 0;}
-    .day-side-time-row{display:flex;gap:8px;align-items:flex-start;}
-    .day-side-time-row .modal-icon{font-size:1.1rem;}
-    .day-side-time-row .modal-lbl{font-size:.62rem;margin-bottom:1px;}
-    .day-side-time-row .modal-time{font-size:.8rem;}
     .day-side .illum-panel{margin-top:8px;padding:10px;}
     .day-side .illum-bars{grid-template-columns:1fr;gap:8px;}
     .day-side .illum-col{text-align:left;}
     .day-side .illum-pct{font-size:1rem;}
     .day-side .modal-duration{margin-top:8px;font-size:.78rem;padding:6px;}
     .day-side-hint{font-size:.65rem;color:var(--muted);margin-top:8px;text-align:center;}
+
+    .moadim-summary{margin-top:16px;}
+    .ms-table{
+      width:100%;border-collapse:collapse;font-size:.84rem;background:#fff;
+      border:1px solid var(--border);border-radius:10px;overflow:hidden;
+    }
+    .ms-caption{
+      padding:10px 12px;background:#2f6f8f;color:#fff;font-weight:800;
+      font-size:.82rem;text-transform:uppercase;letter-spacing:.03em;
+    }
+    .ms-table th{
+      background:#8ecae6;color:#0b2740;font-weight:800;text-align:left;
+      padding:10px 12px;font-size:.8rem;
+    }
+    .ms-table th:last-child{text-align:right;}
+    .ms-table td{padding:10px 12px;border-top:1px solid #eef2f6;vertical-align:middle;}
+    .ms-table .ms-name{font-weight:800;color:var(--head);}
+    .ms-table .ms-date{text-align:right;color:var(--text);white-space:nowrap;}
+    .ms-table tbody tr:nth-child(even){background:#fafbfc;}
+    @media(max-width:640px){
+      .ms-table{font-size:.78rem;}
+      .ms-table th,.ms-table td{padding:8px 9px;}
+    }
 
     .cal-month{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;}
     .cal-month-title{display:none;}
@@ -658,6 +694,7 @@
     </div>
     <div class="months-grid" id="monthsGrid"></div>
   </div>
+  <div class="moadim-summary" id="moadimSummary"></div>
 </div>
 
 <script>
@@ -802,6 +839,34 @@ function buildEventMap(months,avivStart,m7Start){
     mark(incRange(m7Start,22),'\u{1F389} Shminí Atzéret',C.shemini);
   }
   return map;
+}
+// Resumen de citas (moadim) con el día civil en cuyo atardecer comienza cada una.
+// Misma convención que buildEventMap. No incluye Janukáh ni Hosha'na' rabah.
+function buildMoadimSummary(avivStart,m7Start){
+  const rows=[];
+  const shab=sabbathInFeast(incRange(avivStart,15));
+  const omer=addDays(shab,1);
+  rows.push({label:'\u{1F33E} Pésaj (Jag HaMatzot)',date:incRange(avivStart,15)});
+  rows.push({label:'\u{1F33F} Omer Reshit',date:omer});
+  rows.push({label:'\u2728 Shavuot',date:addDays(omer,49)});
+  if(m7Start){
+    rows.push({label:"\u{1F4EF} Yom Tru'ah",date:m7Start});
+    rows.push({label:'\u{1F56F} Yom HaKipurim',date:incRange(m7Start,10)});
+    rows.push({label:'\u{1F33F} Jag Sukot',date:incRange(m7Start,15)});
+    rows.push({label:"\u{1F389} Shminí 'Atzéret",date:incRange(m7Start,22)});
+  }
+  return rows;
+}
+function renderMoadimSummary(rows){
+  const host=$('moadimSummary');
+  if(!host)return;
+  if(!rows||!rows.length){host.innerHTML='';return;}
+  const fmtDate=d=>DateTime.fromJSDate(d,{zone:'utc'}).setZone(tz()).setLocale('es').toFormat("d 'de' LLLL yyyy");
+  const body=rows.map(r=>`<tr><td class="ms-name">${r.label}</td><td class="ms-date">${fmtDate(r.date)}</td></tr>`).join('');
+  host.innerHTML=`<table class="ms-table">
+    <caption class="ms-caption">Resumen de citas del año</caption>
+    <thead><tr><th>Cita / conmemoración</th><th>Empieza a la puesta del sol del</th></tr></thead>
+    <tbody>${body}</tbody></table>`;
 }
 function isoWeekday(y,m,d){const w=new Date(Date.UTC(y,m-1,d)).getUTCDay();return w===0?7:w;}
 function daysInMonth(y,m){return new Date(Date.UTC(y,m,0)).getUTCDate();}
@@ -949,6 +1014,7 @@ function buildCalendar(){
       currentObs=obs;currentEventMap=evMap;currentHebrewIndex=buildHebrewIndex(months,currentHebrewYear);
       currentShabbatMap=shabbatMap;
       currentGregMonths=gregRangeArr;
+      renderMoadimSummary(buildMoadimSummary(avivStart,m7Start));
       todayCivilKey=null;
       todayCornerDismissed=false;
       selectedDayKey=null;
@@ -978,6 +1044,7 @@ function buildCalendar(){
       $('placeholder').style.display='block';$('calOutput').style.display='none';
       $('statusBox').className='error';$('statusBox').innerHTML=`<b>Error:</b> ${errMsg(err)}`;
       refreshSummaryRow();
+      renderMoadimSummary([]);
       currentHebrewIndex={};
       currentGregMonths=[];
       currentShabbatMap={};
@@ -1704,7 +1771,7 @@ function updateDaySidePanel(dateStr){
     try{
       const roman=DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("cccc, d 'de' LLLL yyyy");
       const hInfo=hebrewInfoForCivil(dateStr);
-      const heb=hInfo?`Mes ${hInfo.monthNumber} (${hInfo.monthName}) · Día ${hInfo.day} · Año ${hInfo.year}`:'Día hebreo no disponible';
+      const nextInfo=currentHebrewIndex[dateStr]||null;
       const evs=currentEventMap[dateStr]||[];
       const pU=new Date(Date.UTC(year,month-1,day-1,12,0,0)),tU=new Date(Date.UTC(year,month-1,day,12,0,0));
       const ss=getSunset(pU,currentObs),se=getSunset(tU,currentObs);
@@ -1722,26 +1789,38 @@ function updateDaySidePanel(dateStr){
       else vn=`<b>${illum.maximo}%</b> — luna llena.`;
       const ec=illum.visible?'yes':'no';
       const et=illum.visible?'👁 Potencialmente visible (≥'+illum.umbral.toFixed(2)+'%)':'🚫 Difícil visibilidad (<'+illum.umbral.toFixed(2)+'%)';
+      const dayTitle=hInfo
+        ?`De día es el <b>Día ${hInfo.day}</b> de ${hInfo.monthName}`
+        :'Día hebreo no disponible';
+      const dayBody=hInfo
+        ?`Mes ${hInfo.monthNumber} · Año ${hInfo.year}<br>Este día hebreo ya empezó ayer al caer el sol.`
+        :'No hay dato hebreo para esta fecha.';
+      const sunsetTitle=nextInfo
+        ?`Al caer el sol empieza el <b>Día ${nextInfo.day}</b> de ${nextInfo.monthName}`
+        :'Al caer el sol no hay día hebreo siguiente en este rango';
       const evHtml=evs.length
         ?`<div class="day-side-events">${evs.map(e=>`<span class="modal-ev" style="background:${e.color}">${e.label}</span>`).join('')}</div>`
-        :'';
+        :'<div class="day-side-step-body">Sin fiesta nueva al atardecer.</div>';
       panel.innerHTML=`
         <div class="day-side-title">Día seleccionado</div>
         <div class="day-side-roman">${roman}</div>
-        <div class="day-side-heb">${heb}</div>
-        ${evHtml}
-        <div class="day-side-times">
-          <div class="day-side-time-row"><div class="modal-icon">🌅</div><div>
-            <div class="modal-lbl">Inicio día hebreo</div>
-            <div class="modal-time">${fmtFull(ss)}</div>
-          </div></div>
-          <div class="day-side-time-row"><div class="modal-icon">🌇</div><div>
-            <div class="modal-lbl">Fin día hebreo</div>
-            <div class="modal-time">${fmtFull(se)}</div>
-          </div></div>
+        <div class="day-side-rule">El día hebreo empieza cuando se pone el sol.</div>
+        <div class="day-side-steps">
+          <div class="day-side-step day">
+            <div class="day-side-step-kicker">1 · Antes del atardecer</div>
+            <div class="day-side-step-title">${dayTitle}</div>
+            <div class="day-side-step-body">${dayBody}</div>
+            <div class="day-side-step-time">Desde ${fmtFull(ss)}<br>Hasta ${fmtFull(se)}</div>
+          </div>
+          <div class="day-side-step sunset">
+            <div class="day-side-step-kicker">2 · Al caer el sol</div>
+            <div class="day-side-step-title">${sunsetTitle}</div>
+            <div class="day-side-step-time">${fmtFull(se)}</div>
+            ${evHtml}
+          </div>
         </div>
         <div class="illum-panel">
-          <div class="illum-panel-title">🌙 Iluminación · día hebreo</div>
+          <div class="illum-panel-title">🌙 Iluminación · día hebreo de día${hInfo?` (Día ${hInfo.day})`:''}</div>
           <div class="illum-bars">
             <div class="illum-col"><div class="illum-col-label">🌅 Inicio (atardecer)</div>
               <div class="illum-pct ${ic(illum.inicio)}">${illum.inicio}%</div>
@@ -1758,7 +1837,7 @@ function updateDaySidePanel(dateStr){
           </div>
           <div class="illum-note">${vn}<br><span class="illum-naked-eye ${ec}">${et}</span></div>
         </div>
-        <div class="modal-duration">⏱ Duración día hebreo: ${dH}h ${dM}min</div>
+        <div class="modal-duration">⏱ Duración del día hebreo de día: ${dH}h ${dM}min</div>
         <div class="day-side-hint">Clic derecho en un día para añadir o editar nota.</div>`;
     }catch(e){
       panel.innerHTML=`<div class="day-side-empty" style="color:#c53030">Error: ${errMsg(e)}</div>`;
