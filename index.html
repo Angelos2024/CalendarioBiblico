@@ -547,121 +547,136 @@
        ═══════════════════════════════════════════════════════════════════ */
     body{font-size:16px;line-height:1.5;}
 
-    /* Header como tarjeta índigo */
+    /* Header índigo compacto (una sola fila útil) */
     .ctrl-wrap{
       background:linear-gradient(135deg,#4b3b8f 0%,#2c2550 60%,#1a1a2e 100%);
-      border-bottom:none;border-radius:0 0 24px 24px;
-      padding:22px 24px 26px;color:#fff;
-      box-shadow:0 18px 40px rgba(43,37,90,.22);
+      border-bottom:none;border-radius:0 0 14px 14px;
+      padding:10px 14px 10px;color:#fff;
+      box-shadow:0 10px 24px rgba(43,37,90,.18);
     }
-    .brand-mark{background:rgba(255,255,255,.14);color:#fff;border-radius:12px;}
-    .brand-text strong{color:#fff;max-width:none;font-size:1.05rem;}
-    .brand-text span{color:#c9c3ee;}
+    .topbar{gap:8px;align-items:center;}
+    .brand{padding-bottom:0;align-self:center;}
+    .brand-mark{background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:28px;height:28px;font-size:.9rem;}
+    .brand-text strong{color:#fff;max-width:none;font-size:.84rem;line-height:1.1;}
+    .brand-text span{display:none;}
     .city-search-wrap > .field-lbl,
     .top-field label,
-    .top-field .field-lbl{color:#cfc9f2;}
-    .search-box{border:none;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.14);}
-    .search-box:focus-within{box-shadow:0 0 0 3px rgba(201,138,43,.45);}
-    .city-search-wrap input#cityInput{border-radius:14px;padding-top:13px;padding-bottom:13px;}
-    .btn-geolocate #geoTxt,.btn-gps #geoTxt{color:var(--accent);}
+    .top-field .field-lbl{display:none;}
+    .search-box{border:none;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.12);}
+    .search-box:focus-within{box-shadow:0 0 0 2px rgba(201,138,43,.45);}
+    .city-search-wrap input#cityInput{
+      border-radius:10px;padding:8px 70px 8px 30px;font-size:.84rem;
+    }
+    .city-icon{font-size:.82rem;left:9px;}
+    .btn-geolocate,.btn-gps{min-width:48px;padding:2px 6px;}
+    .btn-geolocate #geoIco,.btn-gps #geoIco{font-size:.85rem;}
+    .btn-geolocate #geoTxt,.btn-gps #geoTxt{color:var(--accent);font-size:.52rem;}
     .top-field input{
-      border:none;border-radius:14px;height:48px;background:#fff;color:var(--text);
-      box-shadow:0 6px 16px rgba(0,0,0,.14);
+      border:none;border-radius:10px;height:36px;width:76px;background:#fff;color:var(--text);
+      box-shadow:0 3px 10px rgba(0,0,0,.12);padding:0 8px;font-size:.84rem;
     }
     .btn-calc{
-      background:var(--gold);color:#3a2708;border-radius:14px;height:48px;
-      font-weight:800;box-shadow:0 8px 20px rgba(201,138,43,.35);
+      background:var(--gold);color:#3a2708;border-radius:10px;height:36px;
+      font-weight:800;box-shadow:0 4px 12px rgba(201,138,43,.3);padding:0 12px;font-size:.8rem;
     }
     .btn-adv-toggle{
-      border:1px dashed rgba(255,255,255,.45);color:#e6e2fb;border-radius:14px;height:48px;background:transparent;
+      border:1px dashed rgba(255,255,255,.4);color:#e6e2fb;border-radius:10px;height:36px;
+      background:transparent;padding:0 8px;font-size:.74rem;
     }
     .btn-adv-toggle:hover{border-color:#fff;color:#fff;}
 
-    /* Paneles / campos que aparecen sobre el header oscuro */
-    .adv-panel{background:#fff;border:1px solid var(--border);border-radius:16px;}
-    .adv-panel.open{box-shadow:0 10px 30px rgba(0,0,0,.18);}
-    .field input,.field select{border-radius:10px;background:#fff;}
-    .loc-status{border-radius:12px;}
-    .summary-row #statusBox,#statusBox{border-radius:12px;}
+    /* Pills + estado: una franja baja */
+    .loc-status{border-radius:8px;margin-top:6px;padding:5px 8px;font-size:.72rem;}
+    .summary-row{margin-top:4px;margin-bottom:0;gap:4px;align-items:center;}
+    .coords-pills{gap:3px;flex:1 1 auto;min-width:0;}
+    .cpill{
+      padding:1px 6px;font-size:.6rem;border-radius:8px;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#e8e6ff;
+    }
+    .summary-row #statusBox,#statusBox{
+      border-radius:7px;padding:3px 7px;font-size:.66rem;line-height:1.2;
+      flex:0 1 auto;min-width:0;max-width:100%;text-align:left;
+    }
+    .summary-row #statusBox.ok,#statusBox.ok{
+      background:rgba(232,245,233,.92);border-color:#81c784;
+    }
 
-    /* Contenido más compacto (como 1-indigo-noche) */
-    #calOutput{padding:8px 14px 20px;}
+    .adv-panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;margin-top:8px;}
+    .adv-panel.open{box-shadow:0 8px 20px rgba(0,0,0,.16);}
+    .field input,.field select{border-radius:8px;background:#fff;}
+
+    /* Contenido */
+    #calOutput{padding:6px 12px 14px;}
     .cal-stage{
-      grid-template-columns:minmax(220px,250px) minmax(0,1fr);
-      gap:10px 12px;max-width:1080px;
+      grid-template-columns:minmax(200px,230px) minmax(0,1fr);
+      gap:8px 10px;max-width:1040px;
     }
-    .side-stack{gap:8px;}
-    .months-grid{max-width:760px;}
+    .side-stack{gap:6px;}
+    .months-grid{max-width:720px;}
     .legend{
-      background:var(--panel);border:1px solid var(--border);border-radius:12px;
-      padding:6px 10px;box-shadow:0 4px 12px rgba(28,27,46,.04);gap:4px 12px;margin-bottom:8px;
+      background:var(--panel);border:1px solid var(--border);border-radius:8px;
+      padding:3px 8px;box-shadow:none;gap:2px 8px;margin-bottom:6px;
     }
-    .lg-item{font-size:.72rem;color:var(--muted);}
-    .lg-dot{width:8px;height:8px;}
+    .lg-item{font-size:.64rem;color:var(--muted);}
+    .lg-dot{width:7px;height:7px;}
 
-    .month-nav{margin-bottom:8px;gap:8px;}
+    .month-nav{margin-bottom:4px;gap:6px;}
     .month-nav-btn{
-      border:1px solid var(--border);border-radius:10px;color:var(--head);background:var(--panel);
-      height:38px;min-height:38px;padding:0 12px;font-size:.82rem;
+      border:1px solid var(--border);border-radius:8px;color:var(--head);background:var(--panel);
+      height:32px;min-height:32px;padding:0 10px;font-size:.76rem;
     }
     .month-nav-btn:hover:not(:disabled){background:var(--brand-soft);}
-    .month-nav-label{color:var(--head);font-size:.98rem;}
-    .month-nav-count{font-size:.68rem;}
-
-    /* Header más bajo */
-    .ctrl-wrap{padding:14px 18px 16px;border-radius:0 0 18px 18px;}
-    .brand{padding-bottom:0;}
-    .brand-mark{width:32px;height:32px;font-size:1rem;}
-    .brand-text strong{font-size:.92rem;}
-    .city-search-wrap input#cityInput{padding-top:10px;padding-bottom:10px;font-size:.88rem;}
-    .top-field input,.btn-calc,.btn-adv-toggle{height:40px;}
-    .btn-calc{padding:0 14px;font-size:.84rem;}
-    .btn-adv-toggle{padding:0 10px;font-size:.8rem;}
-    .topbar{gap:8px;}
+    .month-nav-label{color:var(--head);font-size:.9rem;}
+    .month-nav-count{font-size:.62rem;}
 
     /* Tarjeta del día compacta */
     .day-side{
-      background:var(--panel);border:1px solid var(--border);border-radius:14px;
-      padding:12px;box-shadow:0 4px 14px rgba(28,27,46,.04);font-size:.8rem;
+      background:var(--panel);border:1px solid var(--border);border-radius:10px;
+      padding:8px;box-shadow:none;font-size:.76rem;
     }
-    .day-side-title{color:var(--brand);margin-bottom:4px;}
-    .day-side-roman{font-size:.84rem;}
-    .day-side-rule{background:var(--gold-soft);border:1px solid #efe0bf;border-radius:10px;color:#7a560f;padding:7px 9px;margin:6px 0 8px;font-size:.74rem;}
-    .day-side-steps{gap:6px;margin-bottom:8px;}
-    .day-side-step{border:1px solid var(--border);border-radius:10px;padding:8px;}
-    .day-side-step.day{border-left:4px solid var(--gold);}
-    .day-side-step.sunset{border-left:4px solid var(--brand);}
-    .day-side-step-title{color:var(--text);font-size:.86rem;}
-    .day-side-step-body{font-size:.74rem;}
-    .day-side-step-time{color:var(--brand);font-size:.76rem;margin-top:4px;}
-    .day-side .illum-panel{margin-top:6px;padding:8px;}
-    .day-side .modal-duration{margin-top:6px;padding:5px;font-size:.72rem;}
-    .day-side-hint{margin-top:6px;}
+    .day-side-title{color:var(--brand);margin-bottom:2px;font-size:.64rem;}
+    .day-side-roman{font-size:.8rem;}
+    .day-side-rule{background:var(--gold-soft);border:1px solid #efe0bf;border-radius:8px;color:#7a560f;padding:5px 7px;margin:5px 0 6px;font-size:.68rem;}
+    .day-side-steps{gap:5px;margin-bottom:6px;}
+    .day-side-step{border:1px solid var(--border);border-radius:8px;padding:6px;}
+    .day-side-step.day{border-left:3px solid var(--gold);}
+    .day-side-step.sunset{border-left:3px solid var(--brand);}
+    .day-side-step-kicker{font-size:.58rem;}
+    .day-side-step-title{color:var(--text);font-size:.78rem;}
+    .day-side-step-body{font-size:.68rem;}
+    .day-side-step-time{color:var(--brand);font-size:.7rem;margin-top:3px;}
+    .day-side .illum-panel{margin-top:4px;padding:6px;}
+    .day-side .illum-panel-title{font-size:.62rem;margin-bottom:6px;}
+    .day-side .modal-duration{margin-top:4px;padding:4px;font-size:.66rem;}
+    .day-side-hint{margin-top:4px;font-size:.58rem;}
 
     /* Panel lunar compacto */
-    .moon-panel{border:1px solid #3d3558;border-radius:14px;padding:10px 12px 12px;}
-    .moon-panel-kicker{margin-bottom:4px;}
-    .moon-panel-date{margin-bottom:8px;font-size:.74rem;}
-    .moon-visual{margin-bottom:8px;}
-    .moon-phase-bar{padding:8px 10px;}
-    .moon-phase-bar .phase-emoji{font-size:1.7rem;}
-    .moon-phase-bar .phase-name{font-size:.86rem;}
-    .moon-metric{padding:6px;}
-    .moon-panel-note{margin-top:6px;font-size:.58rem;}
+    .moon-panel{border:1px solid #3d3558;border-radius:10px;padding:8px 9px 9px;}
+    .moon-panel-kicker{margin-bottom:2px;font-size:.58rem;}
+    .moon-panel-date{margin-bottom:6px;font-size:.68rem;}
+    .moon-visual{margin-bottom:6px;}
+    .moon-phase-bar{padding:6px 8px;}
+    .moon-phase-bar .phase-emoji{font-size:1.4rem;}
+    .moon-phase-bar .phase-name{font-size:.78rem;}
+    .moon-phase-bar .phase-detail{font-size:.68rem;}
+    .moon-metric{padding:5px;}
+    .moon-metric h4{font-size:.54rem;margin-bottom:3px;}
+    .moon-metric .mm-time{font-size:.72rem;margin-bottom:3px;}
+    .moon-panel-note{margin-top:4px;font-size:.54rem;}
 
     /* Calendario densificado */
     .cal-month{border:none;border-radius:0;background:transparent;overflow:visible;}
     .cal-table{
-      border-collapse:separate;border-spacing:5px;background:transparent;
+      border-collapse:separate;border-spacing:4px;background:transparent;
     }
     .cal-table th{
       background:transparent;border-bottom:none;color:var(--muted);
-      padding:2px 0 4px;font-size:.72rem;
+      padding:1px 0 2px;font-size:.66rem;
     }
     .cal-table th.sat,.cal-table th.sun{color:var(--brand);}
     .cal-table td{
-      border:1px solid var(--border);border-radius:10px;background:#fff;
-      height:76px;padding:4px 3px 3px 5px;
+      border:1px solid var(--border);border-radius:8px;background:#fff;
+      height:58px;padding:2px 2px 2px 4px;
     }
     .cal-table td:not(.empty):hover{background:#f3f1fc !important;}
     .cal-table td.empty{background:transparent;border:none;}
@@ -675,35 +690,45 @@
     .cal-table td.hebrew-today::before{background:var(--gold);top:2px;right:2px;font-size:.5rem;padding:1px 4px;}
     .cal-table td.day-selected:not(.hebrew-today){box-shadow:inset 0 0 0 2px var(--brand);background:#f3f1fc;}
 
-    /* Tabla de resumen compacta */
-    .moadim-summary{margin-top:12px;}
-    .ms-table{border:1px solid var(--border);border-radius:14px;box-shadow:0 4px 14px rgba(28,27,46,.04);font-size:.8rem;}
-    .ms-caption{background:var(--brand);padding:8px 12px;font-size:.76rem;}
-    .ms-table th{background:var(--brand-soft);color:#352a66;padding:8px 12px;font-size:.74rem;}
-    .ms-table td{padding:8px 12px;}
-    .ms-table .ms-name{color:var(--text);}
+    /* Tabla de resumen densa */
+    .moadim-summary{margin-top:8px;max-width:720px;margin-left:auto;margin-right:auto;}
+    .ms-table{
+      border:1px solid var(--border);border-radius:10px;
+      box-shadow:none;font-size:.74rem;width:100%;table-layout:fixed;
+    }
+    .ms-table .ms-name{width:58%;}
+    .ms-table .ms-date{width:42%;}
+    .ms-caption{background:var(--brand);color:#fff;padding:5px 10px;font-size:.68rem;letter-spacing:.02em;}
+    .ms-table th{background:var(--brand-soft);color:#352a66;padding:4px 10px;font-size:.66rem;}
+    .ms-table td{padding:4px 10px;border-top:1px solid #eef0f6;}
+    .ms-table .ms-name{color:var(--text);font-weight:700;}
+    .ms-table .ms-date{font-size:.72rem;}
     .ms-table tbody tr:nth-child(even){background:#fafafe;}
 
     /* Modal / notas / esquina HOY */
-    .modal-box{border-radius:16px;}
-    .today-heb-corner{border-radius:14px;border-color:var(--gold);}
+    .modal-box{border-radius:14px;}
+    .today-heb-corner{border-radius:12px;border-color:var(--gold);padding:8px 10px;}
     .today-heb-corner .thc-title{color:var(--brand);}
     .thc-close{background:var(--brand);}
 
     @media(max-width:900px){
-      .cal-stage{grid-template-columns:1fr;gap:10px;}
+      .cal-stage{grid-template-columns:1fr;gap:8px;}
       .months-grid{max-width:100%;}
-      .cal-table td{height:72px;}
+      .cal-table td{height:56px;}
+      .moadim-summary{max-width:100%;}
     }
     @media(max-width:768px){
-      .ctrl-wrap{border-radius:0 0 14px 14px;padding:12px 12px 14px;}
-      .cal-table td{height:68px;padding:3px 2px 2px 4px;}
-      .dn{font-size:.8rem;}
-      .ev{font-size:.58rem;}
+      .ctrl-wrap{border-radius:0 0 12px 12px;padding:8px 10px;}
+      .brand-text strong{max-width:90px;}
+      .cal-table td{height:52px;padding:2px 2px 2px 3px;}
+      .dn{font-size:.76rem;}
+      .ev{font-size:.54rem;}
+      .ms-table td,.ms-table th{padding:3px 7px;}
     }
     @media(max-width:480px){
-      .cal-table{border-spacing:3px;}
-      .cal-table td{height:60px;border-radius:8px;}
+      .cal-table{border-spacing:2px;}
+      .cal-table td{height:48px;border-radius:6px;}
+      .cpill{font-size:.58rem;padding:1px 5px;}
     }
   </style>
 </head>
