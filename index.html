@@ -637,6 +637,14 @@
 
     /* Día seleccionado */
     .day-side-roman{font-weight:800;font-size:1.05rem;}
+    .day-side-roman::first-letter{text-transform:uppercase;}
+    .day-side-simple{
+      margin-top:12px;background:var(--gold-soft);border:1px solid #efe0bf;
+      border-left:5px solid var(--gold);border-radius:14px;padding:14px;
+      font-size:1rem;line-height:1.5;color:var(--text);
+    }
+    .day-side-simple b{color:var(--brand);}
+    .day-side-events{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;}
     .day-side-rule{
       margin:12px 0;background:var(--gold-soft);border:1px solid #efe0bf;border-radius:12px;
       padding:10px 12px;font-weight:700;font-size:.86rem;color:#7a560f;
@@ -1967,79 +1975,23 @@ function updateDaySidePanel(dateStr){
   const[year,month,day]=dateStr.split('-').map(Number);
   setTimeout(()=>{
     try{
-      const roman=DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("cccc, d 'de' LLLL yyyy");
-      const hInfo=hebrewInfoForCivil(dateStr);
+      const roman=DateTime.fromObject({year,month,day},{zone:tz()}).setLocale('es').toFormat("cccc d 'de' LLLL yyyy");
       const nextInfo=currentHebrewIndex[dateStr]||null;
       const evs=currentEventMap[dateStr]||[];
-      const pU=new Date(Date.UTC(year,month-1,day-1,12,0,0)),tU=new Date(Date.UTC(year,month-1,day,12,0,0));
-      const ss=getSunset(pU,currentObs),se=getSunset(tU,currentObs);
-      const dMs=se-ss,dH=Math.floor(dMs/3600000),dM=Math.floor((dMs%3600000)/60000);
-      const illum=moonIllumProfile(ss,se,currentObs);
-      const ic=p=>{const v=parseFloat(p);if(v<2)return'low';if(v<50)return'mid';if(v<95)return'high';return'full';};
-      const fw=p=>Math.min(100,parseFloat(p)).toFixed(1);
-      const mx=parseFloat(illum.maximo);
-      let vn='';
-      if(mx<1)vn=`<b>${illum.maximo}%</b> — prácticamente invisible.`;
-      else if(mx<2)vn=`<b>${illum.maximo}%</b> — condiciones perfectas.`;
-      else if(mx<10)vn=`<b>${illum.maximo}%</b> — creciente joven / cielo oscuro.`;
-      else if(mx<50)vn=`<b>${illum.maximo}%</b> — visible a simple vista.`;
-      else if(mx<95)vn=`<b>${illum.maximo}%</b> — luna muy brillante.`;
-      else vn=`<b>${illum.maximo}%</b> — luna llena.`;
-      const ec=illum.visible?'yes':'no';
-      const et=illum.visible?'👁 Potencialmente visible (≥'+illum.umbral.toFixed(2)+'%)':'🚫 Difícil visibilidad (<'+illum.umbral.toFixed(2)+'%)';
-      const dayTitle=hInfo
-        ?`De día es el <b>Día ${hInfo.day}</b> de ${hInfo.monthName}`
-        :'Día hebreo no disponible';
-      const dayBody=hInfo
-        ?`Mes ${hInfo.monthNumber} · Año ${hInfo.year}<br>Este día hebreo ya empezó ayer al caer el sol.`
-        :'No hay dato hebreo para esta fecha.';
-      const sunsetTitle=nextInfo
-        ?`Al caer el sol empieza el <b>Día ${nextInfo.day}</b> de ${nextInfo.monthName}`
-        :'Al caer el sol no hay día hebreo siguiente en este rango';
+      const tU=new Date(Date.UTC(year,month-1,day,12,0,0));
+      const se=getSunset(tU,currentObs);
+      const hora=DateTime.fromJSDate(se,{zone:'utc'}).setZone(tz()).toFormat("HH:mm 'h'");
+      const frase=nextInfo
+        ?`Hoy, al caer el sol (${hora}), inicia el día hebreo <b>${nextInfo.day} de ${nextInfo.monthName}</b>.`
+        :`Hoy, al caer el sol (${hora}), inicia un nuevo día hebreo.`;
       const evHtml=evs.length
         ?`<div class="day-side-events">${evs.map(e=>`<span class="modal-ev" style="background:${e.color}">${e.label}</span>`).join('')}</div>`
-        :'<div class="day-side-step-body">Sin fiesta nueva al atardecer.</div>';
+        :'';
       panel.innerHTML=`
         <div class="day-side-title">Día seleccionado</div>
         <div class="day-side-roman">${roman}</div>
-        <div class="day-side-rule">El día hebreo empieza cuando se pone el sol.</div>
-        <div class="day-side-steps">
-          <div class="day-side-step day">
-            <div class="day-side-step-kicker">1 · Antes del atardecer</div>
-            <div class="day-side-step-title">${dayTitle}</div>
-            <div class="day-side-step-body">${dayBody}</div>
-            <div class="day-side-step-time">Desde ${fmtFull(ss)}<br>Hasta ${fmtFull(se)}</div>
-          </div>
-          <div class="day-side-step sunset">
-            <div class="day-side-step-kicker">2 · Al caer el sol</div>
-            <div class="day-side-step-title">${sunsetTitle}</div>
-            <div class="day-side-step-time">${fmtFull(se)}</div>
-            ${evHtml}
-          </div>
-        </div>
-        <details class="adv">
-        <summary>Ver iluminación del día</summary>
-        <div class="illum-panel">
-          <div class="illum-panel-title">🌙 Iluminación · día hebreo de día${hInfo?` (Día ${hInfo.day})`:''}</div>
-          <div class="illum-bars">
-            <div class="illum-col"><div class="illum-col-label">🌅 Inicio (atardecer)</div>
-              <div class="illum-pct ${ic(illum.inicio)}">${illum.inicio}%</div>
-              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.inicio)}%"></div></div>
-              ${fmtSunAlt(illum.sunInicio)}</div>
-            <div class="illum-col"><div class="illum-col-label">⏱ Punto medio</div>
-              <div class="illum-pct ${ic(illum.meridiano)}">${illum.meridiano}%</div>
-              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.meridiano)}%"></div></div>
-              ${fmtSunAlt(illum.sunMerid)}</div>
-            <div class="illum-col"><div class="illum-col-label">⬆ Máximo del día</div>
-              <div class="illum-pct ${ic(illum.maximo)}">${illum.maximo}%</div>
-              <div class="illum-track"><div class="illum-fill" style="width:${fw(illum.maximo)}%"></div></div>
-              ${fmtSunAlt(illum.sunMaximo)}</div>
-          </div>
-          <div class="illum-note">${vn}<br><span class="illum-naked-eye ${ec}">${et}</span></div>
-        </div>
-        <div class="modal-duration">⏱ Duración del día hebreo de día: ${dH}h ${dM}min</div>
-        </details>
-        <div class="day-side-hint">Clic derecho en un día para añadir o editar nota.</div>`;
+        <div class="day-side-simple">${frase}</div>
+        ${evHtml}`;
     }catch(e){
       panel.innerHTML=`<div class="day-side-empty" style="color:#c53030">Error: ${errMsg(e)}</div>`;
     }
