@@ -1015,8 +1015,13 @@ function findLunations(start,obs,mode,n){
 // Recibe y devuelve el instante (atardecer) que inicia un día hebreo.
 // El Shabat semanal empieza al atardecer del viernes civil (weekday 5 en Luxon).
 function sabbathInFeast(date){
-  const z=tz(),d=new Date(date.getTime()),h=DateTime.fromJSDate(date,{zone:z}).hour,m=DateTime.fromJSDate(date,{zone:z}).minute;
-  if(DateTime.fromJSDate(d,{zone:z}).weekday===5)return d;
+  // `date` = día civil en cuyo atardecer empieza el 15 de Aviv (su día es el 14).
+  // El Shabat semanal de la fiesta es el primer sábado DENTRO de Jag HaMatzot
+  // (15–21 Aviv), es decir, a partir del día siguiente. El ‘Ómer empieza al
+  // terminar ese Shabat (domingo = primer día de la semana).
+  const z=tz(),h=DateTime.fromJSDate(date,{zone:z}).hour,m=DateTime.fromJSDate(date,{zone:z}).minute;
+  const d=new Date(date.getTime());
+  d.setUTCDate(d.getUTCDate()+1);
   while(DateTime.fromJSDate(d,{zone:z}).weekday!==6)d.setUTCDate(d.getUTCDate()+1);
   return DateTime.fromJSDate(d,{zone:z}).set({hour:h,minute:m,second:0,millisecond:0}).toUTC().toJSDate();
 }
@@ -1141,38 +1146,39 @@ function buildCalendar(){
       const startMonth = Number($('startMonth').value);
       const yearNum = parseInt(year) || new Date().getFullYear();
       currentHebrewYear = yearNum + 3760;
-      const start = new Date(Date.UTC(yearNum, startMonth - 1, 1, 12, 0, 0));
 
-      // ── Detección de meses: auto o manual ──────────────────────────────────
+      // ── Detección de meses: auto (equinoccio) o manual ──────────────────────
       const monthCountVal = $('monthCount').value;
-      // 14 lunaciones: la extra da la duración real del último mes generado.
-      const luns14 = findLunations(start, obs, mode, 14);
 
-      // Años bisiestos caraítas según el patrón establecido, extendido por ciclos de 19 años.
-      const LEAP_YEARS = new Set([
-        1991,1994,1996,1999,2002,2005,2007,
-        2010,2013,2015,2018,2021,2023,2026,
-        2029,2031,2034,2037,2040,2042,2045,
-        2048,2050,2053,2056,2059,2061,2064,
-        2067,2069,2072,2075,2078,2080,2083,
-        2086,2088,2091,2094,2097,2099,2102,
-        2105,2107,2110,2113,2116,2118,2121,
-        2124,2126,2129
-      ]);
-
-      let isLeapYear, count;
+      let isLeapYear, count, luns;
       if (monthCountVal === 'auto') {
-        isLeapYear = LEAP_YEARS.has(yearNum);
-        count = isLeapYear ? 13 : 12;
+        // REGLA DEL EQUINOCCIO (caraíta astronómica):
+        // Aviv = primer mes lunar cuyo día 1 (atardecer del creciente) cae EN o
+        // DESPUÉS del equinoccio de primavera. Si una luna nueva de inicios de
+        // marzo empieza antes del equinoccio, es el mes 13 (Adar 2), no Aviv.
+        // Los meses del año son los que hay hasta el Aviv del año siguiente (12 ó 13).
+        const searchStart = new Date(Date.UTC(yearNum, 0, 1, 12, 0, 0)); // 1 de enero
+        const lunsAll = findLunations(searchStart, obs, mode, 18);
+        const eqThis = Astronomy.Seasons(yearNum).mar_equinox.date;
+        const eqNext = Astronomy.Seasons(yearNum + 1).mar_equinox.date;
+        const avivIdx = lunsAll.findIndex(l => l.start.getTime() >= eqThis.getTime());
+        const nextIdx = lunsAll.findIndex(l => l.start.getTime() >= eqNext.getTime());
+        if (avivIdx < 0 || nextIdx < 0 || nextIdx <= avivIdx)
+          throw new Error('No se pudo determinar el inicio de Aviv por el equinoccio.');
+        count = nextIdx - avivIdx;              // 12 ó 13 meses
+        isLeapYear = count === 13;
+        luns = lunsAll.slice(avivIdx, avivIdx + count + 1); // +1 para la duración del último
       } else {
+        // Modo manual: respeta el mes de inicio y el número de meses elegidos.
         count = Number(monthCountVal);
         isLeapYear = count === 13;
+        const start = new Date(Date.UTC(yearNum, startMonth - 1, 1, 12, 0, 0));
+        luns = findLunations(start, obs, mode, count + 1);
       }
 
-      const luns = luns14.slice(0, count);
-      const months = luns.map((item,i) => ({
+      const months = luns.slice(0, count).map((item,i) => ({
         start: item.start,
-        days:  diffDays(item.start, (luns[i+1] || luns14[count]).start)
+        days:  diffDays(item.start, luns[i+1].start)
       }));
 
       // Yom Tru'ah diferido (opciones avanzadas)
