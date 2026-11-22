@@ -1032,7 +1032,10 @@ function buildEventMap(months,avivStart,m7Start){
   mark(incRange(avivStart,21),'21 Aviv Cierre',C.fiestaFin);
   const shab=sabbathInFeast(incRange(avivStart,15));
   mark(shab,'\u2721 Shabat',C.shabbat);
-  const omer=addDays(shab,1);
+  // Omer Reshit es el primer día de la semana (domingo): su día hebreo empieza
+  // a la puesta del sol del sábado, al terminar el Shabat. Por convención se
+  // rotula en ese sábado (día civil de cuyo atardecer comienza). Shavuot = +49.
+  const omer=shab;
   mark(omer,'\u{1F33F} Omer Reshit',C.omer);
   mark(addDays(omer,49),'\u2728 Shavuot',C.shavuot);
   if(m7Start){
@@ -1048,7 +1051,9 @@ function buildEventMap(months,avivStart,m7Start){
 function buildMoadimSummary(avivStart,m7Start){
   const rows=[];
   const shab=sabbathInFeast(incRange(avivStart,15));
-  const omer=addDays(shab,1);
+  // Omer Reshit y Shavuot empiezan a la puesta del sol del sábado (al terminar
+  // el Shabat), que da inicio al primer día de la semana. Shavuot = +49 días.
+  const omer=shab;
   rows.push({label:'\u{1F33E} Pésaj (Jag HaMatzot)',date:incRange(avivStart,15)});
   rows.push({label:'\u{1F33F} Omer Reshit',date:omer});
   rows.push({label:'\u2728 Shavuot',date:addDays(omer,49)});
