@@ -78,7 +78,7 @@
     .top-field label,.field-lbl{
       display:block;font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:3px;
     }
-    .top-field input{
+    .top-field input,.top-field select{
       width:88px;padding:10px;border:1px solid var(--border);border-radius:8px;
       background:#fff;font:inherit;font-size:.9rem;font-weight:700;
     }
@@ -574,10 +574,11 @@
     }
     .city-icon{left:14px;}
     .btn-geolocate #geoTxt,.btn-gps #geoTxt{color:var(--accent);}
-    .top-field{flex:0 0 120px;}
-    .top-field input{
+    .top-field{flex:0 0 160px;}
+    .top-field input,.top-field select{
       width:100%;height:52px;border:none;border-radius:14px;padding:0 16px;
       background:rgba(255,255,255,.95);color:var(--text);font-size:1rem;font-weight:400;
+      cursor:pointer;
     }
     .btn-calc{
       height:52px;border:none;border-radius:14px;padding:0 26px;font-size:1rem;font-weight:800;
@@ -783,8 +784,8 @@
     </div>
 
     <div class="top-field">
-      <label for="yearName">Año</label>
-      <input id="yearName" type="text" value="2026"/>
+      <label for="yearName">Año (otoño→primavera)</label>
+      <select id="yearName"></select>
     </div>
 
     <button type="button" class="btn-adv-toggle" onclick="toggleAdv()">
@@ -1031,7 +1032,7 @@ function buildEventMap(months,avivStart,m7Start){
   // atardecer en que comienza (el avistamiento de la astilla marca el día 1).
   const mark=(date,label,color)=>{const k=dateKey(date);if(!map[k])map[k]=[];map[k].push({label,color});};
   const markRange=(start,days,label,color,firstLabel)=>{for(let d=0;d<days;d++)mark(addDays(start,d),d===0&&firstLabel?firstLabel:label,color);};
-  months.forEach((m,i)=>mark(m.start,`\u{1F319} 1 ${MESES_HEB[i]||'Mes '+(i+1)}`,C.mes));
+  months.forEach((m,i)=>mark(m.start,`\u{1F319} 1 ${hebName(m.monthNumber||(i+1))}`,C.mes));
   mark(incRange(avivStart,14),'14 Aviv Prep.',C.prep);
   markRange(incRange(avivStart,15),7,'\u{1F33E} Jag HaMatzot',C.fiesta,'\u{1F33E} 15 Aviv Pésaj');
   mark(incRange(avivStart,21),'21 Aviv Cierre',C.fiestaFin);
@@ -1068,6 +1069,8 @@ function buildMoadimSummary(avivStart,m7Start){
     rows.push({label:'\u{1F33F} Jag Sukot',date:incRange(m7Start,15)});
     rows.push({label:"\u{1F389} Shminí 'Atzéret",date:incRange(m7Start,22)});
   }
+  // Orden cronológico (en el año religioso, las fiestas de otoño van primero).
+  rows.sort((a,b)=>a.date.getTime()-b.date.getTime());
   return rows;
 }
 function renderMoadimSummary(rows){
@@ -1131,6 +1134,48 @@ function validateLibs(){
 }
 function errMsg(e){if(e instanceof Error)return e.message;if(typeof e==='string')return e;try{return JSON.stringify(e);}catch(_){return String(e);}}
 
+// Nombre hebreo por número de mes (1=Aviv … 7=Etanim/Tishrei … 13=Mes 13).
+function hebName(n){return MESES_HEB[n-1]||('Mes '+n);}
+
+// Año religioso oficial (otoño→primavera), rotulado como rango "Y1–Y2" (Y2=Y1+1).
+// Empieza en Tishrei (mes 7) de Y1 y termina en Elul (mes 6) de Y2; contiene las
+// fiestas de otoño de Y1 (Yom Tru'ah…Sukot) y Pésaj/Shavuot de la primavera de Y2.
+// Es BISIESTO (13 meses) cuando el año de Aviv que inicia en primavera de Y1 tiene
+// 13 meses: entonces el mes 13 (Adar II) cae en marzo de Y2, justo antes del Aviv
+// de Y2. Las FECHAS de cada mes siguen la regla del creciente + equinoccio (no
+// cambian); solo cambia cómo se agrupan y se etiqueta el "año".
+function computeReligiousYear(Y1,obs,mode){
+  const searchStart=new Date(Date.UTC(Y1,0,1,12,0,0));
+  const lunsAll=findLunations(searchStart,obs,mode,32);
+  const eqY1=Astronomy.Seasons(Y1).mar_equinox.date;
+  const eqY2=Astronomy.Seasons(Y1+1).mar_equinox.date;
+  const avivY1=lunsAll.findIndex(l=>l.start.getTime()>=eqY1.getTime()); // Aviv (Nisán) de Y1
+  const avivY2=lunsAll.findIndex(l=>l.start.getTime()>=eqY2.getTime()); // Aviv (Nisán) de Y2
+  if(avivY1<0||avivY2<0||avivY2<=avivY1||avivY2+6>=lunsAll.length)
+    throw new Error('No se pudo determinar el año por el equinoccio.');
+  const countY1=avivY2-avivY1;      // 12 ó 13 meses del año de Aviv de Y1
+  const start=avivY1+6;             // Tishrei (mes 7) de Y1
+  const endExcl=avivY2+6;           // Tishrei de Y2 (exclusivo)
+  const months=[];
+  for(let i=start;i<endExcl;i++){
+    const mn=(i<avivY2)?(i-avivY1+1):(i-avivY2+1); // 7,8,…,countY1,1,2,…,6
+    months.push({start:lunsAll[i].start,days:diffDays(lunsAll[i].start,lunsAll[i+1].start),monthNumber:mn});
+  }
+  return {months,leap:countY1===13};
+}
+
+// Año religioso por defecto (el que contiene "hoy"): el año nuevo civil arranca en
+// otoño (~septiembre). Antes de septiembre, seguimos en el rango del año anterior.
+function defaultReligiousYear(){const d=new Date();return (d.getMonth()+1)>=9?d.getFullYear():d.getFullYear()-1;}
+
+// Rellena el desplegable de años con rangos "Y1–Y2".
+function populateYearOptions(){
+  const sel=$('yearName');if(!sel||sel.tagName!=='SELECT')return;
+  const def=defaultReligiousYear();let html='';
+  for(let y=def-6;y<=def+6;y++)html+=`<option value="${y}"${y===def?' selected':''}>${y}\u2013${y+1}</option>`;
+  sel.innerHTML=html;
+}
+
 function buildCalendar(){
   $('statusBox').className='';
   $('statusBox').innerHTML='';
@@ -1140,62 +1185,38 @@ function buildCalendar(){
     try{
       validateLibs();
 
-      const year  = $('yearName').value.trim();
+      const year  = $('yearName').value;
       const mode  = $('crescentMode').value;
       const obs   = buildObserver();
-      const startMonth = Number($('startMonth').value);
-      const yearNum = parseInt(year) || new Date().getFullYear();
-      currentHebrewYear = yearNum + 3760;
+      const Y1 = parseInt(year) || defaultReligiousYear();   // año de inicio (otoño)
+      currentHebrewYear = Y1 + 3761;   // año hebreo civil (Tishrei de Y1 → p.ej. 5787)
 
-      // ── Detección de meses: auto (equinoccio) o manual ──────────────────────
-      const monthCountVal = $('monthCount').value;
+      // ── Año religioso oficial (otoño Y1 → primavera Y2), regla del equinoccio ──
+      // La detección de bisiesto (12/13) es automática por el equinoccio.
+      const relYear = computeReligiousYear(Y1, obs, mode);
+      let months = relYear.months;
+      const isLeapYear = relYear.leap;
 
-      let isLeapYear, count, luns;
-      if (monthCountVal === 'auto') {
-        // REGLA DEL EQUINOCCIO (caraíta astronómica):
-        // Aviv = primer mes lunar cuyo día 1 (atardecer del creciente) cae EN o
-        // DESPUÉS del equinoccio de primavera. Si una luna nueva de inicios de
-        // marzo empieza antes del equinoccio, es el mes 13 (Adar 2), no Aviv.
-        // Los meses del año son los que hay hasta el Aviv del año siguiente (12 ó 13).
-        const searchStart = new Date(Date.UTC(yearNum, 0, 1, 12, 0, 0)); // 1 de enero
-        const lunsAll = findLunations(searchStart, obs, mode, 18);
-        const eqThis = Astronomy.Seasons(yearNum).mar_equinox.date;
-        const eqNext = Astronomy.Seasons(yearNum + 1).mar_equinox.date;
-        const avivIdx = lunsAll.findIndex(l => l.start.getTime() >= eqThis.getTime());
-        const nextIdx = lunsAll.findIndex(l => l.start.getTime() >= eqNext.getTime());
-        if (avivIdx < 0 || nextIdx < 0 || nextIdx <= avivIdx)
-          throw new Error('No se pudo determinar el inicio de Aviv por el equinoccio.');
-        count = nextIdx - avivIdx;              // 12 ó 13 meses
-        isLeapYear = count === 13;
-        luns = lunsAll.slice(avivIdx, avivIdx + count + 1); // +1 para la duración del último
-      } else {
-        // Modo manual: respeta el mes de inicio y el número de meses elegidos.
-        count = Number(monthCountVal);
-        isLeapYear = count === 13;
-        const start = new Date(Date.UTC(yearNum, startMonth - 1, 1, 12, 0, 0));
-        luns = findLunations(start, obs, mode, count + 1);
-      }
+      // Mes de Tishrei (mes 7) y de Aviv (mes 1) dentro de este año religioso.
+      let m7Start  = (months.find(m=>m.monthNumber===7)||months[0]).start;
+      let avivStart = (months.find(m=>m.monthNumber===1)||months[0]).start;
 
-      const months = luns.slice(0, count).map((item,i) => ({
-        start: item.start,
-        days:  diffDays(item.start, luns[i+1].start)
-      }));
-
-      // Yom Tru'ah diferido (opciones avanzadas)
+      // Yom Tru'ah diferido (opciones avanzadas): desplaza el mes 7 (Tishrei).
       const fb7val = $('fallbackMonth7').value;
       let yomDifVal = null;
       if (fb7val) {
         try {
           yomDifVal = parseDT(fb7val);
-          if (months[6]) {
-            months[6].start = yomDifVal;
-            for (let i=7; i<months.length; i++)
+          const i7 = months.findIndex(m=>m.monthNumber===7);
+          if (i7>=0) {
+            months[i7].start = yomDifVal;
+            for (let i=i7+1; i<months.length; i++)
               months[i].start = addDays(months[i-1].start, months[i-1].days);
+            m7Start  = months[i7].start;
+            avivStart = (months.find(m=>m.monthNumber===1)||months[0]).start;
           }
         } catch(e) {}
       }
-
-      const avivStart = months[0].start, m7Start = months[6]?.start;
       const evMap=buildEventMap(months,avivStart,m7Start);
       // Build shabbat times map: key=date string, value={inicio,fin} HH:MM
       const shabbatMap={};
@@ -1247,12 +1268,12 @@ function buildCalendar(){
         ? ` · Yom Tru'ah diferido al ${DateTime.fromJSDate(yomDifVal,{zone:'utc'}).setZone(tz()).toFormat("d 'de' LLLL")}.`
         : '';
       const leapMsg = isLeapYear
-        ? ' · <b>Año bisiesto</b> (13 meses) — el Aviv del año siguiente caería antes del equinoccio.'
-        : ' · Año regular (12 meses) — el Aviv del año siguiente cae después del equinoccio.';
+        ? ` · <b>Año bisiesto</b> (13 meses) — incluye el mes 13 (Adar II) en marzo ${Y1+1}, antes del Aviv de ${Y1+1}.`
+        : ' · Año regular (12 meses).';
       showSteps(false);
       clearLocStatus();
       $('statusBox').className='ok';
-      $('statusBox').innerHTML=`<b>✓ Calendario ${year} generado.</b>${leapMsg}${yomMsg}`;
+      $('statusBox').innerHTML=`<b>✓ Calendario ${Y1}\u2013${Y1+1} generado.</b>${leapMsg}${yomMsg}`;
       refreshSummaryRow();
     }catch(err){
       $('placeholder').style.display='block';$('calOutput').style.display='none';
@@ -1268,6 +1289,7 @@ function buildCalendar(){
   },30);
 }
 $('recalcBtn').addEventListener('click',buildCalendar);
+populateYearOptions();
 
 function toggleAdv(){
   $('advPanel').classList.toggle('open');
@@ -2031,9 +2053,10 @@ function shiftKey(key,days){
 function buildHebrewIndex(months,hebrewYear){
   const idx={};
   months.forEach((m,i)=>{
+    const mn=m.monthNumber||(i+1);
     for(let d=0;d<m.days;d++){
       const k=dateKey(addDays(m.start,d));
-      idx[k]={monthNumber:i+1,day:d+1,year:hebrewYear,monthName:MESES_HEB[i]||('Mes '+(i+1))};
+      idx[k]={monthNumber:mn,day:d+1,year:hebrewYear,monthName:hebName(mn)};
     }
   });
   return idx;
